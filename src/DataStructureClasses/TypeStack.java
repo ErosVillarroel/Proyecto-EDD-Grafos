@@ -16,7 +16,7 @@ package DataStructureClasses;
  */
 public class TypeStack<T> {
     
-    private Node<T> pTop;
+    private SimpleNode<T> pTop;
     private int size;
 
     public TypeStack(){
@@ -31,7 +31,7 @@ public class TypeStack<T> {
     //Anadir al stack
     public void add(T data){
         
-        Node<T> node = new Node<T>(data);
+        SimpleNode<T> node = new SimpleNode<T>(data);
         
         if (this.isEmpty()){
             this.pTop = node;

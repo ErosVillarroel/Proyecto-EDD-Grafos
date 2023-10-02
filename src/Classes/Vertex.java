@@ -10,7 +10,6 @@ public class Vertex {
     
     public Vertex(String name){
         this.name = name;
-//        this.vertexNum = vertexNum;
     }
     
     // saber si dos vertices son iguales
@@ -24,9 +23,9 @@ public class Vertex {
     }
     
     // caracteristicas del vertice
-//    public String toString(){
-//        return this.name + " (" + this.vertexNum + ")";
-//    }
+    public String toString(){
+        return this.name + " (" + this.vertexNum + ")";
+    }
 
     /**
      * @return the name
@@ -45,9 +44,9 @@ public class Vertex {
     /**
      * @return the numVertex
      */
-//    public int getNumVertex() {
-//        return vertexNum;
-//    }
+    public int getNumVertex() {
+        return vertexNum;
+    }
 
     /**
      * @param numVertex the numVertex to set

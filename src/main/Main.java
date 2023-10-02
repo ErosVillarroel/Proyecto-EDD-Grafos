@@ -1,7 +1,6 @@
 package main;
 
-import Classes.Graph;
-import Classes.Vertex;
+import DataStructureClasses.SimpleList;
 
 public class Main {
 
@@ -25,21 +24,6 @@ public class Main {
         System.out.println("Holla mundo");
         System.out.println("Wenas its me man");
         
-        Graph graph = new Graph(5);
-        graph.addVertex(new Vertex("A"));
-        graph.addVertex(new Vertex("B"));
-        graph.addVertex(new Vertex("C"));
-        graph.addVertex(new Vertex("D"));
-        graph.addVertex(new Vertex("E"));
-        
-        graph.addEdge(0,1);
-        graph.addEdge(1,2);
-        graph.addEdge(2,3);
-        graph.addEdge(2,4);
-        graph.addEdge(4,0);
-        graph.addEdge(4,2);
-        
-        graph.print();
         
     }
     

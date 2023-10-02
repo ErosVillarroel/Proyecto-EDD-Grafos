@@ -8,19 +8,19 @@ package DataStructureClasses;
  * @author B-St
  * @param <T>
  */
-public class Node<T>{
+public class SimpleNode<T>{
     
     private T data;
-    private Node pNext;
+    private SimpleNode pNext;
     
-    public Node(T data){
+    public SimpleNode(T data){
         
         this.data = data;
         this.pNext = null;
         
     }
     // Sobrecarga de metodos: Dos metodos con el mismo nombre pueden ser distintos si tienen argumentos diferentes
-    public Node(T data, Node<T> pNext){
+    public SimpleNode(T data, SimpleNode<T> pNext){
         
         this.data = data;
         this.pNext = pNext;
@@ -36,11 +36,11 @@ public class Node<T>{
         this.data = data;
     }
 
-    public Node getpNext() {
+    public SimpleNode getpNext() {
         return pNext;
     }
 
-    public void setpNext(Node<T> pNext) {
+    public void setpNext(SimpleNode<T> pNext) {
         this.pNext = pNext;
     }
     
