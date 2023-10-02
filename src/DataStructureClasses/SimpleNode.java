@@ -5,7 +5,6 @@
 package DataStructureClasses;
 
 /**
- *
  * @author B-St
  * @param <T>
  */
