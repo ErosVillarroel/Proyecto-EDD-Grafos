@@ -1,4 +1,4 @@
-package DataStructureClasses;
+package Classes;
 
 /**
  *
@@ -6,28 +6,27 @@ package DataStructureClasses;
  */
 public class Vertex {
     private String name;
-    private int numVertex;
+    private int vertexNum;
     
     public Vertex(String name){
         this.name = name;
-        this.numVertex = -1;
+//        this.vertexNum = vertexNum;
     }
     
     // saber si dos vertices son iguales
-    public boolean equality(Vertex vertice){
+    public boolean isEqualTo(Vertex vertice){
         return this.name.equals(vertice.getName());
     }
     
     // establecer el numero de vertices
-    public void assignVertex(int num){
+    public void assignVertexNum(int num){
         setNumVertex(num);
     }
     
     // caracteristicas del vertice
-    public String toString(){
-        return this.name + " (" + this.numVertex + ")";
-    }
-    
+//    public String toString(){
+//        return this.name + " (" + this.vertexNum + ")";
+//    }
 
     /**
      * @return the name
@@ -46,15 +45,15 @@ public class Vertex {
     /**
      * @return the numVertex
      */
-    public int getNumVertex() {
-        return numVertex;
-    }
+//    public int getNumVertex() {
+//        return vertexNum;
+//    }
 
     /**
      * @param numVertex the numVertex to set
      */
     public void setNumVertex(int numVertex) {
-        this.numVertex = numVertex;
+        this.vertexNum = numVertex;
     }
     
     

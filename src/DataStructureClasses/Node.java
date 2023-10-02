@@ -8,25 +8,25 @@ package DataStructureClasses;
  * @author B-St
  * @param <T>
  */
-public class SimpleNode<T>{
+public class Node<T>{
     
     private T data;
-    private SimpleNode pNext;
+    private Node pNext;
     
-    public SimpleNode(T data){
+    public Node(T data){
         
         this.data = data;
         this.pNext = null;
         
     }
-    
     // Sobrecarga de metodos: Dos metodos con el mismo nombre pueden ser distintos si tienen argumentos diferentes
-    public SimpleNode(T data, SimpleNode<T> pNext){
+    public Node(T data, Node<T> pNext){
         
         this.data = data;
         this.pNext = pNext;
         
     }  
+    
     // Insert code: Getters and Setters
     public T getData() {
         return data;
@@ -36,11 +36,11 @@ public class SimpleNode<T>{
         this.data = data;
     }
 
-    public SimpleNode getpNext() {
+    public Node getpNext() {
         return pNext;
     }
 
-    public void setpNext(SimpleNode<T> pNext) {
+    public void setpNext(Node<T> pNext) {
         this.pNext = pNext;
     }
     

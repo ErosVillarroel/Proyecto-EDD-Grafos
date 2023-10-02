@@ -4,6 +4,8 @@
  */
 package DataStructureClasses;
 
+import Classes.Vertex;
+
 /**
  *
  * @author andre
@@ -48,7 +50,7 @@ public class MatrixGraph {
 
         if (!exists) {
             Vertex vertice = new Vertex(name);
-            vertice.assignVertex(this.numVert);
+            vertice.assignVertexNum(this.numVert);
             this.vertex[this.numVert++] = vertice;
         }
     }
