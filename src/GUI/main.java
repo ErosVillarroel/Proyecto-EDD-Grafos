@@ -11,14 +11,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author bcsoporte
  */
 public class main extends javax.swing.JFrame {
+
     Page1 page1 = new Page1();
     Page2 page2 = new Page2();
+
     /**
      * Creates new form main
      */
@@ -36,10 +40,61 @@ public class main extends javax.swing.JFrame {
         content.repaint();
         btnPrev.setEnabled(false);
     }
-    
-    private void ShowPanel(){}
 
-    private void disableButtons() {}
+    private void ShowPanel(JPanel panel) {
+        panel.setSize(410, 320);
+        panel.setLocation(0, 0);
+        
+        content.removeAll();
+        content.add(panel, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }
+
+    private void disableButtons() {
+    }
+
+    private void readFromFile() {
+        JFileChooser filechooser = new JFileChooser();
+        // direccion y permisos de acceso?
+        filechooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        filechooser.setAcceptAllFileFilterUsed(false);
+        // Añadir filtros
+        filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de JSON (*.json)", "json"));
+        filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
+        // Mostrar ventana de seleccion de archivos
+        filechooser.showOpenDialog(filechooser);
+
+        String line;
+        try {
+            String path = filechooser.getSelectedFile().getAbsolutePath();
+            File file = new File(path);
+            FileReader filereader = new FileReader(file);
+            BufferedReader reader = new BufferedReader(filereader);
+
+            while ((line = reader.readLine()) != null) {
+                //System.out.println(line);
+                // ejemplo: mostrar informacion en un text area
+                this.txtArea1.append(line);
+                this.txtArea1.append("\n");
+                line = reader.readLine();
+            }
+
+            reader.close();
+            JOptionPane.showMessageDialog(null, "El archivo ha sido cargado exitosamente!");
+
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
+        }
+    }
+    
+    private void saveFile(){
+        // metodo para guardar el archivo 
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,6 +170,11 @@ public class main extends javax.swing.JFrame {
         menu1.add(item1);
 
         item2.setText("Guardar");
+        item2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item2ActionPerformed(evt);
+            }
+        });
         menu1.add(item2);
 
         itemExit.setText("Salir");
@@ -134,62 +194,43 @@ public class main extends javax.swing.JFrame {
 
     private void item1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item1ActionPerformed
         // crear objeto de tipo filechooser que contendra el archivo txt
-        JFileChooser filechooser = new JFileChooser();
-        filechooser.showOpenDialog(filechooser);
-        
-        String line;
-        try {
-            String path = filechooser.getSelectedFile().getAbsolutePath();
-
-            File file = new File(path);
-            FileReader filereader = new FileReader(file);
-            BufferedReader reader = new BufferedReader(filereader);
-
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                // ejemplo: mostrar informacion en un text area
-                txtArea1.append(line);
-                txtArea1.append("\n");
-                line = reader.readLine();
-            }
-
-            reader.close();
-            JOptionPane.showMessageDialog(null, "Archivo Cargado con Exito!");
-
-        } catch (IOException excepcion) {
-            excepcion.printStackTrace(System.out);
+        if (evt.getSource() == this.item1) {
+            this.readFromFile();
         }
+
     }//GEN-LAST:event_item1ActionPerformed
 
     private void itemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExitActionPerformed
-        if (evt.getSource() == itemExit) {
+        if (evt.getSource() == this.itemExit) {
             System.exit(0);
         }
     }//GEN-LAST:event_itemExitActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // misma accion solo que con el anterior, posiblemente pasar a un metodo
-        page1.setSize(400, 310);
-        page1.setLocation(0, 0);
-        content.removeAll();
-        content.add(page1, BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
-        btnPrev.setEnabled(false);
-        btnNext.setEnabled(true);
+        if (evt.getSource() == this.btnPrev) {
+            this.ShowPanel(this.page1);
+            this.btnPrev.setEnabled(false);
+            this.btnNext.setEnabled(true);
+        }
+
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // Mostrar informacion del siguiente panel, habilitando y deshabilitando los botones segun sea el caso
-        page2.setSize(400, 310);
-        page2.setLocation(0, 0);
-        content.removeAll();
-        content.add(page2, BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
-        btnPrev.setEnabled(true);
-        btnNext.setEnabled(false);
+        if (evt.getSource() == this.btnNext) {
+            this.ShowPanel(this.page2);
+            this.btnPrev.setEnabled(true);
+            this.btnNext.setEnabled(false);
+        }
+
     }//GEN-LAST:event_btnNextActionPerformed
+
+    private void item2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item2ActionPerformed
+        if (evt.getSource() == this.item2) {
+            this.saveFile();
+        }
+    }//GEN-LAST:event_item2ActionPerformed
 
     /**
      * @param args the command line arguments
