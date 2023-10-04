@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+
 /**
  *
  * @author bcsoporte
@@ -94,17 +95,22 @@ public class main extends javax.swing.JFrame {
                 btnNextActionPerformed(evt);
             }
         });
-        bg.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        bg.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
         txtArea1.setColumns(20);
         txtArea1.setRows(5);
         jScrollPane1.setViewportView(txtArea1);
 
-        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 180, 200));
+        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 180, 310));
 
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 420));
 
         menu1.setText("Archivo");
+        menu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu1ActionPerformed(evt);
+            }
+        });
 
         item1.setText("Abrir");
         item1.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +196,10 @@ public class main extends javax.swing.JFrame {
         btnPrev.setEnabled(true);
         btnNext.setEnabled(false);
     }//GEN-LAST:event_btnNextActionPerformed
+
+    private void menu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menu1ActionPerformed
 
     /**
      * @param args the command line arguments
