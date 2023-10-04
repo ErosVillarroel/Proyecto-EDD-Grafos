@@ -18,8 +18,10 @@ public class Main {
             -Logica para verificar la existencia de archivos
             -Logica para ingresar nuevos archivos
             -Logica para modificar archivos 
+            -Parsear la data a leible
+            -
         
-        -Construir clase stack 
+        
         */
         System.out.println("Holla mundo");
         System.out.println("Wenas its me man");
