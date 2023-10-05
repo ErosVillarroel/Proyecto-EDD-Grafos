@@ -10,6 +10,7 @@ public class Vertex {
     
     public Vertex(String name){
         this.name = name;
+        this.vertexNum = -1;
     }
     
     // saber si dos vertices son iguales
