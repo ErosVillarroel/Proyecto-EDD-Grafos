@@ -21,7 +21,7 @@ public class Reader {
     public void createTXT() {
         File directory = new File(".");
         File file = new File(directory, "archivos.txt");
-        
+
         try {
             if (file.createNewFile()) {
                 JOptionPane.showMessageDialog(null, "Archivo creado con exito!");
@@ -37,11 +37,11 @@ public class Reader {
             File directory = new File(".");
             File file = new File(directory, "archivos.txt");
             FileWriter write = new FileWriter(file);
-            
+
             write.write("Saludos bra");
             write.write("\nHows going man");
             write.write("\nWould you ever take the opportunity?");
-            
+
             write.close();
         } catch (IOException excepcion) {
             excepcion.printStackTrace(System.out);
@@ -50,17 +50,17 @@ public class Reader {
 
     public void readFromTXT() {
         //lista:
-        
+
         String line;
-        
+
         try {
             //File dir = new File("C:\\Archivo");
             File directory = new File(".");
             File file = new File(directory, "usuarios.txt");
             FileReader filereader = new FileReader(file);
             BufferedReader reader = new BufferedReader(filereader);
-            
-            while((line = reader.readLine()) != null){
+
+            while ((line = reader.readLine()) != null) {
                 System.out.println(line);
                 line = reader.readLine();
             }
