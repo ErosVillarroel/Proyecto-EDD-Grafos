@@ -18,7 +18,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author andre
  */
-public class Reader {
+public class FileManager {
+
+    public FileManager() {
+    }
 
     public void createTXT() {
         File directory = new File(".");
@@ -47,6 +50,28 @@ public class Reader {
             write.close();
         } catch (IOException excepcion) {
             excepcion.printStackTrace(System.out);
+        }
+    }
+    
+    
+    //WOIP importacion del lector de archivos
+    public void readFile(){
+        try {
+        JFileChooser filechooser = new JFileChooser();
+        // direccion y permisos de acceso?
+        filechooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        filechooser.setAcceptAllFileFilterUsed(false);
+        // Añadir filtros
+        filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de JSON (*.json)", "json"));
+        filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
+        // Mostrar ventana de seleccion de archivos
+        filechooser.showOpenDialog(filechooser);
+        System.out.println("Lo logre :D");
+        } catch (Exception e){
+            
+            System.out.println("No lo logre D:");
+            
         }
     }
         

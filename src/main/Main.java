@@ -1,10 +1,13 @@
 package main;
 
 import DataStructureClasses.SimpleList;
+import FileManager.FileManager;
+import GUI.MainInterface;
 
 public class Main {
 
     public static void main(String[] args) {
+        
         /*
         -Construir Clases de datos
         -Disenar interfaz grafica:
@@ -23,9 +26,10 @@ public class Main {
         
         
         */
-        System.out.println("Holla mundo");
-        System.out.println("Wenas its me man");
         
+//        MainInterface interfaz1 = new MainInterface();
+        FileManager fileManager = new FileManager();
+        fileManager.readFile();
         
     }
     
