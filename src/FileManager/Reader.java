@@ -3,14 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package FileReader;
+package FileManager;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -47,28 +49,5 @@ public class Reader {
             excepcion.printStackTrace(System.out);
         }
     }
-
-    public void readFromTXT() {
-        //lista:
-
-        String line;
-
-        try {
-            //File dir = new File("C:\\Archivo");
-            File directory = new File(".");
-            File file = new File(directory, "usuarios.txt");
-            FileReader filereader = new FileReader(file);
-            BufferedReader reader = new BufferedReader(filereader);
-
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                line = reader.readLine();
-            }
-            reader.close();
-
-        } catch (IOException excepcion) {
-            excepcion.printStackTrace(System.out);
-        }
-    }
-
+        
 }
