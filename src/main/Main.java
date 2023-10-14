@@ -27,9 +27,8 @@ public class Main {
         
         */
         
-//        MainInterface interfaz1 = new MainInterface();
-        FileManager fileManager = new FileManager();
-        fileManager.readFile();
+        MainInterface interfaz1 = new MainInterface();
+//        FileManager fileManager = new FileManager();
         
     }
     

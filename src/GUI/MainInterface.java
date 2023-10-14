@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import FileManager.FileManager;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
@@ -58,20 +59,11 @@ public class MainInterface extends javax.swing.JFrame {
     }
 
     private void readFromFile() {
-        JFileChooser filechooser = new JFileChooser();
-        // direccion y permisos de acceso?
-        filechooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        filechooser.setAcceptAllFileFilterUsed(false);
-        // Añadir filtros
-        filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de JSON (*.json)", "json"));
-        filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
-        // Mostrar ventana de seleccion de archivos
-        filechooser.showOpenDialog(filechooser);
-
+        FileManager fileManager = new FileManager();
         String line;
+
         try {
-            String path = filechooser.getSelectedFile().getAbsolutePath();
+            String path = fileManager.selectFile().getAbsolutePath();
             File file = new File(path);
             FileReader filereader = new FileReader(file);
             BufferedReader reader = new BufferedReader(filereader);

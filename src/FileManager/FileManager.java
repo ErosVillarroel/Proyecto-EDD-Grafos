@@ -55,7 +55,7 @@ public class FileManager {
     
     
     //WOIP importacion del lector de archivos
-    public void readFile(){
+    public File selectFile(){
         try {
         JFileChooser filechooser = new JFileChooser();
         // direccion y permisos de acceso?
@@ -67,10 +67,16 @@ public class FileManager {
         filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
         // Mostrar ventana de seleccion de archivos
         filechooser.showOpenDialog(filechooser);
-        System.out.println("Lo logre :D");
+//        System.out.println("Lo logre :D");
+        
+        File file = filechooser.getSelectedFile();
+        
+        return file;
+        
         } catch (Exception e){
             
-            System.out.println("No lo logre D:");
+//            System.out.println("No lo logre D:");
+            return null;
             
         }
     }
