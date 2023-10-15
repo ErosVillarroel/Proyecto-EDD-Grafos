@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -86,11 +87,43 @@ public class MainInterface extends javax.swing.JFrame {
     
     private void saveFile(){
         // metodo para guardar el archivo, WOIP, cambiar el input de un filechooser a lo q este escrito en el textarea
+        /*
+        Modificacion metodo para guardar, deberia haber una forma de
+            crear un constructor donde se defina la ruta y los filtros?
+        */
         
-        FileManager fileManager = new FileManager();
-        File file = fileManager.selectFile();
-
-        fileManager.saveToTxt(file);       
+        JFileChooser fchooser = new JFileChooser();
+        fchooser.setDialogTitle("Especifique la ruta para guardar...");
+        fchooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        fchooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fchooser.setAcceptAllFileFilterUsed(false);
+        fchooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
+        
+        //opcion con carpeta establecida
+        File parentFolder = new File(".saved");
+        parentFolder.mkdir();
+        File outFile = new File(parentFolder, "saved.txt");
+        
+        // opcion permitiendo al usuario guardar el txt en una carpeta
+        //fchooser.showSaveDialog(this);
+        //File outFile = fchooser.getSelectedFile();
+        
+        try {
+            FileWriter fwrt = new FileWriter(outFile);
+            // prueba extraer texto de un textArea (ejemplo)
+            String retrieved = this.txtArea1.getText();
+            fwrt.write(retrieved);
+            fwrt.close();
+            JOptionPane.showMessageDialog(null, "Mensaje exito");
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Prueba error");
+        }
+//        FileManager fileManager = new FileManager();
+//        File file = fileManager.selectFile();
+//
+//        fileManager.saveToTxt(file);       
     }
 
     /**

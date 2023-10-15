@@ -36,7 +36,7 @@ public class FileManager {
         }
         // cerrar archivo?
     }
-
+    
     public void saveToTxt(File inFile) {
         
         try {
