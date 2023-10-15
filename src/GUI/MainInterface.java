@@ -58,18 +58,16 @@ public class MainInterface extends javax.swing.JFrame {
     private void disableButtons() {
     }
 
-    private void readFromFile() {
+    private void displayFromFile() {
         FileManager fileManager = new FileManager();
+        File file = fileManager.selectFile();
         String line;
 
         try {
-            String path = fileManager.selectFile().getAbsolutePath();
-            File file = new File(path);
             FileReader filereader = new FileReader(file);
             BufferedReader reader = new BufferedReader(filereader);
 
-            while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
+            while ((line = reader.readLine()) != null) { 
                 // ejemplo: mostrar informacion en un text area
                 this.txtArea1.append(line);
                 this.txtArea1.append("\n");
@@ -87,7 +85,12 @@ public class MainInterface extends javax.swing.JFrame {
     }
     
     private void saveFile(){
-        // metodo para guardar el archivo 
+        // metodo para guardar el archivo, WOIP, cambiar el input de un filechooser a lo q este escrito en el textarea
+        
+        FileManager fileManager = new FileManager();
+        File file = fileManager.selectFile();
+
+        fileManager.saveToTxt(file);       
     }
 
     /**
@@ -109,6 +112,7 @@ public class MainInterface extends javax.swing.JFrame {
         menubar = new javax.swing.JMenuBar();
         menu1 = new javax.swing.JMenu();
         item1 = new javax.swing.JMenuItem();
+        modifyButton = new javax.swing.JMenuItem();
         item2 = new javax.swing.JMenuItem();
         itemExit = new javax.swing.JMenuItem();
 
@@ -170,6 +174,14 @@ public class MainInterface extends javax.swing.JFrame {
         });
         menu1.add(item1);
 
+        modifyButton.setText("Modify");
+        modifyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyButtonActionPerformed(evt);
+            }
+        });
+        menu1.add(modifyButton);
+
         item2.setText("Guardar");
         item2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,7 +208,7 @@ public class MainInterface extends javax.swing.JFrame {
     private void item1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item1ActionPerformed
         // crear objeto de tipo filechooser que contendra el archivo txt
         if (evt.getSource() == this.item1) {
-            this.readFromFile();
+            this.displayFromFile();
         }
 
     }//GEN-LAST:event_item1ActionPerformed
@@ -237,6 +249,10 @@ public class MainInterface extends javax.swing.JFrame {
     private void menu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menu1ActionPerformed
+
+    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modifyButtonActionPerformed
 
 
     /**
@@ -286,6 +302,7 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu menu1;
     private javax.swing.JMenuBar menubar;
+    private javax.swing.JMenuItem modifyButton;
     private javax.swing.JTextArea txtArea1;
     // End of variables declaration//GEN-END:variables
 }

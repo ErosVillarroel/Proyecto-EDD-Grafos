@@ -37,17 +37,35 @@ public class FileManager {
         // cerrar archivo?
     }
 
-    public void writeToTXT() {
+    public void saveToTxt(File inFile) {
+        
         try {
-            File directory = new File(".");
-            File file = new File(directory, "archivos.txt");
-            FileWriter write = new FileWriter(file);
+            File parentFolder = new File(".saved");
+            parentFolder.mkdir();
+            File outFile = new File(parentFolder, "saved.txt");
+            FileWriter fileWriter = new FileWriter(outFile);
+            String line;
 
-            write.write("Saludos bra");
-            write.write("\nHows going man");
-            write.write("\nWould you ever take the opportunity?");
+            try {
+                FileReader filereader = new FileReader(inFile);
+                BufferedReader reader = new BufferedReader(filereader);
 
-            write.close();
+            while ((line = reader.readLine()) != null) { 
+                fileWriter.write(line);
+                fileWriter.write("\n");
+                line = reader.readLine();
+            }
+
+            reader.close();
+            JOptionPane.showMessageDialog(null, "El archivo ha sido cargado exitosamente!");
+
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
+        }
+
+            fileWriter.close();
         } catch (IOException excepcion) {
             excepcion.printStackTrace(System.out);
         }
@@ -75,7 +93,7 @@ public class FileManager {
         
         } catch (Exception e){
             
-//            System.out.println("No lo logre D:");
+            System.out.println("Algo salio mal:(");
             return null;
             
         }
