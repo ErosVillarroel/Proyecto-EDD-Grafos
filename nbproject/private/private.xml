@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/B-St/Documents/NetBeansProjects/Proyecto-EDD-Grafos/src/main/Main.java</file>
+            <file>file:/C:/Users/B-St/Documents/NetBeansProjects/Proyecto-EDD-Grafos/src/FileManager/FileManager.java</file>
+            <file>file:/C:/Users/B-St/Documents/NetBeansProjects/Proyecto-EDD-Grafos/src/Classes/Graph.java</file>
+            <file>file:/C:/Users/B-St/Documents/NetBeansProjects/Proyecto-EDD-Grafos/src/GUI/MainInterface.java</file>
+            <file>file:/C:/Users/B-St/Documents/NetBeansProjects/Proyecto-EDD-Grafos/src/DataStructureClasses/SimpleList.java</file>
+            <file>file:/C:/Users/B-St/Documents/NetBeansProjects/Proyecto-EDD-Grafos/src/DataStructureClasses/MatrixGraph.java</file>
+            <file>file:/C:/Users/B-St/Documents/NetBeansProjects/Proyecto-EDD-Grafos/src/Classes/Vertex.java</file>
+        </group>
     </open-files>
 </project-private>
