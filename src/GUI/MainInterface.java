@@ -40,7 +40,7 @@ public class MainInterface extends javax.swing.JFrame {
         content.add(page1, BorderLayout.CENTER);
         content.revalidate();
         content.repaint();
-        
+
         this.setVisible(true);
     }
 
@@ -90,6 +90,7 @@ public class MainInterface extends javax.swing.JFrame {
             crear un constructor donde se defina la ruta y los filtros?
          */
 
+        FileManager fileManager = new FileManager();
         JFileChooser fchooser = new JFileChooser();
         fchooser.setDialogTitle("Especifique la ruta para guardar...");
         fchooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
@@ -97,26 +98,33 @@ public class MainInterface extends javax.swing.JFrame {
         fchooser.setAcceptAllFileFilterUsed(false);
         fchooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
 
-        //opcion con carpeta establecida
-        File parentFolder = new File(".saved");
-        parentFolder.mkdir();
-        File outFile = new File(parentFolder, "saved.txt");
-
-        // opcion permitiendo al usuario guardar el txt en una carpeta
-        //fchooser.showSaveDialog(this);
-        //File outFile = fchooser.getSelectedFile();
-        try {
-            FileWriter fwrt = new FileWriter(outFile);
-            // prueba extraer texto de un textArea (ejemplo)
-            String retrieved = this.graphComponents.getText();
-            fwrt.write(retrieved);
-            fwrt.close();
-            JOptionPane.showMessageDialog(null, "Mensaje exito");
-        } catch (IOException e) {
-            System.out.println(e);
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Prueba error");
-        }
+        fchooser.showSaveDialog(this);
+        File outFile = fchooser.getSelectedFile();
+        
+        fileManager.saveFileToTxt(outFile);
+        
+        
+        
+//        opcion con carpeta establecida
+//        File parentFolder = new File(".saved");
+//        parentFolder.mkdir();
+//        File outFile = new File(parentFolder, "saved.txt");
+//
+//         opcion permitiendo al usuario guardar el txt en una carpeta
+//        fchooser.showSaveDialog(this);
+//        File outFile = fchooser.getSelectedFile();
+//        try {
+//            FileWriter fwrt = new FileWriter(outFile);
+//             prueba extraer texto de un textArea (ejemplo)
+//            String retrieved = this.graphComponents.getText();
+//            fwrt.write(retrieved);
+//            fwrt.close();
+//            JOptionPane.showMessageDialog(null, "Mensaje exito");
+//        } catch (IOException e) {
+//            System.out.println(e);
+//        } catch (NullPointerException e) {
+//            JOptionPane.showMessageDialog(null, "Prueba error");
+//        }
 //        FileManager fileManager = new FileManager();
 //        File file = fileManager.selectFile();
 //
@@ -247,6 +255,7 @@ public class MainInterface extends javax.swing.JFrame {
     private void saveMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuBtnActionPerformed
         if (evt.getSource() == this.saveMenuBtn) {
             this.saveFile();
+            // Hacer display directo 
         }
     }//GEN-LAST:event_saveMenuBtnActionPerformed
 
@@ -261,10 +270,14 @@ public class MainInterface extends javax.swing.JFrame {
     private void loadTestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTestBtnActionPerformed
         // TODO add your handling code here
         if (evt.getSource() == this.loadTestBtn) {
-           String textAreaInput = this.graphComponents.getText();
-           
+            String textAreaInput = this.graphComponents.getText();
+//            System.out.println(textAreaInput);
+            
+            FileManager fileManager = new FileManager();
+            fileManager.saveStringToTxt(textAreaInput);
+
         }
-        
+
     }//GEN-LAST:event_loadTestBtnActionPerformed
 
     /**

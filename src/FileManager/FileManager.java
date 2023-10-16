@@ -5,6 +5,7 @@
  */
 package FileManager;
 
+import DataStructureClasses.SimpleList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,6 +27,7 @@ public class FileManager {
     private final String SAVED_DIRECTORY = ".saved";
 
     public FileManager() {
+//        System.out.println("Me hice filemanager :)");
     }
 
     public boolean savedPathExists() {
@@ -53,7 +55,7 @@ public class FileManager {
         // cerrar archivo?
     }
 
-    public void saveToTxt(File inFile) {
+    public void saveFileToTxt(File inFile) {
 
         if (this.savedPathExists()) {
 
@@ -62,7 +64,6 @@ public class FileManager {
                 File outFile = new File(this.SAVED_DIRECTORY, newFileName);
                 FileWriter fileWriter = new FileWriter(outFile);
                 String line;
-
                 try {
                     FileReader filereader = new FileReader(inFile);
                     BufferedReader reader = new BufferedReader(filereader);
@@ -82,6 +83,7 @@ public class FileManager {
                     JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
                 }
 
+                fileWriter.close();
             } catch (Exception e) {
                 System.out.println("Algo salio mal :(");
             }
@@ -121,6 +123,21 @@ public class FileManager {
         }
     }
 
+    public void saveStringToTxt(String string) {
+
+        try {
+            File outFile = new File("Prueba_String.txt");
+            FileWriter fileWriter = new FileWriter(outFile);
+            
+            fileWriter.write(string);
+            fileWriter.close();
+//            System.out.println(":)");
+        } catch (Exception e) {
+            System.out.println(":(");
+        }
+
+    }
+
     //WOIP importacion del lector de archivos
     public File selectFile() {
         try {
@@ -148,8 +165,8 @@ public class FileManager {
         }
     }
 
-    public void saveStringToTxt(String string) {
-
+    public SimpleList parseUsersFromFile(File file){
+        return new Simplelist();
     }
-
+    
 }
