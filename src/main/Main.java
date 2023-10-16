@@ -1,7 +1,5 @@
 package main;
 
-import DataStructureClasses.SimpleList;
-import FileManager.FileManager;
 import GUI.MainInterface;
 
 public class Main {
@@ -24,7 +22,6 @@ public class Main {
         */
         
         MainInterface interfaz1 = new MainInterface();
-
         
     }
     
