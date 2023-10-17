@@ -5,9 +5,11 @@
  */
 package FileManager;
 
+import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -128,7 +130,7 @@ public class FileManager {
         try {
             File outFile = new File("Prueba_String.txt");
             FileWriter fileWriter = new FileWriter(outFile);
-            
+
             fileWriter.write(string);
             fileWriter.close();
 //            System.out.println(":)");
@@ -165,8 +167,92 @@ public class FileManager {
         }
     }
 
-    public SimpleList parseUsersFromFile(File file){
-        return new Simplelist();
+    /*
+        | Prueba preliminar adquirir los usuarios del txt
+            retorna los usuarios adquiridos del txt como
+            una lista de objetos de la clase vertices (nodos para le grafo)  
+    */
+    public SimpleList parseUsersFromFile(File fileSelected, String[] ignoreText) {
+        SimpleList user = new SimpleList();
+        FileReader fr = null;
+        BufferedReader br = null;
+        String line;
+
+        try {
+            fr = new FileReader(fileSelected.toString());
+            br = new BufferedReader(fr);
+
+            while ((line = br.readLine()) != null) {
+                if (line.contains("relaciones")) {
+                    System.out.println("Dont do that bra");
+                    break;
+                } else {
+                    // recorrer arreglo de textos que deben ser omitidos
+                    for (String text : ignoreText) {
+                        // al encontrar alguna coincidencia: se reemplaza la linea por un espacio blanco
+                        if (line.contains(text)) {
+                            line = line.replace(text, "");
+                        }
+                    }
+                    // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista
+                    if (!line.isEmpty()) {
+                        Vertex vertice_user = new Vertex(line);
+                        user.addAtTheEnd(vertice_user);
+                        System.out.println(vertice_user);
+                    }
+                }
+            }
+            // cerrar archivo
+            fr.close();
+            br.close();
+            user.printList();
+            return user;
+
+        } catch (FileNotFoundException e) {
+            System.out.println("// El archivo no se encontró");
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+        } catch (NullPointerException e) {
+            System.out.println("No se selecciono ningun archivo");
+        }
+
+        return null;
     }
     
+    /*
+        | Prueba preliminar de como encontrar las relaciones entre usuarios
+            Despues de un buen rato pude hacer un array que contenga el nombre
+            del usuario en la posicion 0 y la pos 1 al que esta dirigido
+    */
+    public void relationsTest(File fileSelected) {
+        SimpleList user = new SimpleList();
+        FileReader fr = null;
+        BufferedReader br = null;
+        String line;
+        String dato;
+        try {
+            fr = new FileReader(fileSelected.toString());
+            br = new BufferedReader(fr);
+            String[] source;
+            while ((line = br.readLine()) != null) {
+                String[] prueba = line.split(",");
+                if (line.contains(",")) {
+                    System.out.println("source: " + prueba[0].replace("@", "") + " / dirigido a " + prueba[1].replace("@", ""));
+                    
+                }
+            }
+            
+            // cerrar archivo
+            fr.close();
+            br.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("// El archivo no se encontró");
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+        } catch (NullPointerException e) {
+            System.out.println("No se selecciono ningun archivo");
+        }
+
+    }
 }

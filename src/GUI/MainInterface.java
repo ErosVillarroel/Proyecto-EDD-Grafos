@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import DataStructureClasses.SimpleList;
 import FileManager.FileManager;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
@@ -22,6 +23,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MainInterface extends javax.swing.JFrame {
 
+    // definir las listas globales con los datos necesario de los vertices
+    SimpleList users_list = new SimpleList();
     Page1 page1 = new Page1();
     Page2 page2 = new Page2();
 
@@ -100,11 +103,9 @@ public class MainInterface extends javax.swing.JFrame {
 
         fchooser.showSaveDialog(this);
         File outFile = fchooser.getSelectedFile();
-        
+
         fileManager.saveFileToTxt(outFile);
-        
-        
-        
+
 //        opcion con carpeta establecida
 //        File parentFolder = new File(".saved");
 //        parentFolder.mkdir();
@@ -147,6 +148,7 @@ public class MainInterface extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         graphComponents = new javax.swing.JTextArea();
         loadTestBtn = new javax.swing.JButton();
+        ButtonTest = new javax.swing.JToggleButton();
         menubar = new javax.swing.JMenuBar();
         menu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
@@ -188,6 +190,14 @@ public class MainInterface extends javax.swing.JFrame {
             }
         });
         bg.add(loadTestBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        ButtonTest.setText("Boton Prueba: Relaciones");
+        ButtonTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonTestActionPerformed(evt);
+            }
+        });
+        bg.add(ButtonTest, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, -1, -1));
 
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 420));
 
@@ -265,6 +275,16 @@ public class MainInterface extends javax.swing.JFrame {
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         // TODO add your handling code here:
+        if (evt.getSource() == this.modifyButton) {
+            FileManager fileManager = new FileManager();
+            File file_prueba = fileManager.selectFile();
+            String[] ignoreConditions = new String[]{"usuarios", "relaciones", "@"};
+            //fileManager.parseUsersFromFile(file_prueba, ignore);
+            users_list = fileManager.parseUsersFromFile(file_prueba, ignoreConditions);
+
+            //Probando que la lista global esté funcionando
+            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());
+        }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void loadTestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTestBtnActionPerformed
@@ -272,13 +292,23 @@ public class MainInterface extends javax.swing.JFrame {
         if (evt.getSource() == this.loadTestBtn) {
             String textAreaInput = this.graphComponents.getText();
 //            System.out.println(textAreaInput);
-            
+
             FileManager fileManager = new FileManager();
             fileManager.saveStringToTxt(textAreaInput);
 
         }
 
     }//GEN-LAST:event_loadTestBtnActionPerformed
+
+    private void ButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTestActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.ButtonTest) {
+            
+            FileManager fileManager = new FileManager();
+            File prueba = fileManager.selectFile();
+            fileManager.relationsTest(prueba);
+        }
+    }//GEN-LAST:event_ButtonTestActionPerformed
 
     /**
      * @param args the command line arguments
@@ -317,6 +347,7 @@ public class MainInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton ButtonTest;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel content;
     private javax.swing.JMenuItem exitBtn;
