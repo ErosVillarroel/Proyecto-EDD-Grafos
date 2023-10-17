@@ -60,9 +60,7 @@ public class MainInterface extends javax.swing.JFrame {
     private void disableButtons() {
     }
 
-    private void displayFromFile() {
-        FileManager fileManager = new FileManager();
-        File file = fileManager.selectFile();
+    private void displayFromFile(File file) {
         String line;
 
         try {
@@ -84,52 +82,6 @@ public class MainInterface extends javax.swing.JFrame {
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
         }
-    }
-
-    private void saveFile() {
-        // metodo para guardar el archivo, WOIP, cambiar el input de un filechooser a lo q este escrito en el textarea
-        /*
-        Modificacion metodo para guardar, deberia haber una forma de
-            crear un constructor donde se defina la ruta y los filtros?
-         */
-
-        FileManager fileManager = new FileManager();
-        JFileChooser fchooser = new JFileChooser();
-        fchooser.setDialogTitle("Especifique la ruta para guardar...");
-        fchooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        fchooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        fchooser.setAcceptAllFileFilterUsed(false);
-        fchooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
-
-        fchooser.showSaveDialog(this);
-        File outFile = fchooser.getSelectedFile();
-
-        fileManager.saveFileToTxt(outFile);
-
-//        opcion con carpeta establecida
-//        File parentFolder = new File(".saved");
-//        parentFolder.mkdir();
-//        File outFile = new File(parentFolder, "saved.txt");
-//
-//         opcion permitiendo al usuario guardar el txt en una carpeta
-//        fchooser.showSaveDialog(this);
-//        File outFile = fchooser.getSelectedFile();
-//        try {
-//            FileWriter fwrt = new FileWriter(outFile);
-//             prueba extraer texto de un textArea (ejemplo)
-//            String retrieved = this.graphComponents.getText();
-//            fwrt.write(retrieved);
-//            fwrt.close();
-//            JOptionPane.showMessageDialog(null, "Mensaje exito");
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        } catch (NullPointerException e) {
-//            JOptionPane.showMessageDialog(null, "Prueba error");
-//        }
-//        FileManager fileManager = new FileManager();
-//        File file = fileManager.selectFile();
-//
-//        fileManager.saveToTxt(file);       
     }
 
     /**
@@ -250,7 +202,9 @@ public class MainInterface extends javax.swing.JFrame {
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         // crear objeto de tipo filechooser que contendra el archivo txt
         if (evt.getSource() == this.openBtn) {
-            this.displayFromFile();
+            FileManager fileManager = new FileManager();
+            File file = fileManager.selectFile();
+            this.displayFromFile(file);
         }
 
     }//GEN-LAST:event_openBtnActionPerformed
@@ -264,7 +218,11 @@ public class MainInterface extends javax.swing.JFrame {
 
     private void saveMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuBtnActionPerformed
         if (evt.getSource() == this.saveMenuBtn) {
-            this.saveFile();
+            FileManager fileManager = new FileManager();
+            File file = fileManager.selectFile();
+            fileManager.saveFileToTxt(file);
+            this.displayFromFile(file);
+            
             // Hacer display directo 
         }
     }//GEN-LAST:event_saveMenuBtnActionPerformed
@@ -278,9 +236,8 @@ public class MainInterface extends javax.swing.JFrame {
         if (evt.getSource() == this.modifyButton) {
             FileManager fileManager = new FileManager();
             File file_prueba = fileManager.selectFile();
-            String[] ignoreConditions = new String[]{"usuarios", "relaciones", "@"};
             //fileManager.parseUsersFromFile(file_prueba, ignore);
-            users_list = fileManager.parseUsersFromFile(file_prueba, ignoreConditions);
+            users_list = fileManager.parseUsersFromFile(file_prueba);
 
             //Probando que la lista global esté funcionando
             JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());

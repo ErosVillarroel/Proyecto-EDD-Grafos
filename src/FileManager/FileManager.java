@@ -171,42 +171,62 @@ public class FileManager {
         | Prueba preliminar adquirir los usuarios del txt
             retorna los usuarios adquiridos del txt como
             una lista de objetos de la clase vertices (nodos para le grafo)  
-    */
-    public SimpleList parseUsersFromFile(File fileSelected, String[] ignoreText) {
-        SimpleList user = new SimpleList();
-        FileReader fr = null;
-        BufferedReader br = null;
+     */
+//  Parametro necesario para el codigo viejo:  String[] ignoreText una lista con elementos a eliminar
+    @SuppressWarnings("empty-statement")
+    public SimpleList parseUsersFromFile(File fileSelected) {
+        SimpleList usersList = new SimpleList();
         String line;
 
+//        Contador para transformar el output a lista de de vertices ===================================     
+//        int vertexsCounter = 0;
         try {
-            fr = new FileReader(fileSelected.toString());
-            br = new BufferedReader(fr);
+            FileReader fileReader = new FileReader(fileSelected.toString());
+            BufferedReader bufferReader = new BufferedReader(fileReader);
 
-            while ((line = br.readLine()) != null) {
+            while ((line = bufferReader.readLine()) != null) {
                 if (line.contains("relaciones")) {
                     System.out.println("Dont do that bra");
                     break;
+//                    revisa si la linea contiene "usuarios" y la ignora si lo tiene
+                } else if (line.contains("usuarios")) {
+                    ;
                 } else {
+
+//                    CODIGO VIEJO =======================================================================
                     // recorrer arreglo de textos que deben ser omitidos
-                    for (String text : ignoreText) {
-                        // al encontrar alguna coincidencia: se reemplaza la linea por un espacio blanco
-                        if (line.contains(text)) {
-                            line = line.replace(text, "");
-                        }
-                    }
-                    // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista
+//                    for (String text : ignoreText) {
+//                         al encontrar alguna coincidencia: se reemplaza la linea por un espacio blanco
+//                        if (line.contains(text)) {
+//                            line = line.replace(text, "");
+//                        }
+//                    }
+//                    CODIGO VIEJO =======================================================================
+
+
+                    // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista                    
                     if (!line.isEmpty()) {
-                        Vertex vertice_user = new Vertex(line);
-                        user.addAtTheEnd(vertice_user);
-                        System.out.println(vertice_user);
+                        //Elimina el @ al inicio de los usuarios
+                        line.replace("@", "");
+
+//                      Anade a la lista ordenado por orden de llegada                        
+                        usersList.addAtTheEnd(line);
+                        System.out.println("Usuario anadido: " + line + ".");
+
+//                    CODIGO VIEJO - Requiere contador y cambia la lista  auna de vertices -==============                        
+//                        Vertex vertice_user = new Vertex(line);
+//                        usersList.addAtTheEnd(vertice_user);
+//                        System.out.println(vertice_user);
+//                    CODIGO VIEJO =======================================================================
                     }
                 }
             }
+
             // cerrar archivo
-            fr.close();
-            br.close();
-            user.printList();
-            return user;
+            fileReader.close();
+            bufferReader.close();
+            usersList.printList();
+            return usersList;
 
         } catch (FileNotFoundException e) {
             System.out.println("// El archivo no se encontró");
@@ -218,12 +238,12 @@ public class FileManager {
 
         return null;
     }
-    
+
     /*
         | Prueba preliminar de como encontrar las relaciones entre usuarios
             Despues de un buen rato pude hacer un array que contenga el nombre
             del usuario en la posicion 0 y la pos 1 al que esta dirigido
-    */
+     */
     public void relationsTest(File fileSelected) {
         SimpleList user = new SimpleList();
         FileReader fr = null;
@@ -238,10 +258,10 @@ public class FileManager {
                 String[] prueba = line.split(",");
                 if (line.contains(",")) {
                     System.out.println("source: " + prueba[0].replace("@", "") + " / dirigido a " + prueba[1].replace("@", ""));
-                    
+
                 }
             }
-            
+
             // cerrar archivo
             fr.close();
             br.close();

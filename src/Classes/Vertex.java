@@ -12,6 +12,11 @@ public class Vertex {
         this.name = name;
         this.vertexNum = -1;
     }
+
+    public Vertex(String name, int vertexNum) {
+        this.name = name;
+        this.vertexNum = vertexNum;
+    }
     
     // saber si dos vertices son iguales
     public boolean isEqualTo(Vertex vertice){
@@ -24,7 +29,9 @@ public class Vertex {
     }
     
     // caracteristicas del vertice
-    public String toString(){
+
+
+    public String vertexToString(){
         return this.name + " (" + this.vertexNum + ")";
     }
 
