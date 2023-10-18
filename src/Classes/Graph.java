@@ -8,12 +8,12 @@ import DataStructureClasses.SimpleList;
  */
 public class Graph {
 
-    private SimpleList vertexs;
+    private SimpleList vertexsList;
     private final int[][] matrix;
-    private int numVertex;
+    private int numVertexs;
 
     public Graph(int size) {
-        this.numVertex = 0;
+        this.numVertexs = 0;
         this.matrix = new int[size][size];
         // inicializar la matriz de adyacencia en 0:
         for (int i = 0; i < matrix.length; i++) {
@@ -24,8 +24,13 @@ public class Graph {
     }
 
     public void addVertex(Vertex vertex) {
-        vertexs.addStart(vertex);
-        vertex.setNumVertex(vertexs.getSize());
+        
+        if (this.vertexsList.getSize() < this.numVertexs) {
+            vertexsList.addAtTheEnd(vertex);
+            vertex.setNumVertex(vertexsList.getSize());
+        } else {
+            System.out.println("No se pueden anadir mas vertices al grafo.");
+        }
     }
 
     public void addEdge(int srcVertex, int dstVertex) {
@@ -48,13 +53,12 @@ public class Graph {
 
     public String printGraphString() {
         String chain = "";
-        for (int i = 0; i < this.numVertex; i++) {
+        for (int i = 0; i < this.numVertexs; i++) {
             chain += "{";
-            for (int j = 0; j < this.numVertex; j++) {
+            for (int j = 0; j < this.numVertexs; j++) {
                 chain += this.matrix[i][j] + ",";
             }
         }
         return chain;
     }
-
 }

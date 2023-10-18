@@ -80,7 +80,7 @@ public class SimpleList<T> {
         return chain + "//";
     }
 
-    public SimpleNode<T> searchByIndex(int index) {
+    public SimpleNode<T> getValueByIndex(int index) {
         SimpleNode<T> pAux = this.pFirst;
         int count = 0;
 
@@ -141,7 +141,7 @@ public class SimpleList<T> {
     }
 
     public boolean isValidIndex(int index) {
-        return this.searchByIndex(index) != null;
+        return this.getValueByIndex(index) != null;
     }
 
     public void insertAtIndex(int index, T data) {

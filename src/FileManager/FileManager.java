@@ -1,10 +1,6 @@
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package FileManager;
 
+import Classes.Graph;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import java.io.BufferedReader;
@@ -194,7 +190,7 @@ public class FileManager {
                 } else {
 
 //                    CODIGO VIEJO =======================================================================
-                    // recorrer arreglo de textos que deben ser omitidos
+//                    recorrer arreglo de textos que deben ser omitidos
 //                    for (String text : ignoreText) {
 //                         al encontrar alguna coincidencia: se reemplaza la linea por un espacio blanco
 //                        if (line.contains(text)) {
@@ -202,8 +198,6 @@ public class FileManager {
 //                        }
 //                    }
 //                    CODIGO VIEJO =======================================================================
-
-
                     // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista                    
                     if (!line.isEmpty()) {
                         //Elimina el @ al inicio de los usuarios
@@ -237,6 +231,25 @@ public class FileManager {
         }
 
         return null;
+    }
+
+    public Graph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
+        try {
+            int inListSize = userNamesList.getSize();
+            Graph newGraph = new Graph(inListSize);
+            for (int i = 0; i < inListSize; i++) {
+                try {
+                    Vertex newVertex = new Vertex(userNamesList.getValueByIndex(i).getData());
+                    newGraph.addVertex(newVertex);
+                } catch (Exception e) {
+                    System.out.println("Algo salio mal :(");
+                }
+            }
+            return newGraph;
+
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /*

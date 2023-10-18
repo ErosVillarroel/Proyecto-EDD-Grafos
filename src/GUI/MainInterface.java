@@ -10,12 +10,9 @@ import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -47,23 +44,11 @@ public class MainInterface extends javax.swing.JFrame {
         this.setVisible(true);
     }
 
-    private void ShowPanel(JPanel panel) {
-        panel.setSize(410, 320);
-        panel.setLocation(0, 0);
-
-        content.removeAll();
-        content.add(panel, BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
-    }
-
-    private void disableButtons() {
-    }
-
     private void displayFromFile(File file) {
         String line;
 
         try {
+            this.graphComponents.setText("");
             FileReader filereader = new FileReader(file);
             BufferedReader reader = new BufferedReader(filereader);
 
