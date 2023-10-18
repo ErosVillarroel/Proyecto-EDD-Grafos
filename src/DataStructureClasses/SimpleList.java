@@ -59,7 +59,7 @@ public class SimpleList<T> {
     public void printList() {
         SimpleNode<T> pAux = this.pFirst;
         while (pAux != null) {
-            System.out.print(pAux.getData() + "--> ");
+            System.out.println(pAux.getData());
             pAux = pAux.getpNext();
         }
     }

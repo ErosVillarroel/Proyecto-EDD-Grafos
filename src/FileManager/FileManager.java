@@ -168,58 +168,41 @@ public class FileManager {
             retorna los usuarios adquiridos del txt como
             una lista de objetos de la clase vertices (nodos para le grafo)  
      */
-//  Parametro necesario para el codigo viejo:  String[] ignoreText una lista con elementos a eliminar
+    
+//  YA SIRVE
     @SuppressWarnings("empty-statement")
     public SimpleList parseUsersFromFile(File fileSelected) {
         SimpleList usersList = new SimpleList();
         String line;
-
-//        Contador para transformar el output a lista de de vertices ===================================     
-//        int vertexsCounter = 0;
         try {
             FileReader fileReader = new FileReader(fileSelected.toString());
             BufferedReader bufferReader = new BufferedReader(fileReader);
 
             while ((line = bufferReader.readLine()) != null) {
+                //Revisa si la linea tiene "Relaciones" y rompe el ciclo si lo tiene, WOIP
                 if (line.contains("relaciones")) {
-                    System.out.println("Dont do that bra");
+                    ;
                     break;
 //                    revisa si la linea contiene "usuarios" y la ignora si lo tiene
                 } else if (line.contains("usuarios")) {
                     ;
                 } else {
-
-//                    CODIGO VIEJO =======================================================================
-//                    recorrer arreglo de textos que deben ser omitidos
-//                    for (String text : ignoreText) {
-//                         al encontrar alguna coincidencia: se reemplaza la linea por un espacio blanco
-//                        if (line.contains(text)) {
-//                            line = line.replace(text, "");
-//                        }
-//                    }
-//                    CODIGO VIEJO =======================================================================
+                    
                     // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista                    
                     if (!line.isEmpty()) {
                         //Elimina el @ al inicio de los usuarios
-                        line.replace("@", "");
+                        String absoluteUserName = line.replace("@", "");
 
 //                      Anade a la lista ordenado por orden de llegada                        
-                        usersList.addAtTheEnd(line);
-                        System.out.println("Usuario anadido: " + line + ".");
+                        usersList.addAtTheEnd(absoluteUserName);
+                        System.out.println("Usuario anadido: " + absoluteUserName + ".");
 
-//                    CODIGO VIEJO - Requiere contador y cambia la lista  auna de vertices -==============                        
-//                        Vertex vertice_user = new Vertex(line);
-//                        usersList.addAtTheEnd(vertice_user);
-//                        System.out.println(vertice_user);
-//                    CODIGO VIEJO =======================================================================
                     }
                 }
             }
-
             // cerrar archivo
             fileReader.close();
             bufferReader.close();
-            usersList.printList();
             return usersList;
 
         } catch (FileNotFoundException e) {

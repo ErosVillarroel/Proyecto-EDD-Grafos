@@ -1,2 +1,4 @@
 .class
+.saved
 document example.txt
+Prueba_String.txt
