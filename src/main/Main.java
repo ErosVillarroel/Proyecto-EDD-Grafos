@@ -1,5 +1,6 @@
 package main;
 
+import GUI.DibujarGrafo;
 import GUI.MainInterface;
 
 public class Main {
@@ -22,6 +23,7 @@ public class Main {
         */
         
         MainInterface interfaz1 = new MainInterface();
+        DibujarGrafo dibujarGrafo = new DibujarGrafo();
         
     }
     

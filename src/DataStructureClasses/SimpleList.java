@@ -68,7 +68,7 @@ public class SimpleList<T> {
         }
         System.out.println("===================================");
     }
-    
+
     public void printVertexList() {
         SimpleNode<Vertex> pAux = (SimpleNode<Vertex>) this.pFirst;
         System.out.println("Lista==============================");
@@ -78,7 +78,6 @@ public class SimpleList<T> {
         }
         System.out.println("===================================");
     }
-
 
     public String printToString() {
         if (this.isEmpty()) {
@@ -126,6 +125,26 @@ public class SimpleList<T> {
             return null;
         }
 
+    }
+    
+    /*
+        - Metodo para retornar la posicion de un elemento en la lista
+    */
+
+    public int indexOf(T valorBuscado) {
+        SimpleNode<T> actual = this.pFirst;
+        int index = 0;
+
+        while (actual != null) {
+            if (actual.getData().equals(valorBuscado)) {
+                return index;
+            }
+
+            actual = actual.getpNext();
+            index++;
+        }
+
+        return -1; // Si no se encuentra el valor, devolvemos -1
     }
 
     public void deleteFirst() {

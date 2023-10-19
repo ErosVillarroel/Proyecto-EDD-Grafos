@@ -216,110 +216,116 @@ public class FileManager {
         return null;
     }
 
-    public SimpleList parseEdgesFromFile(File inFile) {
+//    public SimpleList parseEdgesFromFile(File inFile) {
+//
+//        SimpleList edgesList = new SimpleList();
+//        String line;
+//        try {
+//            FileReader fileReader = new FileReader(inFile.toString());
+//            BufferedReader bufferReader = new BufferedReader(fileReader);
+//
+//            while ((line = bufferReader.readLine()) != null) {
+//                //Revisa si la linea tiene "Relaciones" y rompe el ciclo si lo tiene, WOIP
+//                if (line.contains("relaciones")) {
+//                    ;
+//                    break;
+////                    revisa si la linea contiene "usuarios" y la ignora si lo tiene
+//                } else if (line.contains("usuarios")) {
+//                    ;
+//                } else {
+//
+//                    // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista                    
+//                    if (!line.isEmpty()) {
+//                        //Elimina el @ al inicio de los usuarios
+//                        String absoluteUserName = line.replace("@", "");
+//
+////                      Anade a la lista ordenado por orden de llegada                        
+//                        edgesList.addAtTheEnd(absoluteUserName);
+////                        System.out.println("Usuario anadido: " + absoluteUserName + ".");
+//
+//                    }
+//                }
+//            }
+//            // cerrar archivo
+//            fileReader.close();
+//            bufferReader.close();
+////            usersList.printList();
+//            return edgesList;
+//
+//        } catch (FileNotFoundException e) {
+//            System.out.println("// El archivo no se encontró");
+//        } catch (IOException e) {
+//            e.printStackTrace(System.out);
+//        } catch (NullPointerException e) {
+//            System.out.println("No se selecciono ningun archivo");
+//        }
+//
+//        return null;
+//
+//    }
 
-        SimpleList edgesList = new SimpleList();
-        String line;
+//    public Graph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
+//        try {
+//            int inListSize = userNamesList.getSize();
+//            Graph newGraph = new Graph(inListSize);
+//
+//            for (int i = 0; i < inListSize; i++) {
+//                try {
+//                    Vertex newVertex = new Vertex(userNamesList.getValueByIndex(i), i);
+////                    newVertex.printVertex();
+//                    newGraph.addVertex(newVertex);
+//                } catch (Exception e) {
+//                    System.out.println("Algo salio mal :(");
+//                }
+//            }
+//            return newGraph;
+//
+//        } catch (Exception e) {
+//            System.out.println("Retornando null================================");
+//            return null;
+//        }
+//    }
+
+    /*
+        | Prueba casi-final de como encontrar las relaciones entre usuarios y crear grafo
+            finalmente el vector con posicion 0 detectó usuarios y la pos 1 al que esta dirigido
+            Recibe la lista de usuarios, los convierte en vertices del grafo y añade sus respectivas relaciones
+     */
+
+    public Graph construirGrafo(File file, SimpleList<String> userNamesList) {
+
+        Graph grafo = new Graph(userNamesList.getSize());
+
         try {
-            FileReader fileReader = new FileReader(inFile.toString());
-            BufferedReader bufferReader = new BufferedReader(fileReader);
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String linea;
 
-            while ((line = bufferReader.readLine()) != null) {
-                //Revisa si la linea tiene "Relaciones" y rompe el ciclo si lo tiene, WOIP
-                if (line.contains("relaciones")) {
-                    ;
-                    break;
-//                    revisa si la linea contiene "usuarios" y la ignora si lo tiene
-                } else if (line.contains("usuarios")) {
+            for (int i = 0; i < userNamesList.getSize(); i++) {
+                Vertex newVertex = new Vertex(userNamesList.getValueByIndex(i), i);
+                newVertex.printVertex();
+                grafo.addVertex(newVertex);
+            }
+
+            while ((linea = br.readLine()) != null) {
+                if (linea.contains("usuarios")) {
                     ;
                 } else {
-
-                    // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista                    
-                    if (!line.isEmpty()) {
-                        //Elimina el @ al inicio de los usuarios
-                        String absoluteUserName = line.replace("@", "");
-
-//                      Anade a la lista ordenado por orden de llegada                        
-                        edgesList.addAtTheEnd(absoluteUserName);
-//                        System.out.println("Usuario anadido: " + absoluteUserName + ".");
-
+                    if (linea.contains(",")) {
+                        String[] partes = linea.split(",");
+                        String origen = partes[0].replace("@", "").trim();
+                        String destino = partes[1].replace("@", "").trim();
+                        int indiceOrigen = userNamesList.indexOf(origen);
+                        int indiceDestino = userNamesList.indexOf(destino);
+                        grafo.addEdge(indiceOrigen, indiceDestino);
                     }
                 }
             }
-            // cerrar archivo
-            fileReader.close();
-            bufferReader.close();
-//            usersList.printList();
-            return edgesList;
 
-        } catch (FileNotFoundException e) {
-            System.out.println("// El archivo no se encontró");
-        } catch (IOException e) {
-            e.printStackTrace(System.out);
-        } catch (NullPointerException e) {
-            System.out.println("No se selecciono ningun archivo");
-        }
-
-        return null;
-
-    }
-
-    public Graph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
-        try {
-            int inListSize = userNamesList.getSize();
-            Graph newGraph = new Graph(inListSize);
-
-            for (int i = 0; i < inListSize; i++) {
-                try {
-                    Vertex newVertex = new Vertex(userNamesList.getValueByIndex(i), i);
-//                    newVertex.printVertex();
-                    newGraph.addVertex(newVertex);
-                } catch (Exception e) {
-                    System.out.println("Algo salio mal :(");
-                }
-            }
-            return newGraph;
-
-        } catch (Exception e) {
-            System.out.println("Retornando null================================");
-            return null;
-        }
-    }
-
-    /*
-        | Prueba preliminar de como encontrar las relaciones entre usuarios
-            Despues de un buen rato pude hacer un array que contenga el nombre
-            del usuario en la posicion 0 y la pos 1 al que esta dirigido
-     */
-    public void relationsTest(File fileSelected) {
-        SimpleList user = new SimpleList();
-        FileReader fr = null;
-        BufferedReader br = null;
-        String line;
-        String dato;
-        try {
-            fr = new FileReader(fileSelected.toString());
-            br = new BufferedReader(fr);
-            String[] source;
-            while ((line = br.readLine()) != null) {
-                String[] prueba = line.split(",");
-                if (line.contains(",")) {
-                    System.out.println("source: " + prueba[0].replace("@", "") + " / dirigido a " + prueba[1].replace("@", ""));
-
-                }
-            }
-
-            // cerrar archivo
-            fr.close();
             br.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("// El archivo no se encontró");
         } catch (IOException e) {
-            e.printStackTrace(System.out);
-        } catch (NullPointerException e) {
-            System.out.println("No se selecciono ningun archivo");
+            e.printStackTrace();
         }
 
+        return grafo;
     }
 }

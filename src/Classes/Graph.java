@@ -14,7 +14,7 @@ public class Graph {
     private int numVertexs;
 
     public Graph(int size) {
-        
+
         this.vertexsList = new SimpleList();
         this.numVertexs = size;
         this.matrix = new int[size][size];
@@ -27,7 +27,6 @@ public class Graph {
     }
 
     public void addVertex(Vertex vertex) {
-        
         if (this.vertexsList.getSize() < this.numVertexs) {
             vertexsList.addAtTheEnd(vertex);
             vertex.setNumVertex(vertexsList.getSize());
@@ -37,11 +36,44 @@ public class Graph {
     }
 
     public void addEdge(int srcVertex, int dstVertex) {
-        matrix[srcVertex][dstVertex] = 1;
+
+        this.verifyVertex(srcVertex, dstVertex);
+        this.differentVertex(srcVertex, dstVertex);
+
+        this.matrix[srcVertex][dstVertex] = 1;
+    }
+
+    public void deleteEdge(int srcVertex, int dstVertex) {
+
+        this.verifyVertex(srcVertex, dstVertex);
+        this.differentVertex(srcVertex, dstVertex);
+
+        this.matrix[srcVertex][dstVertex] = 0;
     }
 
     public boolean checkEdge(int srcVertex, int dstVertex) {
+        this.verifyVertex(srcVertex, dstVertex);
+        this.differentVertex(srcVertex, dstVertex);
         return matrix[srcVertex][dstVertex] == 1;
+    }
+
+    /*
+        - Cambiar las excepciones para que se vean en la GUI
+     */
+    private void verifyVertex(int srcVertex, int dstVertex) {
+        if (srcVertex < 0 || srcVertex >= this.numVertexs) {
+            throw new IllegalArgumentException("Error: Vertice inexistente o fuera de rango => " + srcVertex);
+        }
+        if (dstVertex < 0 || dstVertex >= this.numVertexs) {
+            throw new IllegalArgumentException("Error: Vertice inexistente o fuera de rango => " + dstVertex);
+        }
+
+    }
+
+    private void differentVertex(int srcVertex, int dstVertex) {
+        if (srcVertex == dstVertex) {
+            throw new IllegalArgumentException("Error: no se permiten bucles: (" + srcVertex + ", " + dstVertex + ")");
+        }
     }
 
     public void print() {
@@ -52,7 +84,7 @@ public class Graph {
             }
             System.out.println();
         }
-        
+
 //        this.vertexsList.printSimpleVertexList();
     }
 

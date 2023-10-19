@@ -23,8 +23,12 @@ public class MainInterface extends javax.swing.JFrame {
 
     // definir las listas globales con los datos necesario de los vertices
     SimpleList users_list = new SimpleList();
+    SimpleList relation_list = new SimpleList();
     Page1 page1 = new Page1();
     Page2 page2 = new Page2();
+    DibujarGrafo dibujarGrafo = new DibujarGrafo();
+        
+    
 
     /**
      * Creates new form main
@@ -34,13 +38,22 @@ public class MainInterface extends javax.swing.JFrame {
         setTitle("Pantalla Principal");
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
-        page1.setSize(410, 320);
-        page1.setLocation(0, 0);
-        content.removeAll();
-        content.add(page1, BorderLayout.CENTER);
-        content.revalidate();
-        content.repaint();
+//        //setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        page1.setSize(410, 320);
+//        page1.setLocation(0, 0);
+//        content.removeAll();
+//        content.add(page1, BorderLayout.CENTER);
+//        content.revalidate();
+//        content.repaint();
+        
+        // Agregar el panel DibujarGrafo a la página
+        dibujarGrafo.setSize(650, 440);
+        dibujarGrafo.setLocation(0, 0);
+        this.content.removeAll();
+        this.content.add(dibujarGrafo, BorderLayout.CENTER);
+        this.content.revalidate();
+        this.content.repaint();
+        
 
         this.setVisible(true);
     }
@@ -86,7 +99,6 @@ public class MainInterface extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         graphComponents = new javax.swing.JTextArea();
         loadTestBtn = new javax.swing.JButton();
-        ButtonTest = new javax.swing.JToggleButton();
         menubar = new javax.swing.JMenuBar();
         menu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
@@ -106,20 +118,20 @@ public class MainInterface extends javax.swing.JFrame {
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
+            .addGap(0, 440, Short.MAX_VALUE)
         );
 
-        bg.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 400, 310));
+        bg.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 650, 440));
 
         graphComponents.setColumns(20);
         graphComponents.setRows(5);
         jScrollPane1.setViewportView(graphComponents);
 
-        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 180, 310));
+        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 240, 310));
 
         loadTestBtn.setText("load");
         loadTestBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -127,17 +139,9 @@ public class MainInterface extends javax.swing.JFrame {
                 loadTestBtnActionPerformed(evt);
             }
         });
-        bg.add(loadTestBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        bg.add(loadTestBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
-        ButtonTest.setText("Boton Prueba: Relaciones");
-        ButtonTest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonTestActionPerformed(evt);
-            }
-        });
-        bg.add(ButtonTest, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, -1, -1));
-
-        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 420));
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 680));
 
         menu1.setText("Archivo");
         menu1.addActionListener(new java.awt.event.ActionListener() {
@@ -190,8 +194,14 @@ public class MainInterface extends javax.swing.JFrame {
         if (evt.getSource() == this.openBtn) {
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
-            SimpleList list = fileManager.parseUsersFromFile(file);
-            Graph grafo = fileManager.parseUserNameStringsListToGraph(list);
+
+            this.users_list = fileManager.parseUsersFromFile(file);
+            //Probando que la lista global esté funcionando
+            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());
+            
+            Graph grafo = fileManager.construirGrafo(file, this.users_list);
+            //Graph grafo = fileManager.parseUserNameStringsListToGraph(this.users_list);
+
             grafo.print();
             this.displayFromFile(file);
         }
@@ -211,7 +221,7 @@ public class MainInterface extends javax.swing.JFrame {
             File file = fileManager.selectFile();
             fileManager.saveFileToTxt(file);
             this.displayFromFile(file);
-            
+
             // Hacer display directo 
         }
     }//GEN-LAST:event_saveMenuBtnActionPerformed
@@ -223,13 +233,13 @@ public class MainInterface extends javax.swing.JFrame {
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.modifyButton) {
-            FileManager fileManager = new FileManager();
-            File file_prueba = fileManager.selectFile();
-            //fileManager.parseUsersFromFile(file_prueba, ignore);
-            users_list = fileManager.parseUsersFromFile(file_prueba);
-
-            //Probando que la lista global esté funcionando
-            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());
+//            FileManager fileManager = new FileManager();
+//            File file_prueba = fileManager.selectFile();
+//            //fileManager.parseUsersFromFile(file_prueba, ignore);
+//            users_list = fileManager.parseUsersFromFile(file_prueba);
+//
+//            //Probando que la lista global esté funcionando
+//            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
@@ -245,16 +255,6 @@ public class MainInterface extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_loadTestBtnActionPerformed
-
-    private void ButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTestActionPerformed
-        // TODO add your handling code here:
-        if (evt.getSource() == this.ButtonTest) {
-            
-            FileManager fileManager = new FileManager();
-            File prueba = fileManager.selectFile();
-            fileManager.relationsTest(prueba);
-        }
-    }//GEN-LAST:event_ButtonTestActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,7 +293,6 @@ public class MainInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton ButtonTest;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel content;
     private javax.swing.JMenuItem exitBtn;
