@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
 
 /**
  *
@@ -22,8 +22,6 @@ import javax.swing.JPanel;
 public class MainInterface extends javax.swing.JFrame {
 
     // definir las listas globales con los datos necesario de los vertices
-    SimpleList users_list = new SimpleList();
-    SimpleList relation_list = new SimpleList();
     Page1 page1 = new Page1();
     Page2 page2 = new Page2();
     DibujarGrafo dibujarGrafo = new DibujarGrafo();
@@ -192,16 +190,19 @@ public class MainInterface extends javax.swing.JFrame {
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         // crear objeto de tipo filechooser que contendra el archivo txt
         if (evt.getSource() == this.openBtn) {
+            
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
 
-            this.users_list = fileManager.parseUsersFromFile(file);
-            //Probando que la lista global esté funcionando
-            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());
+            SimpleList usersList = fileManager.parseUsersFromFile(file);
+            SimpleList relationsList = fileManager.parseRelationshipsFromFile(file);
             
-            Graph grafo = fileManager.construirGrafo(file, this.users_list);
-            //Graph grafo = fileManager.parseUserNameStringsListToGraph(this.users_list);
-
+            //Probando que la lista global esté funcionando
+//            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + usersList.printToString());
+            
+            Graph grafo = fileManager.parseUserNameStringsListToGraph(usersList);
+            grafo.generateRelationsFromList(relationsList, usersList);
+            
             grafo.print();
             this.displayFromFile(file);
         }
@@ -251,7 +252,6 @@ public class MainInterface extends javax.swing.JFrame {
 
             FileManager fileManager = new FileManager();
             fileManager.saveStringToTxt(textAreaInput);
-
         }
 
     }//GEN-LAST:event_loadTestBtnActionPerformed

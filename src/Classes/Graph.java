@@ -29,7 +29,9 @@ public class Graph {
     public void addVertex(Vertex vertex) {
         if (this.vertexsList.getSize() < this.numVertexs) {
             vertexsList.addAtTheEnd(vertex);
-            vertex.setNumVertex(vertexsList.getSize());
+            vertex.setNumVertex(vertexsList.getSize()-1);
+//            System.out.println("Vertice re100 aniadido");
+//            vertex.printVertex();
         } else {
             System.out.println("No se pueden anadir mas vertices al grafo.");
         }
@@ -78,6 +80,8 @@ public class Graph {
 
     public void print() {
 
+        System.out.println("Numero de vertices -> " + this.numVertexs);
+        
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 System.out.print(matrix[i][j] + " ");
@@ -85,7 +89,7 @@ public class Graph {
             System.out.println();
         }
 
-//        this.vertexsList.printSimpleVertexList();
+        this.vertexsList.printVertexList();
     }
 
     public String printGraphString() {
@@ -97,5 +101,20 @@ public class Graph {
             }
         }
         return chain;
+    }
+
+    public void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
+
+        for (int i = 0; i < relationships.getSize(); i++) {
+            String[] parts;
+            parts = relationships.getValueByIndex(i).split(",");
+            String source = parts[0];
+            String destiny = parts[1].trim();
+
+            int originIndex = userNameList.indexOf(source);
+            int destinyIndex = userNameList.indexOf(destiny);
+            this.addEdge(originIndex, destinyIndex);
+        }
+
     }
 }
