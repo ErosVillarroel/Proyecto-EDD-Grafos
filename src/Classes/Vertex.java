@@ -35,7 +35,14 @@ public class Vertex {
         return this.name + " (" + this.vertexNum + ")";
     }
 
+    public void printVertex(){
+        System.out.print("Vertice -> ");
+        System.out.println(this.name +"(" + this.vertexNum + ")");
+    }
+    
     /**
+     * 
+     * 
      * @return the name
      */
     public String getName() {

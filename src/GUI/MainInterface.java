@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Classes.Graph;
 import DataStructureClasses.SimpleList;
 import FileManager.FileManager;
 import java.awt.BorderLayout;
@@ -189,6 +190,9 @@ public class MainInterface extends javax.swing.JFrame {
         if (evt.getSource() == this.openBtn) {
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
+            SimpleList list = fileManager.parseUsersFromFile(file);
+            Graph grafo = fileManager.parseUserNameStringsListToGraph(list);
+            grafo.print();
             this.displayFromFile(file);
         }
 

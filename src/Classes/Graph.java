@@ -1,5 +1,6 @@
 package Classes;
 
+import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 
 /**
@@ -13,7 +14,9 @@ public class Graph {
     private int numVertexs;
 
     public Graph(int size) {
-        this.numVertexs = 0;
+        
+        this.vertexsList = new SimpleList();
+        this.numVertexs = size;
         this.matrix = new int[size][size];
         // inicializar la matriz de adyacencia en 0:
         for (int i = 0; i < matrix.length; i++) {
@@ -49,6 +52,8 @@ public class Graph {
             }
             System.out.println();
         }
+        
+//        this.vertexsList.printSimpleVertexList();
     }
 
     public String printGraphString() {

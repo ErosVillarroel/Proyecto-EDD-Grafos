@@ -145,7 +145,7 @@ public class FileManager {
             filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             filechooser.setAcceptAllFileFilterUsed(false);
             // Añadir filtros
-            filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de JSON (*.json)", "json"));
+//            filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de JSON (*.json)", "json"));
             filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
             // Mostrar ventana de seleccion de archivos
             filechooser.showOpenDialog(filechooser);
@@ -168,7 +168,6 @@ public class FileManager {
             retorna los usuarios adquiridos del txt como
             una lista de objetos de la clase vertices (nodos para le grafo)  
      */
-    
 //  YA SIRVE
     @SuppressWarnings("empty-statement")
     public SimpleList parseUsersFromFile(File fileSelected) {
@@ -187,7 +186,7 @@ public class FileManager {
                 } else if (line.contains("usuarios")) {
                     ;
                 } else {
-                    
+
                     // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista                    
                     if (!line.isEmpty()) {
                         //Elimina el @ al inicio de los usuarios
@@ -195,7 +194,7 @@ public class FileManager {
 
 //                      Anade a la lista ordenado por orden de llegada                        
                         usersList.addAtTheEnd(absoluteUserName);
-                        System.out.println("Usuario anadido: " + absoluteUserName + ".");
+//                        System.out.println("Usuario anadido: " + absoluteUserName + ".");
 
                     }
                 }
@@ -203,6 +202,7 @@ public class FileManager {
             // cerrar archivo
             fileReader.close();
             bufferReader.close();
+//            usersList.printList();
             return usersList;
 
         } catch (FileNotFoundException e) {
@@ -216,13 +216,63 @@ public class FileManager {
         return null;
     }
 
+    public SimpleList parseEdgesFromFile(File inFile) {
+
+        SimpleList edgesList = new SimpleList();
+        String line;
+        try {
+            FileReader fileReader = new FileReader(inFile.toString());
+            BufferedReader bufferReader = new BufferedReader(fileReader);
+
+            while ((line = bufferReader.readLine()) != null) {
+                //Revisa si la linea tiene "Relaciones" y rompe el ciclo si lo tiene, WOIP
+                if (line.contains("relaciones")) {
+                    ;
+                    break;
+//                    revisa si la linea contiene "usuarios" y la ignora si lo tiene
+                } else if (line.contains("usuarios")) {
+                    ;
+                } else {
+
+                    // despues de buscar: si la linea NO esta en blanco se añade el usuario a la lista                    
+                    if (!line.isEmpty()) {
+                        //Elimina el @ al inicio de los usuarios
+                        String absoluteUserName = line.replace("@", "");
+
+//                      Anade a la lista ordenado por orden de llegada                        
+                        edgesList.addAtTheEnd(absoluteUserName);
+//                        System.out.println("Usuario anadido: " + absoluteUserName + ".");
+
+                    }
+                }
+            }
+            // cerrar archivo
+            fileReader.close();
+            bufferReader.close();
+//            usersList.printList();
+            return edgesList;
+
+        } catch (FileNotFoundException e) {
+            System.out.println("// El archivo no se encontró");
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+        } catch (NullPointerException e) {
+            System.out.println("No se selecciono ningun archivo");
+        }
+
+        return null;
+
+    }
+
     public Graph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
         try {
             int inListSize = userNamesList.getSize();
             Graph newGraph = new Graph(inListSize);
+
             for (int i = 0; i < inListSize; i++) {
                 try {
-                    Vertex newVertex = new Vertex(userNamesList.getValueByIndex(i).getData());
+                    Vertex newVertex = new Vertex(userNamesList.getValueByIndex(i), i);
+//                    newVertex.printVertex();
                     newGraph.addVertex(newVertex);
                 } catch (Exception e) {
                     System.out.println("Algo salio mal :(");
@@ -231,6 +281,7 @@ public class FileManager {
             return newGraph;
 
         } catch (Exception e) {
+            System.out.println("Retornando null================================");
             return null;
         }
     }

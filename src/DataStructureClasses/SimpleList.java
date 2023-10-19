@@ -4,9 +4,12 @@
  */
 package DataStructureClasses;
 
+import Classes.Vertex;
+
 /**
  *
  * @author B-St
+ * @param <T>
  */
 public class SimpleList<T> {
 
@@ -58,11 +61,24 @@ public class SimpleList<T> {
     //recorrer hasta nulo
     public void printList() {
         SimpleNode<T> pAux = this.pFirst;
+        System.out.println("Lista==============================");
         while (pAux != null) {
             System.out.println(pAux.getData());
             pAux = pAux.getpNext();
         }
+        System.out.println("===================================");
     }
+    
+    public void printVertexList() {
+        SimpleNode<Vertex> pAux = (SimpleNode<Vertex>) this.pFirst;
+        System.out.println("Lista==============================");
+        while (pAux != null) {
+            System.out.println(pAux.getData().vertexToString());
+            pAux = pAux.getpNext();
+        }
+        System.out.println("===================================");
+    }
+
 
     public String printToString() {
         if (this.isEmpty()) {
@@ -80,7 +96,7 @@ public class SimpleList<T> {
         return chain + "//";
     }
 
-    public SimpleNode<T> getValueByIndex(int index) {
+    public T getValueByIndex(int index) {
         SimpleNode<T> pAux = this.pFirst;
         int count = 0;
 
@@ -90,7 +106,7 @@ public class SimpleList<T> {
         }
 
         if (pAux != null) {
-            return pAux;
+            return pAux.getData();
         } else {
             return null;
         }
