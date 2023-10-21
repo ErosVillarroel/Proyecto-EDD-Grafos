@@ -26,10 +26,38 @@ public class Graph {
         }
     }
 
+    public Graph(SimpleList<String> usersList, SimpleList<String> relationsList) {
+
+        int size = usersList.getSize();
+
+        this.vertexsList = new SimpleList();
+        this.numVertexs = size;
+        this.matrix = new int[size][size];
+        // inicializar la matriz de adyacencia en 0:
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                this.matrix[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            try {
+                Vertex newVertex = new Vertex(usersList.getValueByIndex(i), i);
+//                    newVertex.printVertex();
+                this.addVertex(newVertex);
+            } catch (Exception e) {
+                System.out.println("Algo salio mal :(");
+            }
+        }
+
+        this.generateRelationsFromList(relationsList, usersList);
+
+    }
+
     public void addVertex(Vertex vertex) {
         if (this.vertexsList.getSize() < this.numVertexs) {
             vertexsList.addAtTheEnd(vertex);
-            vertex.setNumVertex(vertexsList.getSize()-1);
+            vertex.setNumVertex(vertexsList.getSize() - 1);
 //            System.out.println("Vertice re100 aniadido");
 //            vertex.printVertex();
         } else {
@@ -81,7 +109,7 @@ public class Graph {
     public void print() {
 
         System.out.println("Numero de vertices -> " + this.numVertexs);
-        
+
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 System.out.print(matrix[i][j] + " ");
@@ -103,7 +131,7 @@ public class Graph {
         return chain;
     }
 
-    public void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
+    private void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
 
         for (int i = 0; i < relationships.getSize(); i++) {
             String[] parts;
@@ -117,4 +145,5 @@ public class Graph {
         }
 
     }
+
 }

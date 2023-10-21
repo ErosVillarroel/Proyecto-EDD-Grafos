@@ -248,8 +248,9 @@ public class FileManager {
         
         return null;
     }
-
-    public Graph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
+    
+//    Funcion en desuso
+    private Graph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
         try {
             int inListSize = userNamesList.getSize();
             Graph newGraph = new Graph(inListSize);
@@ -270,5 +271,5 @@ public class FileManager {
             return null;
         }
     }
-
+    
  }

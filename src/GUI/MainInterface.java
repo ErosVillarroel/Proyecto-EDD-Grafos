@@ -14,7 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author bcsoporte
@@ -25,8 +24,6 @@ public class MainInterface extends javax.swing.JFrame {
     Page1 page1 = new Page1();
     Page2 page2 = new Page2();
     DibujarGrafo dibujarGrafo = new DibujarGrafo();
-        
-    
 
     /**
      * Creates new form main
@@ -36,22 +33,21 @@ public class MainInterface extends javax.swing.JFrame {
         setTitle("Pantalla Principal");
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-//        //setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        page1.setSize(410, 320);
-//        page1.setLocation(0, 0);
-//        content.removeAll();
-//        content.add(page1, BorderLayout.CENTER);
-//        content.revalidate();
-//        content.repaint();
-        
-        // Agregar el panel DibujarGrafo a la página
+//      setDefaultCloseOperation(EXIT_ON_CLOSE);
+//      page1.setSize(410, 320);
+//      page1.setLocation(0, 0);
+//      content.removeAll();
+//      content.add(page1, BorderLayout.CENTER);
+//      content.revalidate();
+//      content.repaint();
+
+//      Agregar el panel DibujarGrafo a la página
         dibujarGrafo.setSize(650, 440);
         dibujarGrafo.setLocation(0, 0);
         this.content.removeAll();
         this.content.add(dibujarGrafo, BorderLayout.CENTER);
         this.content.revalidate();
         this.content.repaint();
-        
 
         this.setVisible(true);
     }
@@ -188,21 +184,16 @@ public class MainInterface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
-        // crear objeto de tipo filechooser que contendra el archivo txt
+//      crear objeto de tipo filechooser que contendra el archivo txt
         if (evt.getSource() == this.openBtn) {
-            
+
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
 
             SimpleList usersList = fileManager.parseUsersFromFile(file);
             SimpleList relationsList = fileManager.parseRelationshipsFromFile(file);
-            
-            //Probando que la lista global esté funcionando
-//            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + usersList.printToString());
-            
-            Graph grafo = fileManager.parseUserNameStringsListToGraph(usersList);
-            grafo.generateRelationsFromList(relationsList, usersList);
-            
+
+            Graph grafo = new Graph(usersList, relationsList);
             grafo.print();
             this.displayFromFile(file);
         }
@@ -223,7 +214,7 @@ public class MainInterface extends javax.swing.JFrame {
             fileManager.saveFileToTxt(file);
             this.displayFromFile(file);
 
-            // Hacer display directo 
+//          Hacer display directo 
         }
     }//GEN-LAST:event_saveMenuBtnActionPerformed
 
