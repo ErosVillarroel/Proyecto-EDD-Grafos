@@ -1,6 +1,7 @@
 package main;
 
-import GUI.DibujarGrafo;
+import DataStructureClasses.SimpleNode;
+import DataStructureClasses.TypeStack;
 import GUI.MainInterface;
 
 public class Main {

@@ -21,6 +21,7 @@ relaciones
 @juanc, @sancho23
 @sancho23, @mazinger
 @sancho23, @terciopelo
+@terciopelo, @juanc
 @terciopelo, @newageforever
 @terciopelo, @caribedoble
 @caribedoble, @africa

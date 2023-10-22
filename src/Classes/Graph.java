@@ -1,7 +1,9 @@
 package Classes;
 
 import Classes.Vertex;
+import DataStructureClasses.BooleanNode;
 import DataStructureClasses.SimpleList;
+import DataStructureClasses.TypeStack;
 
 /**
  *
@@ -10,7 +12,7 @@ import DataStructureClasses.SimpleList;
 public class Graph {
 
     private SimpleList vertexsList;
-    private final int[][] matrix;
+    private int[][] matrix;
     private int numVertexs;
 
     public Graph(int size) {
@@ -83,7 +85,7 @@ public class Graph {
 
     public boolean checkEdge(int srcVertex, int dstVertex) {
         this.verifyVertex(srcVertex, dstVertex);
-        this.differentVertex(srcVertex, dstVertex);
+//        this.differentVertex(srcVertex, dstVertex);
         return matrix[srcVertex][dstVertex] == 1;
     }
 
@@ -146,4 +148,27 @@ public class Graph {
 
     }
 
+    public void transpose() {
+
+        int num = this.numVertexs;
+        
+        // create empty transpose matrix of size m*n
+        int[][] transposedMatrix = new int[num][num];
+
+        // traverse matrix M
+        for (int i = 0; i < num; i++) {
+            for (int j = 0; j < num; j++) {
+                transposedMatrix[j][i] = this.matrix[i][j];
+            }
+        }   
+        this.matrix = transposedMatrix; 
+    }
+
+    public int getNumVertexs() {
+        return numVertexs;
+    }
+
+    public int getVertexsListSize() {
+        return vertexsList.getSize();
+    }
 }

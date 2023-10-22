@@ -227,6 +227,14 @@ public class SimpleList<T> {
 
         }
     }
+    
+    public  void fillWith(int size, T data){
+        
+        for (int i=0; this.size < size; i++){
+            this.addAtTheEnd(data);
+        }
+  
+    }
 
     public SimpleNode<T> getpFirst() {
         return pFirst;

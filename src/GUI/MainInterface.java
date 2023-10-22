@@ -5,6 +5,7 @@
 package GUI;
 
 import Classes.Graph;
+import Classes.Kosaraju;
 import DataStructureClasses.SimpleList;
 import FileManager.FileManager;
 import java.awt.BorderLayout;
@@ -194,7 +195,7 @@ public class MainInterface extends javax.swing.JFrame {
             SimpleList relationsList = fileManager.parseRelationshipsFromFile(file);
 
             Graph grafo = new Graph(usersList, relationsList);
-            grafo.print();
+            Kosaraju kosaraju = new Kosaraju(grafo);
             this.displayFromFile(file);
         }
 
