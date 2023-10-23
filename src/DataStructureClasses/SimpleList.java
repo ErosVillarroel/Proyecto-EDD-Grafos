@@ -236,6 +236,38 @@ public class SimpleList<T> {
   
     }
 
+    public void sort(){
+        SimpleNode<Integer> pAux = (SimpleNode<Integer>) this.pFirst;
+        
+        if (pAux == null  || pAux.getpNext() == null){
+            return;
+        }
+      
+        SimpleNode pPrev = null; 
+        
+        while (pAux != null) {
+            SimpleNode<Integer> next = pAux.getpNext();
+            if (pAux.getData() <= next.getData()){
+                ;
+            } else { 
+                swapIntegers(pAux, next);
+            }
+            pPrev = pAux;
+            pAux = next;
+        }
+        
+        sort();
+        
+        
+    }
+    
+    private void swapIntegers(SimpleNode<Integer> current, SimpleNode<Integer> next){
+        int aux = current.getData();
+        current.setData((Integer) current.getpNext().getData());
+        next.setData(aux);
+        
+    }
+    
     public SimpleNode<T> getpFirst() {
         return pFirst;
     }

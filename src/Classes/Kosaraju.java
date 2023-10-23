@@ -1,7 +1,5 @@
 package Classes;
 
-import DataStructureClasses.BooleanNode;
-import DataStructureClasses.SimpleList;
 import DataStructureClasses.TypeStack;
 
 /**
