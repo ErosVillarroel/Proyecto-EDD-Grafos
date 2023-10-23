@@ -9,13 +9,13 @@ import DataStructureClasses.TypeStack;
  *
  * @author B-St
  */
-public class Graph {
+public class Graphe {
 
-    private SimpleList vertexsList;
+    private SimpleList<Vertex> vertexsList;
     private int[][] matrix;
     private int numVertexs;
 
-    public Graph(int size) {
+    public Graphe(int size) {
 
         this.vertexsList = new SimpleList();
         this.numVertexs = size;
@@ -28,7 +28,7 @@ public class Graph {
         }
     }
 
-    public Graph(SimpleList<String> usersList, SimpleList<String> relationsList) {
+    public Graphe(SimpleList<String> usersList, SimpleList<String> relationsList) {
 
         int size = usersList.getSize();
 
@@ -54,6 +54,28 @@ public class Graph {
 
         this.generateRelationsFromList(relationsList, usersList);
 
+    }
+
+    public int[][] getMatrix() {
+        return this.matrix;
+    }
+
+    public String getVertexName(int vertexIndex) {
+        if (vertexIndex >= 0 && vertexIndex < vertexsList.getSize()) {
+            return vertexsList.getValueByIndex(vertexIndex).getName();
+        } else {
+            System.out.println("Indice de vertice fuera de rango: " + vertexIndex);
+            return "";
+        }
+    }
+
+    public Vertex getVertex(int vertexIndex) {
+        if (vertexIndex >= 0 && vertexIndex < vertexsList.getSize()) {
+            return vertexsList.getValueByIndex(vertexIndex);
+        } else {
+            System.out.println("Indice de vertice fuera de rango: " + vertexIndex);
+            return null; // o puedes lanzar una excepción aquí
+        }
     }
 
     public void addVertex(Vertex vertex) {
@@ -151,7 +173,7 @@ public class Graph {
     public void transpose() {
 
         int num = this.numVertexs;
-        
+
         // create empty transpose matrix of size m*n
         int[][] transposedMatrix = new int[num][num];
 
@@ -160,8 +182,8 @@ public class Graph {
             for (int j = 0; j < num; j++) {
                 transposedMatrix[j][i] = this.matrix[i][j];
             }
-        }   
-        this.matrix = transposedMatrix; 
+        }
+        this.matrix = transposedMatrix;
     }
 
     public int getNumVertexs() {

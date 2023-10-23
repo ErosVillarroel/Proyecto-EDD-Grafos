@@ -11,9 +11,9 @@ import DataStructureClasses.TypeStack;
 public class Kosaraju {
 
     private static boolean[] visited;
-    private final Graph graph;
+    private final Graphe graph;
 
-    public Kosaraju(Graph graph) {
+    public Kosaraju(Graphe graph) {
         
         System.out.println("KOSARAJU TESTTTTTT-------------------------------");
         
@@ -21,7 +21,7 @@ public class Kosaraju {
         this.findStronglyConnectedComponents(graph);
     }
 
-    private void findStronglyConnectedComponents(Graph graph) {
+    private void findStronglyConnectedComponents(Graphe graph) {
 
         int numberOfVertexs = graph.getNumVertexs();
 

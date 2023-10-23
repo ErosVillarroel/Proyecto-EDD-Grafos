@@ -7,8 +7,8 @@ package Classes;
 public class Vertex {
     private String name;
     private int vertexNum;
-    
-    public Vertex(String name){
+
+    public Vertex(String name) {
         this.name = name;
         this.vertexNum = -1;
     }
@@ -17,32 +17,30 @@ public class Vertex {
         this.name = name;
         this.vertexNum = vertexNum;
     }
-    
+
     // saber si dos vertices son iguales
-    public boolean isEqualTo(Vertex vertice){
+    public boolean isEqualTo(Vertex vertice) {
         return this.name.equals(vertice.getName());
     }
-    
+
     // establecer el numero de vertices
-    public void assignVertexNum(int num){
+    public void assignVertexNum(int num) {
         setNumVertex(num);
     }
-    
+
     // caracteristicas del vertice
-
-
-    public String vertexToString(){
+    public String vertexToString() {
         return this.name + " (" + this.vertexNum + ")";
     }
 
-    public void printVertex(){
+    public void printVertex() {
         System.out.print("Vertice -> ");
-        System.out.println(this.name +"(" + this.vertexNum + ")");
+        System.out.println(this.name + "(" + this.vertexNum + ")");
     }
-    
+
     /**
-     * 
-     * 
+     *
+     *
      * @return the name
      */
     public String getName() {
@@ -69,6 +67,4 @@ public class Vertex {
     public void setNumVertex(int numVertex) {
         this.vertexNum = numVertex;
     }
-    
-    
 }
