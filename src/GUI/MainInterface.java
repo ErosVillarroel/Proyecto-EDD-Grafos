@@ -4,11 +4,11 @@
  */
 package GUI;
 
-import Classes.Graph;
+import Classes.Graphe;
 import Classes.Kosaraju;
+import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import FileManager.FileManager;
-import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -22,15 +22,21 @@ import javax.swing.JOptionPane;
 public class MainInterface extends javax.swing.JFrame {
 
     // definir las listas globales con los datos necesario de los vertices
-    Page1 page1 = new Page1();
-    Page2 page2 = new Page2();
-    DibujarGrafo dibujarGrafo = new DibujarGrafo();
+    private SimpleList<String> usersList = new SimpleList();
+    private SimpleList<String> relationsList = new SimpleList();
+    private Graphe grafo;
+    //Page1 page1 = new Page1();
+    //Page2 page2 = new Page2();
+    private GraphVisualization graphVisualization;
 
+//    DibujarGrafo dibujarGrafo = new DibujarGrafo();
+//    DrawGraph puebaDraw = new DrawGraph();
     /**
      * Creates new form main
      */
     public MainInterface() {
         initComponents();
+        System.setProperty("org.graphstream.ui", "swing");
         setTitle("Pantalla Principal");
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -41,43 +47,39 @@ public class MainInterface extends javax.swing.JFrame {
 //      content.add(page1, BorderLayout.CENTER);
 //      content.revalidate();
 //      content.repaint();
+        // Inicializar GraphVisualization
+        graphVisualization = new GraphVisualization();
 
-//      Agregar el panel DibujarGrafo a la página
-        dibujarGrafo.setSize(650, 440);
-        dibujarGrafo.setLocation(0, 0);
-        this.content.removeAll();
-        this.content.add(dibujarGrafo, BorderLayout.CENTER);
-        this.content.revalidate();
-        this.content.repaint();
-
+        // Llamar al método visualizeGraph con tu grafo y el panel de contenido
+        //Graphe grafo = obtenerTuGrafo(); // Reemplaza esto con tu lógica para obtener el grafo
         this.setVisible(true);
+
     }
 
-    private void displayFromFile(File file) {
-        String line;
-
-        try {
-            this.graphComponents.setText("");
-            FileReader filereader = new FileReader(file);
-            BufferedReader reader = new BufferedReader(filereader);
-
-            while ((line = reader.readLine()) != null) {
-                // ejemplo: mostrar informacion en un text area
-                this.graphComponents.append(line);
-                this.graphComponents.append("\n");
-                line = reader.readLine();
-            }
-
-            reader.close();
-            JOptionPane.showMessageDialog(null, "El archivo ha sido cargado exitosamente!");
-
-        } catch (IOException e) {
-            e.printStackTrace(System.out);
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
-        }
-    }
-
+//    private void displayFromFile(File file) {
+//        String line;
+//
+//        try {
+//            this.graphComponents.setText("");
+//            FileReader filereader = new FileReader(file);
+//            BufferedReader reader = new BufferedReader(filereader);
+//
+//            while ((line = reader.readLine()) != null) {
+//                // ejemplo: mostrar informacion en un text area
+//                this.graphComponents.append(line);
+//                this.graphComponents.append("\n");
+//                line = reader.readLine();
+//            }
+//
+//            reader.close();
+//            JOptionPane.showMessageDialog(null, "El archivo ha sido cargado exitosamente!");
+//
+//        } catch (IOException e) {
+//            e.printStackTrace(System.out);
+//        } catch (NullPointerException e) {
+//            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
+//        }
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,52 +93,130 @@ public class MainInterface extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         bg = new javax.swing.JPanel();
         content = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        graphComponents = new javax.swing.JTextArea();
-        loadTestBtn = new javax.swing.JButton();
+        bg2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        vertexButn = new javax.swing.JButton();
+        edgesBtn = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        checkKosaraju = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
         menubar = new javax.swing.JMenuBar();
         menu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
-        modifyButton = new javax.swing.JMenuItem();
-        saveMenuBtn = new javax.swing.JMenuItem();
+        saveBtn = new javax.swing.JMenuItem();
+        newProjectBtn = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitBtn = new javax.swing.JMenuItem();
+        menu2 = new javax.swing.JMenu();
+        aboutButn = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setBackground(new java.awt.Color(255, 133, 83));
+        bg.setBorder(new javax.swing.border.MatteBorder(null));
+        bg.setForeground(new java.awt.Color(102, 102, 255));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 830, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGap(0, 460, Short.MAX_VALUE)
         );
 
-        bg.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 650, 440));
+        bg.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 830, 460));
 
-        graphComponents.setColumns(20);
-        graphComponents.setRows(5);
-        jScrollPane1.setViewportView(graphComponents);
+        bg2.setBackground(new java.awt.Color(0, 0, 0));
+        bg2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 240, 310));
+        jLabel1.setFont(new java.awt.Font("Roboto Black", 0, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Social Network");
+        bg2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, -1, -1));
 
-        loadTestBtn.setText("load");
-        loadTestBtn.addActionListener(new java.awt.event.ActionListener() {
+        vertexButn.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        vertexButn.setText("Vertices");
+        vertexButn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        vertexButn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadTestBtnActionPerformed(evt);
+                vertexButnActionPerformed(evt);
             }
         });
-        bg.add(loadTestBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
+        bg2.add(vertexButn, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 640, 110, 60));
 
-        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 680));
+        edgesBtn.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        edgesBtn.setText("Aristas");
+        edgesBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        edgesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edgesBtnActionPerformed(evt);
+            }
+        });
+        bg2.add(edgesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 640, 110, 60));
+
+        jLabel5.setFont(new java.awt.Font("Roboto Black", 2, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Añadir usuarios");
+        bg2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 580, 180, -1));
+
+        jLabel8.setFont(new java.awt.Font("Roboto Black", 2, 36)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Componentes");
+        bg2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 540, 230, 50));
+
+        jLabel7.setFont(new java.awt.Font("Roboto Black", 2, 36)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Comprobar");
+        bg2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 500, 190, -1));
+
+        checkKosaraju.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        checkKosaraju.setText("Verificar conexiones");
+        checkKosaraju.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bg2.add(checkKosaraju, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 610, 180, 90));
+
+        bg.add(bg2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 830, 750));
+
+        jPanel8.setBackground(new java.awt.Color(255, 153, 51));
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 450, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 380, Short.MAX_VALUE)
+        );
+
+        bg.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, -1, 380));
+
+        jPanel7.setBackground(new java.awt.Color(255, 102, 0));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 450, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 180, Short.MAX_VALUE)
+        );
+
+        bg.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 450, 180));
+
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 750));
 
         menu1.setText("Archivo");
         menu1.addActionListener(new java.awt.event.ActionListener() {
@@ -153,21 +233,22 @@ public class MainInterface extends javax.swing.JFrame {
         });
         menu1.add(openBtn);
 
-        modifyButton.setText("Modify");
-        modifyButton.addActionListener(new java.awt.event.ActionListener() {
+        saveBtn.setText("Guardar");
+        saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyButtonActionPerformed(evt);
+                saveBtnActionPerformed(evt);
             }
         });
-        menu1.add(modifyButton);
+        menu1.add(saveBtn);
 
-        saveMenuBtn.setText("Guardar");
-        saveMenuBtn.addActionListener(new java.awt.event.ActionListener() {
+        newProjectBtn.setText("Nuevo Proyecto");
+        newProjectBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveMenuBtnActionPerformed(evt);
+                newProjectBtnActionPerformed(evt);
             }
         });
-        menu1.add(saveMenuBtn);
+        menu1.add(newProjectBtn);
+        menu1.add(jSeparator1);
 
         exitBtn.setText("Salir");
         exitBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -178,6 +259,12 @@ public class MainInterface extends javax.swing.JFrame {
         menu1.add(exitBtn);
 
         menubar.add(menu1);
+
+        menu2.setText("Editor");
+        menubar.add(menu2);
+
+        aboutButn.setText("Acerca de...");
+        menubar.add(aboutButn);
 
         setJMenuBar(menubar);
 
@@ -191,12 +278,20 @@ public class MainInterface extends javax.swing.JFrame {
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
 
-            SimpleList usersList = fileManager.parseUsersFromFile(file);
-            SimpleList relationsList = fileManager.parseRelationshipsFromFile(file);
+            usersList = fileManager.parseUsersFromFile(file);
+            relationsList = fileManager.parseRelationshipsFromFile(file);
 
-            Graph grafo = new Graph(usersList, relationsList);
+            Graphe grafo = new Graphe(usersList, relationsList);
             Kosaraju kosaraju = new Kosaraju(grafo);
-            this.displayFromFile(file);
+            //this.displayFromFile(file);
+
+            // Crear instancia de GraphVisualization
+            GraphVisualization graphVisual = new GraphVisualization();
+
+            // Visualizar el grafo en el panel
+            graphVisual.visualizeGraph(grafo, this.content);
+            
+
         }
 
     }//GEN-LAST:event_openBtnActionPerformed
@@ -208,24 +303,24 @@ public class MainInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_exitBtnActionPerformed
 
 
-    private void saveMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuBtnActionPerformed
-        if (evt.getSource() == this.saveMenuBtn) {
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        if (evt.getSource() == this.saveBtn) {
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
             fileManager.saveFileToTxt(file);
-            this.displayFromFile(file);
+            //this.displayFromFile(file);
 
 //          Hacer display directo 
         }
-    }//GEN-LAST:event_saveMenuBtnActionPerformed
+    }//GEN-LAST:event_saveBtnActionPerformed
 
     private void menu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menu1ActionPerformed
 
-    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
+    private void newProjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectBtnActionPerformed
         // TODO add your handling code here:
-        if (evt.getSource() == this.modifyButton) {
+        if (evt.getSource() == this.newProjectBtn) {
 //            FileManager fileManager = new FileManager();
 //            File file_prueba = fileManager.selectFile();
 //            //fileManager.parseUsersFromFile(file_prueba, ignore);
@@ -234,19 +329,45 @@ public class MainInterface extends javax.swing.JFrame {
 //            //Probando que la lista global esté funcionando
 //            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());
         }
-    }//GEN-LAST:event_modifyButtonActionPerformed
+    }//GEN-LAST:event_newProjectBtnActionPerformed
 
-    private void loadTestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTestBtnActionPerformed
-        // TODO add your handling code here
-        if (evt.getSource() == this.loadTestBtn) {
-            String textAreaInput = this.graphComponents.getText();
-//            System.out.println(textAreaInput);
+    private void vertexButnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexButnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.vertexButn) {
+            String userName = JOptionPane.showInputDialog(null, "Por favor ingrese el nombre del usuario: ").toLowerCase();
+            System.out.println("User retrieved: " + userName);
+            this.usersList.addAtTheEnd(userName);
+            usersList.printList();
 
-            FileManager fileManager = new FileManager();
-            fileManager.saveStringToTxt(textAreaInput);
+            grafo = new Graphe(this.usersList.getSize());
+            
+            for (int i = 0; i < this.usersList.getSize(); i++) {
+                Vertex newVertex = new Vertex(this.usersList.getValueByIndex(i), i);
+                newVertex.printVertex();
+                grafo.addVertex(newVertex);
+            }
+
+            grafo.print();
+
+
+            // Crear instancia de GraphVisualization
+            GraphVisualization graphVisual = new GraphVisualization();
+
+            // Visualizar el grafo en el panel
+            graphVisual.visualizeGraph(grafo, this.content);
+
         }
+    }//GEN-LAST:event_vertexButnActionPerformed
 
-    }//GEN-LAST:event_loadTestBtnActionPerformed
+    private void edgesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edgesBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.edgesBtn) {
+            String source = JOptionPane.showInputDialog(null, "Por favor ingrese el origen de la conexion: ").toLowerCase();
+            String destiny = JOptionPane.showInputDialog(null, "Por favor ingrese el origen de la conexion: ").toLowerCase();
+            System.out.println("retrieved: " + source + " " + destiny);
+            
+        }
+    }//GEN-LAST:event_edgesBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,17 +406,27 @@ public class MainInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu aboutButn;
     private javax.swing.JPanel bg;
+    private javax.swing.JPanel bg2;
+    private javax.swing.JButton checkKosaraju;
     private javax.swing.JPanel content;
+    private javax.swing.JButton edgesBtn;
     private javax.swing.JMenuItem exitBtn;
-    private javax.swing.JTextArea graphComponents;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton loadTestBtn;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenu menu1;
+    private javax.swing.JMenu menu2;
     private javax.swing.JMenuBar menubar;
-    private javax.swing.JMenuItem modifyButton;
+    private javax.swing.JMenuItem newProjectBtn;
     private javax.swing.JMenuItem openBtn;
-    private javax.swing.JMenuItem saveMenuBtn;
+    private javax.swing.JMenuItem saveBtn;
+    private javax.swing.JButton vertexButn;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,7 +9,29 @@
 <!-- in the project's Project Properties dialog box.-->
 <project name="Proyecto-EDD-Grafos" default="default" basedir=".">
     <description>Builds, tests, and runs the project Proyecto-EDD-Grafos.</description>
+    
+    <!-- Importar el archivo build-impl.xml -->
     <import file="nbproject/build-impl.xml"/>
+
+    <!-- Definir el classpath -->
+    <path id="classpath">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+			<!-- Agrega el JAR de AbsoluteLayout -->
+			<include name="org-netbeans-layouts*.jar"/>
+		</fileset>
+	</path>
+
+
+    <!-- Definir el target de compilación -->
+    <target name="compile">
+        <javac srcdir="src" destdir="build" classpathref="classpath"/>
+    </target>
+
+    <!-- Definir el target de ejecución -->
+    <target name="run" depends="compile">
+        <java classname="main.Main" classpathref="classpath"/>
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
