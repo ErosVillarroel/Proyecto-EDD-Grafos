@@ -6,14 +6,14 @@ import java.awt.BorderLayout;
  *
  * @author bcsoporte
  */
-public class Page1 extends javax.swing.JPanel {
+public class userOptions extends javax.swing.JPanel {
 
     /**
      * Creates new form Page1
      */
     
     
-    public Page1() {
+    public userOptions() {
         initComponents();
         
     }

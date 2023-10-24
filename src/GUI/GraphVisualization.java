@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swing_viewer.ViewPanel;
-import org.graphstream.ui.swing_viewer.*;
 import org.graphstream.ui.view.Viewer;
 
 /**
@@ -63,7 +62,7 @@ public class GraphVisualization {
 
         // Aplicar la configuración para ocultar la ventana emergente de GraphStream
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-
+        
         // Obtener el panel de vista y agregarlo al panel proporcionado
         ViewPanel view = (ViewPanel) viewer.getDefaultView();
         graphPanel.setLayout(new BorderLayout());

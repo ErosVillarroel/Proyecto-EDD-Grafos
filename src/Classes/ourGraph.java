@@ -2,6 +2,7 @@ package Classes;
 
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
+import DataStructureClasses.SimpleNode;
 
 /**
  *
@@ -182,6 +183,15 @@ public class ourGraph {
             }
         }
         this.matrix = transposedMatrix;
+    }
+
+    public ourGraph addUser(String userName, SimpleList<String> relations) {
+
+        Vertex newVertex = new Vertex(userName, this.getVertexsListSize()+1);
+        this.vertexsList.addAtTheEnd(newVertex);
+
+        
+        
     }
 
     public int getNumVertexs() {

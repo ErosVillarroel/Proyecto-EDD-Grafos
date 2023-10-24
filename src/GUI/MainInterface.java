@@ -80,8 +80,6 @@ public class MainInterface extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
 //        }
 //    }
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,13 +96,15 @@ public class MainInterface extends javax.swing.JFrame {
         bg2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         vertexButn = new javax.swing.JButton();
-        edgesBtn = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         checkKosaraju = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        graphTextarea = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
+        cargarButton = new javax.swing.JButton();
         menubar = new javax.swing.JMenuBar();
         menu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
@@ -154,51 +154,56 @@ public class MainInterface extends javax.swing.JFrame {
                 vertexButnActionPerformed(evt);
             }
         });
-        bg2.add(vertexButn, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 640, 110, 60));
-
-        edgesBtn.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        edgesBtn.setText("Aristas");
-        edgesBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        edgesBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edgesBtnActionPerformed(evt);
-            }
-        });
-        bg2.add(edgesBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 640, 110, 60));
+        bg2.add(vertexButn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 610, 170, 60));
 
         jLabel5.setFont(new java.awt.Font("Roboto Black", 2, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Añadir usuarios");
-        bg2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 580, 180, -1));
-
-        jLabel8.setFont(new java.awt.Font("Roboto Black", 2, 36)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Componentes");
-        bg2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 540, 230, 50));
-
-        jLabel7.setFont(new java.awt.Font("Roboto Black", 2, 36)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Comprobar");
-        bg2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 500, 190, -1));
+        bg2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 570, 180, -1));
 
         checkKosaraju.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         checkKosaraju.setText("Verificar conexiones");
         checkKosaraju.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        bg2.add(checkKosaraju, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 610, 180, 90));
+        checkKosaraju.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkKosarajuActionPerformed(evt);
+            }
+        });
+        bg2.add(checkKosaraju, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 580, 180, 90));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel2.setText("Elementos");
+        bg2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 490, 180, 40));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel3.setText("Conexos");
+        bg2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 530, 210, 40));
 
         bg.add(bg2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 830, 750));
 
         jPanel8.setBackground(new java.awt.Color(255, 153, 51));
 
+        graphTextarea.setColumns(20);
+        graphTextarea.setRows(5);
+        jScrollPane1.setViewportView(graphTextarea);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         bg.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, -1, 380));
@@ -217,6 +222,9 @@ public class MainInterface extends javax.swing.JFrame {
         );
 
         bg.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 450, 180));
+
+        cargarButton.setText("Cargar");
+        bg.add(cargarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 750));
 
@@ -285,14 +293,13 @@ public class MainInterface extends javax.swing.JFrame {
 
             ourGraph grafo = new ourGraph(usersList, relationsList);
             Kosaraju kosaraju = new Kosaraju(grafo);
-            //this.displayFromFile(file);
 
+            //this.displayFromFile(file);
             // Crear instancia de GraphVisualization
             GraphVisualization graphVisual = new GraphVisualization();
 
             // Visualizar el grafo en el panel
             graphVisual.visualizeGraph(grafo, this.content);
-            
 
         }
 
@@ -342,7 +349,7 @@ public class MainInterface extends javax.swing.JFrame {
             usersList.printList();
 
             grafo = new ourGraph(this.usersList.getSize());
-            
+
             for (int i = 0; i < this.usersList.getSize(); i++) {
                 Vertex newVertex = new Vertex(this.usersList.getValueByIndex(i), i);
                 newVertex.printVertex();
@@ -350,7 +357,6 @@ public class MainInterface extends javax.swing.JFrame {
             }
 
             grafo.print();
-
 
             // Crear instancia de GraphVisualization
             GraphVisualization graphVisual = new GraphVisualization();
@@ -361,15 +367,9 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_vertexButnActionPerformed
 
-    private void edgesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edgesBtnActionPerformed
+    private void checkKosarajuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkKosarajuActionPerformed
         // TODO add your handling code here:
-        if (evt.getSource() == this.edgesBtn) {
-            String source = JOptionPane.showInputDialog(null, "Por favor ingrese el origen de la conexion: ").toLowerCase();
-            String destiny = JOptionPane.showInputDialog(null, "Por favor ingrese el origen de la conexion: ").toLowerCase();
-            System.out.println("retrieved: " + source + " " + destiny);
-            
-        }
-    }//GEN-LAST:event_edgesBtnActionPerformed
+    }//GEN-LAST:event_checkKosarajuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,17 +411,19 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JMenu aboutButn;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel bg2;
+    private javax.swing.JButton cargarButton;
     private javax.swing.JButton checkKosaraju;
     private javax.swing.JPanel content;
-    private javax.swing.JButton edgesBtn;
     private javax.swing.JMenuItem exitBtn;
+    private javax.swing.JTextArea graphTextarea;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenu menu1;
     private javax.swing.JMenu menu2;
