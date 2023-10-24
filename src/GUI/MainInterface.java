@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Classes.ourGraph;
+import Classes.OurGraph;
 import Classes.Kosaraju;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
@@ -24,7 +24,7 @@ public class MainInterface extends javax.swing.JFrame {
     // definir las listas globales con los datos necesario de los vertices
     private SimpleList<String> usersList = new SimpleList();
     private SimpleList<String> relationsList = new SimpleList();
-    private ourGraph grafo;
+    private OurGraph grafo;
     //Page1 page1 = new Page1();
     //Page2 page2 = new Page2();
     private GraphVisualization graphVisualization;
@@ -291,15 +291,18 @@ public class MainInterface extends javax.swing.JFrame {
             usersList = fileManager.parseUsersFromFile(file);
             relationsList = fileManager.parseRelationshipsFromFile(file);
 
-            ourGraph grafo = new ourGraph(usersList, relationsList);
+            OurGraph grafo = new OurGraph(usersList, relationsList);
             Kosaraju kosaraju = new Kosaraju(grafo);
 
+            
+            grafo.print(); 
+            
             //this.displayFromFile(file);
             // Crear instancia de GraphVisualization
-            //GraphVisualization graphVisual = new GraphVisualization();
+            GraphVisualization graphVisual = new GraphVisualization();
 
             // Visualizar el grafo en el panel
-            //graphVisual.visualizeGraph(grafo, this.content);
+            graphVisual.visualizeGraph(grafo, this.content);
             //graphVisual.visualizeGraph(grafo, this.content);
 
 
@@ -350,7 +353,7 @@ public class MainInterface extends javax.swing.JFrame {
             this.usersList.addAtTheEnd(userName);
             usersList.printList();
 
-            grafo = new ourGraph(this.usersList.getSize());
+            grafo = new OurGraph(this.usersList.getSize());
 
             for (int i = 0; i < this.usersList.getSize(); i++) {
                 Vertex newVertex = new Vertex(this.usersList.getValueByIndex(i), i);

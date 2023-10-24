@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Classes.ourGraph;
+import Classes.OurGraph;
 import java.awt.BorderLayout;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -28,7 +28,7 @@ public class GraphVisualization {
         this.graph = new SingleGraph("Grafo");
     }
 
-    public void visualizeGraph(ourGraph grafo, JPanel graphPanel) {
+    public void visualizeGraph(OurGraph grafo, JPanel graphPanel) {
         // Limpiar el grafo existente
         graph.clear();
 

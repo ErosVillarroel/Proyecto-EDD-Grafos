@@ -9,9 +9,9 @@ import DataStructureClasses.TypeStack;
 public class Kosaraju {
 
     private static boolean[] visited;
-    private final ourGraph graph;
+    private final OurGraph graph;
 
-    public Kosaraju(ourGraph graph) {
+    public Kosaraju(OurGraph graph) {
         
         System.out.println("KOSARAJU TESTTTTTT-------------------------------");
         
@@ -19,13 +19,12 @@ public class Kosaraju {
         this.findStronglyConnectedComponents(graph);
     }
 
-    private void findStronglyConnectedComponents(ourGraph graph) {
+    private void findStronglyConnectedComponents(OurGraph graph) {
 
         int numberOfVertexs = graph.getNumVertexs();
 
         this.visited = new boolean[numberOfVertexs];
         TypeStack<Integer> stack = new TypeStack();
-//        SimpleList<BooleanNode> visited = new SimpleList();
 
         //Primera pasada
         for (int i = 0; i < numberOfVertexs; i++) {

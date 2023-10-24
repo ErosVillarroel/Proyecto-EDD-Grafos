@@ -153,6 +153,22 @@ public class SimpleList<T> {
         return -1; // Si no se encuentra el valor, devolvemos -1
     }
 
+    public int getIndexOfVertexByName(String name) {
+
+        Vertex auxVertex = new Vertex(name, -1);
+        SimpleNode<Vertex> pAux = (SimpleNode<Vertex>) this.pFirst;
+        int index = 0;
+
+        while (pAux != null) {
+            if (pAux.getData().isEqualTo(auxVertex)) {
+                return index;
+            }
+            pAux = pAux.getpNext();
+            index++;
+        }
+        return -1;
+    }
+
     public void deleteFirst() {
         if (this.isEmpty()) {
             System.out.println("Lista vacia.");
@@ -207,7 +223,7 @@ public class SimpleList<T> {
     }
 
     public void deleteAtIndex(int index) {
-        
+
         if (!isValidIndex(index)) {
             System.out.println("No existe el indice");
         } else {
@@ -237,38 +253,37 @@ public class SimpleList<T> {
 
     }
 
-    public void sort(){
+    public void sort() {
         SimpleNode<Integer> pAux = (SimpleNode<Integer>) this.pFirst;
-        
-        if (pAux == null  || pAux.getpNext() == null){
+
+        if (pAux == null || pAux.getpNext() == null) {
             return;
         }
-      
-        SimpleNode pPrev = null; 
-        
+
+        SimpleNode pPrev = null;
+
         while (pAux != null) {
             SimpleNode<Integer> next = pAux.getpNext();
-            if (pAux.getData() <= next.getData()){
+            if (pAux.getData() <= next.getData()) {
                 ;
-            } else { 
+            } else {
                 swapIntegers(pAux, next);
             }
             pPrev = pAux;
             pAux = next;
         }
-        
+
         sort();
-        
-        
+
     }
-    
-    private void swapIntegers(SimpleNode<Integer> current, SimpleNode<Integer> next){
+
+    private void swapIntegers(SimpleNode<Integer> current, SimpleNode<Integer> next) {
         int aux = current.getData();
         current.setData((Integer) current.getpNext().getData());
         next.setData(aux);
-        
+
     }
-    
+
     public SimpleNode<T> getpFirst() {
         return pFirst;
     }

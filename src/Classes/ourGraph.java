@@ -8,13 +8,13 @@ import DataStructureClasses.SimpleNode;
  *
  * @author B-St
  */
-public class ourGraph {
+public class OurGraph {
 
     private SimpleList<Vertex> vertexsList;
     private int[][] matrix;
     private int numVertexs;
 
-    public ourGraph(int size) {
+    public OurGraph(int size) {
 
         this.vertexsList = new SimpleList();
         this.numVertexs = size;
@@ -27,7 +27,7 @@ public class ourGraph {
         }
     }
 
-    public ourGraph(SimpleList<String> usersList, SimpleList<String> relationsList) {
+    public OurGraph(SimpleList<String> usersList, SimpleList<String> relationsList) {
 
         int size = usersList.getSize();
 
@@ -185,12 +185,33 @@ public class ourGraph {
         this.matrix = transposedMatrix;
     }
 
-    public ourGraph addUser(String userName, SimpleList<String> relations) {
+    public void addUser(String userName, SimpleList<String> relations) {
 
-        Vertex newVertex = new Vertex(userName, this.getVertexsListSize() + 1);
+        int vertexsNum = this.getVertexsListSize();
+        Vertex newVertex = new Vertex(userName, vertexsNum);
         this.vertexsList.addAtTheEnd(newVertex);
-        return null;
 
+        //Inicializar la nueva matriz con el tamano de la matriz original+1
+        int[][] newMatrix = new int[vertexsNum + 1][vertexsNum + 1];
+
+        //Copiar la matriz anterior
+        for (int i = 0; i < vertexsNum; i++) {
+            for (int j = 0; j < vertexsNum; j++) {
+                if (this.checkEdge(i, j)) {
+                    newMatrix[i][j] = 1;
+                }
+            }
+        }
+
+        int newVertexNum = newVertex.getNumVertex();
+        //Complejidad O3 :((((
+        //Parsear de nombres de usuario a ints
+        for (int i = 0; i < relations.getSize(); i++) {
+            int vertexInt = this.vertexsList.getIndexOfVertexByName(relations.getValueByIndex(i));
+            newMatrix[newVertexNum][vertexInt] = 1;
+        }
+        
+        this.matrix = newMatrix;
     }
 
     /*

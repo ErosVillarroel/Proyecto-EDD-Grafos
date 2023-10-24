@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Classes.ourGraph;
+import Classes.OurGraph;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,7 +24,7 @@ import javax.swing.JPanel;
  */
 public class DrawGraph extends JPanel implements MouseListener, MouseMotionListener {
 
-    private ourGraph graph;
+    private OurGraph graph;
     private int selectedVertexIndex = -1; // Índice del vértice seleccionado
 
 
@@ -35,13 +35,13 @@ public class DrawGraph extends JPanel implements MouseListener, MouseMotionListe
     }
 
     // Constructor que toma como parametro un Grafo
-    public DrawGraph(ourGraph graph) {
+    public DrawGraph(OurGraph graph) {
         this.graph = graph;
         addMouseListener(this);
         addMouseMotionListener(this);
     }
 
-    public void setGrafo(ourGraph graph) {
+    public void setGrafo(OurGraph graph) {
         this.graph = graph;
         repaint(); // Volver a pintar cuando se actualice el grafo
     }

@@ -5,7 +5,7 @@ import GUI.MainInterface;
 public class Main {
 
     public static void main(String[] args) {
-        
+
         /*
 
         -Disenar interfaz grafica:
@@ -19,13 +19,10 @@ public class Main {
             -
         
         
-        */
-        
-        
-        //Tipo de lista con boolean adentro no permite la comparacion. Librerias mal trabajadas 
-        
+         */
+         
         MainInterface interfaz1 = new MainInterface();
-        
+
     }
-    
+
 }
