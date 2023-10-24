@@ -21,6 +21,9 @@ public class Main {
         
         */
         
+        
+        //Tipo de lista con boolean adentro no permite la comparacion. Librerias mal trabajadas 
+        
         MainInterface interfaz1 = new MainInterface();
         
     }

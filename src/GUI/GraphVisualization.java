@@ -4,20 +4,17 @@
  */
 package GUI;
 
-import Classes.Graphe;
-import Classes.Vertex;
+import Classes.ourGraph;
 import java.awt.BorderLayout;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
+
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swing_viewer.ViewPanel;
-
 import org.graphstream.ui.swing_viewer.*;
-import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  *
@@ -32,7 +29,7 @@ public class GraphVisualization {
         this.graph = new SingleGraph("Grafo");
     }
 
-    public void visualizeGraph(Graphe grafo, JPanel graphPanel) {
+    public void visualizeGraph(ourGraph grafo, JPanel graphPanel) {
         // Limpiar el grafo existente
         graph.clear();
 
