@@ -296,10 +296,12 @@ public class MainInterface extends javax.swing.JFrame {
 
             //this.displayFromFile(file);
             // Crear instancia de GraphVisualization
-            GraphVisualization graphVisual = new GraphVisualization();
+            //GraphVisualization graphVisual = new GraphVisualization();
 
             // Visualizar el grafo en el panel
-            graphVisual.visualizeGraph(grafo, this.content);
+            //graphVisual.visualizeGraph(grafo, this.content);
+            //graphVisual.visualizeGraph(grafo, this.content);
+
 
         }
 

@@ -187,11 +187,87 @@ public class ourGraph {
 
     public ourGraph addUser(String userName, SimpleList<String> relations) {
 
-        Vertex newVertex = new Vertex(userName, this.getVertexsListSize()+1);
+        Vertex newVertex = new Vertex(userName, this.getVertexsListSize() + 1);
         this.vertexsList.addAtTheEnd(newVertex);
+        return null;
 
-        
-        
+    }
+
+    /*
+        - PRUEBA Eliminar un vertice del grafo
+     */
+    public void deleteVertex(int vertexIndex) {
+        if (vertexIndex < 0 || vertexIndex >= this.numVertexs) {
+            System.out.println("El vertice esta fuera de rango o no existe en: " + vertexIndex);
+            return;
+        }
+        // Eliminar aristas conectadas al vertice y luego eliminar el vertice de la lista
+        for (int i = 0; i < this.numVertexs; i++) {
+            this.matrix[vertexIndex][i] = 0;
+            this.matrix[i][vertexIndex] = 0;
+        }
+
+        this.vertexsList.deleteAtIndex(vertexIndex);
+        this.numVertexs--;
+
+        // Crear la nueva matriz actualizada
+        int[][] newMatrix = new int[this.numVertexs][this.numVertexs];
+
+        int newI = 0;
+
+        for (int i = 0; i < this.numVertexs; i++) {
+            if (i == vertexIndex) {
+                continue; // Saltar la fila correspondiente al vértice eliminado
+            }
+
+            int newJ = 0;
+            for (int j = 0; j < this.numVertexs; j++) {
+                if (j != vertexIndex) {
+                    newMatrix[newI][newJ] = this.matrix[i][j];
+                    newJ++;
+                }
+            }
+
+            newI++;
+        }
+
+        this.matrix = newMatrix;
+        this.updateVertexIndices();
+
+    }
+
+    // para actualizar los indices de los vertices restantes en la lista
+    private void updateVertexIndices() {
+        for (int i = 0; i < this.numVertexs; i++) {
+            Vertex currentVertex = vertexsList.getValueByIndex(i);
+            if (currentVertex != null) {
+                currentVertex.setNumVertex(i);
+            }
+        }
+    }
+
+    public void modifyVertexName(int vertexIndex, String newName) {
+        if (!isValidVertexIndex(vertexIndex)) {
+            System.out.println("Error indice no valido");
+            return;
+        }
+
+        Vertex vertex = getVertexByIndex(vertexIndex);
+        if (vertex != null) {
+            vertex.setName(newName);
+        } else {
+            System.out.println("No se encontro el vertice de la posicion: " + vertexIndex);
+        }
+    }
+
+    // Verificar si el vertice de la lista es valido
+    private boolean isValidVertexIndex(int vertexIndex) {
+        return vertexsList.isValidIndex(vertexIndex);
+    }
+
+    // obtener un vertice por indice
+    private Vertex getVertexByIndex(int vertexIndex) {
+        return vertexsList.getValueByIndex(vertexIndex);
     }
 
     public int getNumVertexs() {
