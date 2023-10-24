@@ -1,7 +1,5 @@
 package Classes;
 
-import DataStructureClasses.BooleanNode;
-import DataStructureClasses.SimpleList;
 import DataStructureClasses.TypeStack;
 
 /**
@@ -11,9 +9,9 @@ import DataStructureClasses.TypeStack;
 public class Kosaraju {
 
     private static boolean[] visited;
-    private final Graphe graph;
+    private final ourGraph graph;
 
-    public Kosaraju(Graphe graph) {
+    public Kosaraju(ourGraph graph) {
         
         System.out.println("KOSARAJU TESTTTTTT-------------------------------");
         
@@ -21,7 +19,7 @@ public class Kosaraju {
         this.findStronglyConnectedComponents(graph);
     }
 
-    private void findStronglyConnectedComponents(Graphe graph) {
+    private void findStronglyConnectedComponents(ourGraph graph) {
 
         int numberOfVertexs = graph.getNumVertexs();
 

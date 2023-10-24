@@ -1,7 +1,5 @@
 package main;
 
-import DataStructureClasses.SimpleNode;
-import DataStructureClasses.TypeStack;
 import GUI.MainInterface;
 
 public class Main {
@@ -22,6 +20,9 @@ public class Main {
         
         
         */
+        
+        
+        //Tipo de lista con boolean adentro no permite la comparacion. Librerias mal trabajadas 
         
         MainInterface interfaz1 = new MainInterface();
         

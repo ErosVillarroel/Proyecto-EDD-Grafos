@@ -1,6 +1,6 @@
 package FileManager;
 
-import Classes.Graphe;
+import Classes.ourGraph;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import java.io.BufferedReader;
@@ -250,10 +250,10 @@ public class FileManager {
     }
     
 //    Funcion en desuso
-    private Graphe parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
+    private ourGraph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
         try {
             int inListSize = userNamesList.getSize();
-            Graphe newGraph = new Graphe(inListSize);
+            ourGraph newGraph = new ourGraph(inListSize);
 
             for (int i = 0; i < inListSize; i++) {
                 try {

@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Classes.Graphe;
+import Classes.ourGraph;
 import Classes.Kosaraju;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
@@ -24,7 +24,7 @@ public class MainInterface extends javax.swing.JFrame {
     // definir las listas globales con los datos necesario de los vertices
     private SimpleList<String> usersList = new SimpleList();
     private SimpleList<String> relationsList = new SimpleList();
-    private Graphe grafo;
+    private ourGraph grafo;
     //Page1 page1 = new Page1();
     //Page2 page2 = new Page2();
     private GraphVisualization graphVisualization;
@@ -80,6 +80,8 @@ public class MainInterface extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
 //        }
 //    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -281,16 +283,7 @@ public class MainInterface extends javax.swing.JFrame {
             usersList = fileManager.parseUsersFromFile(file);
             relationsList = fileManager.parseRelationshipsFromFile(file);
 
-            Graphe grafo = new Graphe(usersList, relationsList);
-            //grafo.print();
-            
-            // prueba modificar nombre
-            grafo.modifyVertexName(0, "New Name Brah");
-            grafo.deleteVertex(0);
-            
-            grafo.print();
-  
-            
+            ourGraph grafo = new ourGraph(usersList, relationsList);
             Kosaraju kosaraju = new Kosaraju(grafo);
             //this.displayFromFile(file);
 
@@ -348,7 +341,7 @@ public class MainInterface extends javax.swing.JFrame {
             this.usersList.addAtTheEnd(userName);
             usersList.printList();
 
-            grafo = new Graphe(this.usersList.getSize());
+            grafo = new ourGraph(this.usersList.getSize());
             
             for (int i = 0; i < this.usersList.getSize(); i++) {
                 Vertex newVertex = new Vertex(this.usersList.getValueByIndex(i), i);
