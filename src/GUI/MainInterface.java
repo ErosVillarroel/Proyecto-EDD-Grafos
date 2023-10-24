@@ -282,14 +282,23 @@ public class MainInterface extends javax.swing.JFrame {
             relationsList = fileManager.parseRelationshipsFromFile(file);
 
             Graphe grafo = new Graphe(usersList, relationsList);
+            //grafo.print();
+            
+            // prueba modificar nombre
+            grafo.modifyVertexName(0, "New Name Brah");
+            grafo.deleteVertex(0);
+            
+            grafo.print();
+  
+            
             Kosaraju kosaraju = new Kosaraju(grafo);
             //this.displayFromFile(file);
 
             // Crear instancia de GraphVisualization
-            GraphVisualization graphVisual = new GraphVisualization();
+            //GraphVisualization graphVisual = new GraphVisualization();
 
             // Visualizar el grafo en el panel
-            graphVisual.visualizeGraph(grafo, this.content);
+            //graphVisual.visualizeGraph(grafo, this.content);
             
 
         }

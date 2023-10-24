@@ -69,7 +69,6 @@ public class SimpleList<T> {
         System.out.println("===================================");
     }
 
-    
     //Print para lista especifica de vertices
     public void printVertexList() {
         try {
@@ -208,32 +207,34 @@ public class SimpleList<T> {
     }
 
     public void deleteAtIndex(int index) {
-
+        
         if (!isValidIndex(index)) {
             System.out.println("No existe el indice");
         } else {
+            if (index == 0) {
+                this.pFirst = this.pFirst.getpNext();
+            } else {
+                SimpleNode<T> pAux = this.pFirst;
+                int counter = 0;
 
-            SimpleNode<T> pAux = this.pFirst;
-            int counter = 0;
+                while (counter < index - 1) {
+                    pAux = pAux.getpNext();
+                    counter++;
+                }
 
-            while (counter != index - 1) {
-                pAux = pAux.getpNext();
-                counter++;
+                SimpleNode<T> current = pAux.getpNext();
+                pAux.setpNext(current.getpNext());
+                current.setpNext(null);
             }
-
-            SimpleNode<T> current = pAux.getpNext();
-            pAux.setpNext(current.getpNext());
-            current.setpNext(null);
-
         }
     }
-    
-    public  void fillWith(int size, T data){
-        
-        for (int i=0; this.size < size; i++){
+
+    public void fillWith(int size, T data) {
+
+        for (int i = 0; this.size < size; i++) {
             this.addAtTheEnd(data);
         }
-  
+
     }
 
     public SimpleNode<T> getpFirst() {
