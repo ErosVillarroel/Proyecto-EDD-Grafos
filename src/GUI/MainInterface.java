@@ -9,11 +9,16 @@ import Classes.Kosaraju;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import FileManager.FileManager;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Locale;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import org.graphstream.ui.view.Viewer;
 
 /**
  *
@@ -25,9 +30,8 @@ public class MainInterface extends javax.swing.JFrame {
     private SimpleList<String> usersList = new SimpleList();
     private SimpleList<String> relationsList = new SimpleList();
     private OurGraph grafo;
-    //Page1 page1 = new Page1();
-    //Page2 page2 = new Page2();
-    private GraphVisualization graphVisualization;
+
+    private GraphVisualizer graphVisualizer;
 
 //    DibujarGrafo dibujarGrafo = new DibujarGrafo();
 //    DrawGraph puebaDraw = new DrawGraph();
@@ -40,20 +44,20 @@ public class MainInterface extends javax.swing.JFrame {
         setTitle("Pantalla Principal");
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-//      setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 //      page1.setSize(410, 320);
 //      page1.setLocation(0, 0);
 //      content.removeAll();
 //      content.add(page1, BorderLayout.CENTER);
 //      content.revalidate();
 //      content.repaint();
-        // Inicializar GraphVisualization
-        graphVisualization = new GraphVisualization();
 
-        // Llamar al método visualizeGraph con tu grafo y el panel de contenido
-        //Graphe grafo = obtenerTuGrafo(); // Reemplaza esto con tu lógica para obtener el grafo
+        // inicializar la matriz
+        grafo = new OurGraph(this.usersList.getSize());
+        // Inicializar GraphVisualizer
+        graphVisualizer = new GraphVisualizer();
+
         this.setVisible(true);
-
     }
 
 //    private void displayFromFile(File file) {
@@ -80,6 +84,21 @@ public class MainInterface extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
 //        }
 //    }
+    
+    private void showVertexIndices() {
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+
+        for (int i = 0; i < grafo.getVertexsListSize(); i++) {
+            textArea.append(i + ": " + grafo.getVertexName(i) + "\n");
+        }
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(300, 200));
+
+        JOptionPane.showMessageDialog(null, scrollPane, "Indices de usuarios", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,6 +124,7 @@ public class MainInterface extends javax.swing.JFrame {
         graphTextarea = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
         cargarButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         menubar = new javax.swing.JMenuBar();
         menu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
@@ -113,6 +133,8 @@ public class MainInterface extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitBtn = new javax.swing.JMenuItem();
         menu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        deleteVertexBtn = new javax.swing.JMenuItem();
         aboutButn = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -196,7 +218,7 @@ public class MainInterface extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,6 +247,10 @@ public class MainInterface extends javax.swing.JFrame {
 
         cargarButton.setText("Cargar");
         bg.add(cargarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("En esta misma ventana quizas mostrar la matriz de adyacencia y lista de usuarios");
+        bg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 430, 90));
 
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 750));
 
@@ -271,6 +297,18 @@ public class MainInterface extends javax.swing.JFrame {
         menubar.add(menu1);
 
         menu2.setText("Editor");
+
+        jMenuItem2.setText("Modificar Relaciones");
+        menu2.add(jMenuItem2);
+
+        deleteVertexBtn.setText("Eliminar Usuario");
+        deleteVertexBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteVertexBtnActionPerformed(evt);
+            }
+        });
+        menu2.add(deleteVertexBtn);
+
         menubar.add(menu2);
 
         aboutButn.setText("Acerca de...");
@@ -284,27 +322,21 @@ public class MainInterface extends javax.swing.JFrame {
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
 //      crear objeto de tipo filechooser que contendra el archivo txt
         if (evt.getSource() == this.openBtn) {
-
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
-
             usersList = fileManager.parseUsersFromFile(file);
             relationsList = fileManager.parseRelationshipsFromFile(file);
 
-            OurGraph grafo = new OurGraph(usersList, relationsList);
-            Kosaraju kosaraju = new Kosaraju(grafo);
-
-            
-            grafo.print(); 
-            
+            if (grafo.isGraphEmpty()) {
+                grafo = new OurGraph(usersList, relationsList);
+                //Kosaraju kosaraju = new Kosaraju(grafo);
+            }
+            grafo.print();
+            System.out.println("RELACIONES:");
+            this.relationsList.printList();
             //this.displayFromFile(file);
-            // Crear instancia de GraphVisualization
-            GraphVisualization graphVisual = new GraphVisualization();
-
             // Visualizar el grafo en el panel
-            graphVisual.visualizeGraph(grafo, this.content);
-            //graphVisual.visualizeGraph(grafo, this.content);
-
+            graphVisualizer.visualizeGraph(grafo, this.content);
 
         }
 
@@ -350,24 +382,59 @@ public class MainInterface extends javax.swing.JFrame {
         if (evt.getSource() == this.vertexButn) {
             String userName = JOptionPane.showInputDialog(null, "Por favor ingrese el nombre del usuario: ").toLowerCase();
             System.out.println("User retrieved: " + userName);
-            this.usersList.addAtTheEnd(userName);
-            usersList.printList();
 
-            grafo = new OurGraph(this.usersList.getSize());
+            // Verificar si el usuario ya existe en la lista
+            if (grafo.userExists(userName)) {
+                JOptionPane.showMessageDialog(null, "El usuario [" + userName + "] ya existe en la lista!");
+                return;
+            }
 
-            for (int i = 0; i < this.usersList.getSize(); i++) {
-                Vertex newVertex = new Vertex(this.usersList.getValueByIndex(i), i);
-                newVertex.printVertex();
+            if (grafo.isGraphEmpty()) {
+                //El grafo está vacío, simplemente añadir el nuevo vértice
+                this.usersList.addAtTheEnd(userName);
+                this.usersList.printList();
+                grafo = new OurGraph(this.usersList.getSize());
+                Vertex newVertex = new Vertex(userName, 0);
                 grafo.addVertex(newVertex);
+            } else {
+                String destinationUser = JOptionPane.showInputDialog(null, "Ingrese el usuario destino para la relación: \n* Forma: Unicamente (destino).\n\n* Ejemplo: [" + userName.toUpperCase(Locale.ITALY) + "]" + " ==> Usuario Destino").toLowerCase();
+
+                // Verificar si el usuario de destino ya existe en la lista
+                if (!grafo.userExists(destinationUser)) {
+                    JOptionPane.showMessageDialog(null, "Error: El usuario de destino '" + destinationUser + "' no existe en la lista.");
+                    return;  // Salir del método si el usuario de destino no existe
+                }
+
+                // Agregar la relación al grafo
+                //************
+                String relation = userName + "," + destinationUser;
+                if (relationsList.contains(relation)) {
+                    JOptionPane.showMessageDialog(null, "Error: La relación '" + relation + "' ya existe en la lista de relaciones.");
+                    return;  // Salir del método si la relación ya existe
+                }
+
+                relationsList.addAtTheEnd(relation);
+
+                System.out.println("RELACIONES: ");
+                this.relationsList.printList();
+
+                this.usersList.addAtTheEnd(userName);
+
+                grafo = new OurGraph(this.usersList.getSize());
+
+                for (int i = 0; i < this.usersList.getSize(); i++) {
+                    Vertex newVertex = new Vertex(this.usersList.getValueByIndex(i), i);
+                    newVertex.printVertex();
+                    grafo.addVertex(newVertex);
+                }
+                grafo.generateRelationsFromList(relationsList, usersList);
+
             }
 
             grafo.print();
 
-            // Crear instancia de GraphVisualization
-            GraphVisualization graphVisual = new GraphVisualization();
-
             // Visualizar el grafo en el panel
-            graphVisual.visualizeGraph(grafo, this.content);
+            graphVisualizer.visualizeGraph(grafo, this.content);
 
         }
     }//GEN-LAST:event_vertexButnActionPerformed
@@ -375,6 +442,38 @@ public class MainInterface extends javax.swing.JFrame {
     private void checkKosarajuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkKosarajuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_checkKosarajuActionPerformed
+
+    private void deleteVertexBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVertexBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.deleteVertexBtn) {
+            // Mostrar los índices de los usuarios existentes
+            showVertexIndices();
+
+            String input = JOptionPane.showInputDialog(null, "Ingrese el indice del usuario a eliminar:");
+
+            if (input != null && !input.isEmpty()) {
+                try {
+                    int vertexIndex = Integer.parseInt(input);
+
+                    // Verificar que el índice sea válido
+                    if (vertexIndex >= 0 && vertexIndex < grafo.getVertexsListSize()) {
+                        grafo.deleteVertex(vertexIndex);
+                        
+                        // Visualizar el grafo actualizado
+                        // ****ARREGLAR VISUALIZACION AL ELIMINAR UN VECTOR
+                        //graphVisualizer.visualizeGraph(grafo, this.content);
+                        grafo.print();
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Índice no válido. Inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Ingrese un valor numerico válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+        }
+    }//GEN-LAST:event_deleteVertexBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,13 +518,16 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JButton cargarButton;
     private javax.swing.JButton checkKosaraju;
     private javax.swing.JPanel content;
+    private javax.swing.JMenuItem deleteVertexBtn;
     private javax.swing.JMenuItem exitBtn;
     private javax.swing.JTextArea graphTextarea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;

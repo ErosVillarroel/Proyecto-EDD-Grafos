@@ -119,6 +119,19 @@ public class SimpleList<T> {
 
     }
 
+    public boolean contains(String value) {
+        SimpleNode<T> pAux = this.pFirst;
+
+        while (pAux != null) {
+            if (pAux.getData().equals(value)) {
+                return true;
+            }
+            pAux = pAux.getpNext();
+        }
+
+        return false;
+    }
+
     public SimpleNode<T> searchByValue(T value) {
         SimpleNode<T> pAux = this.pFirst;
 
