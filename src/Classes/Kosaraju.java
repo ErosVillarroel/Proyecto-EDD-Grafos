@@ -47,6 +47,9 @@ public class Kosaraju {
                 System.out.println(" ");
             }
         }
+        
+        //Devolver la matriz al original
+        graph.transpose();
 
     }
 

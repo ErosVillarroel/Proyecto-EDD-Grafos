@@ -1,5 +1,7 @@
 package main;
 
+import Classes.OurGraph;
+import Classes.Vertex;
 import GUI.MainInterface;
 
 public class Main {

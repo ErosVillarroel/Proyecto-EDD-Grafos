@@ -185,7 +185,7 @@ public class OurGraph {
         this.matrix = transposedMatrix;
     }
 
-    public void addUser(String userName, SimpleList<String> relations) {
+    public void addUser(String userName) {
 
         int vertexsNum = this.getVertexsListSize();
         Vertex newVertex = new Vertex(userName, vertexsNum);
@@ -203,13 +203,15 @@ public class OurGraph {
             }
         }
 
-        int newVertexNum = newVertex.getNumVertex();
-        //Complejidad O3 :((((
-        //Parsear de nombres de usuario a ints
-        for (int i = 0; i < relations.getSize(); i++) {
-            int vertexInt = this.vertexsList.getIndexOfVertexByName(relations.getValueByIndex(i));
-            newMatrix[newVertexNum][vertexInt] = 1;
-        }
+        
+//        , SimpleList<String> relations
+//        int newVertexNum = newVertex.getNumVertex();
+//        //Complejidad O3 :((((
+//        //Parsear de nombres de usuario a ints
+//        for (int i = 0; i < relations.getSize(); i++) {
+//            int vertexInt = this.vertexsList.getIndexOfVertexByName(relations.getValueByIndex(i));
+//            newMatrix[newVertexNum][vertexInt] = 1;
+//        }
         
         this.matrix = newMatrix;
     }

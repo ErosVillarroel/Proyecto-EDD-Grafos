@@ -9,11 +9,11 @@ import Classes.Kosaraju;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import FileManager.FileManager;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -25,8 +25,6 @@ public class MainInterface extends javax.swing.JFrame {
     private SimpleList<String> usersList = new SimpleList();
     private SimpleList<String> relationsList = new SimpleList();
     private OurGraph grafo;
-    //Page1 page1 = new Page1();
-    //Page2 page2 = new Page2();
     private GraphVisualization graphVisualization;
 
 //    DibujarGrafo dibujarGrafo = new DibujarGrafo();
@@ -40,14 +38,8 @@ public class MainInterface extends javax.swing.JFrame {
         setTitle("Pantalla Principal");
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-//      setDefaultCloseOperation(EXIT_ON_CLOSE);
-//      page1.setSize(410, 320);
-//      page1.setLocation(0, 0);
-//      content.removeAll();
-//      content.add(page1, BorderLayout.CENTER);
-//      content.revalidate();
-//      content.repaint();
         // Inicializar GraphVisualization
+        this.grafo = null;
         graphVisualization = new GraphVisualization();
 
         // Llamar al método visualizeGraph con tu grafo y el panel de contenido
@@ -56,30 +48,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }
 
-//    private void displayFromFile(File file) {
-//        String line;
-//
-//        try {
-//            this.graphComponents.setText("");
-//            FileReader filereader = new FileReader(file);
-//            BufferedReader reader = new BufferedReader(filereader);
-//
-//            while ((line = reader.readLine()) != null) {
-//                // ejemplo: mostrar informacion en un text area
-//                this.graphComponents.append(line);
-//                this.graphComponents.append("\n");
-//                line = reader.readLine();
-//            }
-//
-//            reader.close();
-//            JOptionPane.showMessageDialog(null, "El archivo ha sido cargado exitosamente!");
-//
-//        } catch (IOException e) {
-//            e.printStackTrace(System.out);
-//        } catch (NullPointerException e) {
-//            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún archivo");
-//        }
-//    }
+//  private void displayFromFile()
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -288,15 +257,15 @@ public class MainInterface extends javax.swing.JFrame {
             FileManager fileManager = new FileManager();
             File file = fileManager.selectFile();
 
-            usersList = fileManager.parseUsersFromFile(file);
-            relationsList = fileManager.parseRelationshipsFromFile(file);
+            this.usersList = fileManager.parseUsersFromFile(file);
+            this.relationsList = fileManager.parseRelationshipsFromFile(file);
 
             OurGraph grafo = new OurGraph(usersList, relationsList);
             Kosaraju kosaraju = new Kosaraju(grafo);
 
-            
-            grafo.print(); 
-            
+            this.grafo = grafo;
+            grafo.print();
+
             //this.displayFromFile(file);
             // Crear instancia de GraphVisualization
             GraphVisualization graphVisual = new GraphVisualization();
@@ -304,7 +273,6 @@ public class MainInterface extends javax.swing.JFrame {
             // Visualizar el grafo en el panel
             graphVisual.visualizeGraph(grafo, this.content);
             //graphVisual.visualizeGraph(grafo, this.content);
-
 
         }
 
@@ -348,26 +316,30 @@ public class MainInterface extends javax.swing.JFrame {
     private void vertexButnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexButnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.vertexButn) {
-            String userName = JOptionPane.showInputDialog(null, "Por favor ingrese el nombre del usuario: ").toLowerCase();
-            System.out.println("User retrieved: " + userName);
-            this.usersList.addAtTheEnd(userName);
-            usersList.printList();
 
-            grafo = new OurGraph(this.usersList.getSize());
+            if (this.grafo != null) {
 
-            for (int i = 0; i < this.usersList.getSize(); i++) {
-                Vertex newVertex = new Vertex(this.usersList.getValueByIndex(i), i);
-                newVertex.printVertex();
-                grafo.addVertex(newVertex);
+//            String userName = JOptionPane.showInputDialog(null, "Por favor ingrese el nombre del usuario: ").toLowerCase();
+                String users[] = new String[this.usersList.getSize()];
+                for (int i = 0; i < this.usersList.getSize(); i++) {
+                    Vertex vertex = this.grafo.getVertex(i);
+                    users[i] = vertex.getName();
+                }
+
+                JTextField textField = new JTextField("Nombre de usuario: ", 20);
+
+                JComboBox comboBox = new JComboBox(users);             
+
+//            System.out.println("User retrieved: " + userName);
+//          grafo.print();
+                // Crear instancia de GraphVisualization
+                GraphVisualization graphVisual = new GraphVisualization();
+
+                // Visualizar el grafo en el panel
+                graphVisual.visualizeGraph(grafo, this.content);
+            } else {
+                System.out.println("no hay grafo aun.");
             }
-
-            grafo.print();
-
-            // Crear instancia de GraphVisualization
-            GraphVisualization graphVisual = new GraphVisualization();
-
-            // Visualizar el grafo en el panel
-            graphVisual.visualizeGraph(grafo, this.content);
 
         }
     }//GEN-LAST:event_vertexButnActionPerformed
