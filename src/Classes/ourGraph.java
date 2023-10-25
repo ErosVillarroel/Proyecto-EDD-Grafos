@@ -2,7 +2,6 @@ package Classes;
 
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
-import DataStructureClasses.SimpleNode;
 
 /**
  *
@@ -57,6 +56,19 @@ public class OurGraph {
 
     public int[][] getMatrix() {
         return this.matrix;
+    }
+
+    public boolean isGraphEmpty() {
+        return this.numVertexs == 0;
+    }
+
+    public boolean userExists(String userName) {
+        for (int i = 0; i < this.getVertexsListSize(); i++) {
+            if (this.getVertexName(i).equals(userName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getVertexName(int vertexIndex) {
@@ -154,7 +166,7 @@ public class OurGraph {
         return chain;
     }
 
-    private void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
+    public void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
 
         for (int i = 0; i < relationships.getSize(); i++) {
             String[] parts;
@@ -210,7 +222,7 @@ public class OurGraph {
             int vertexInt = this.vertexsList.getIndexOfVertexByName(relations.getValueByIndex(i));
             newMatrix[newVertexNum][vertexInt] = 1;
         }
-        
+
         this.matrix = newMatrix;
     }
 
