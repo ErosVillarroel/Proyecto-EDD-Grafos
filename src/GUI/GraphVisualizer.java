@@ -19,50 +19,67 @@ import org.graphstream.ui.view.Viewer;
  *
  * @author andre
  */
-public class GraphVisualization {
+public class GraphVisualizer {
 
     private Graph graph;
+    private Viewer viewer;
 
-    public GraphVisualization() {
+    public GraphVisualizer() {
         // Crear un nuevo grafo
         this.graph = new SingleGraph("Grafo");
+        this.viewer = null;
     }
 
     public void visualizeGraph(OurGraph grafo, JPanel graphPanel) {
-        // Limpiar el grafo existente
+        // Antes de cargar un nuevo grafo
+        if (viewer != null) {
+            viewer.close();
+        }
+
+        // Crear un nuevo grafo y visor
+        this.graph = new SingleGraph("Grafo");
+        this.viewer = graph.display(false);
+        viewer.enableAutoLayout();
+
+        // limpiar el grafo existente
         graph.clear();
 
-        // Agregar vértices al grafo
+        // Actualizar o agregar nodos y aristas según sea necesario
         for (int i = 0; i < grafo.getVertexsListSize(); i++) {
             Node node = graph.addNode(Integer.toString(i));
             node.setAttribute("ui.label", grafo.getVertexName(i));
-
-            // Establecer posición específica para cada nodo
-            double x = 50 + i * 100;  // Ajusta estos valores según sea necesario
+            node.setAttribute("ui.style", "fill-color: blue; size: 15px; text-size: 20px;");
+            // Establecer posicion específica para cada nodo
+            double x = 50 + i * 100;  // Ajustar valores
             double y = 50;
             double z = 0;
 
             node.setAttribute("xyz", x, y, z);
         }
 
-        // Agregar aristas al grafo con atributos personalizados
         for (int i = 0; i < grafo.getNumVertexs(); i++) {
             for (int j = 0; j < grafo.getNumVertexs(); j++) {
                 if (grafo.checkEdge(i, j)) {
-                    Edge edge = graph.addEdge(Integer.toString(i) + "-" + Integer.toString(j), Integer.toString(i), Integer.toString(j));
-                    // Configurar atributos personalizados
-                    edge.setAttribute("ui.style", "shape: line; fill-mode: dyn-plain; fill-color: #222, #555, green, yellow; arrow-size: 3px, 2px;");
+                    Edge edge = graph.getEdge(Integer.toString(i) + "-" + Integer.toString(j));
+                    if (edge == null) {
+                        // La arista no existe, la creamos
+                        edge = graph.addEdge(Integer.toString(i) + "-" + Integer.toString(j), Integer.toString(i), Integer.toString(j));
+                        // Configurar atributos personalizados
+                        edge.setAttribute("ui.style", "fill-color: red; size: 2px; arrow-size: 50px, 50px;");
+                    }
                 }
             }
         }
+        //graphPanel.revalidate();
+        //graphPanel.repaint();
 
         // Crear un visor de grafo
-        Viewer viewer = graph.display(false);
-        viewer.enableAutoLayout();
+        //viewer = graph.display(false);
+        //viewer.enableAutoLayout();
 
         // Aplicar la configuración para ocultar la ventana emergente de GraphStream
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-        
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.CLOSE_VIEWER);
+
         // Obtener el panel de vista y agregarlo al panel proporcionado
         ViewPanel view = (ViewPanel) viewer.getDefaultView();
         graphPanel.setLayout(new BorderLayout());
@@ -85,7 +102,6 @@ public class GraphVisualization {
         });
 
     }
-
 
     public void zoomIn(Viewer viewer) {
         viewer.getDefaultView().getCamera().setViewPercent(viewer.getDefaultView().getCamera().getViewPercent() * 0.9);

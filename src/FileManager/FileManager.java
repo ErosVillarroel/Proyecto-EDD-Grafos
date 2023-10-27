@@ -199,7 +199,7 @@ public class FileManager {
                     }
                 }
             }
-            
+
             // cerrar archivo
             fileReader.close();
             bufferReader.close();
@@ -231,8 +231,8 @@ public class FileManager {
                     String absoluteUserNames = line.replace("@", "");
                     relationsList.addAtTheEnd(absoluteUserNames);
                 }
-            }            
-            
+            }
+
             // cerrar archivo
             fileReader.close();
             bufferReader.close();
@@ -245,31 +245,12 @@ public class FileManager {
         } catch (NullPointerException e) {
             System.out.println("No se selecciono ningun archivo");
         }
-        
+
         return null;
     }
-    
-//    Funcion en desuso
-    private OurGraph parseUserNameStringsListToGraph(SimpleList<String> userNamesList) {
-        try {
-            int inListSize = userNamesList.getSize();
-            OurGraph newGraph = new OurGraph(inListSize);
 
-            for (int i = 0; i < inListSize; i++) {
-                try {
-                    Vertex newVertex = new Vertex(userNamesList.getValueByIndex(i), i);
-//                    newVertex.printVertex();
-                    newGraph.addVertex(newVertex);
-                } catch (Exception e) {
-                    System.out.println("Algo salio mal :(");
-                }
-            }
-            return newGraph;
-
-        } catch (Exception e) {
-            System.out.println("Retornando null================================");
-            return null;
-        }
+    public void parseGraphToFile(){
+        
     }
     
- }
+}

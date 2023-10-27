@@ -2,7 +2,6 @@ package Classes;
 
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
-import DataStructureClasses.SimpleNode;
 
 /**
  *
@@ -25,6 +24,18 @@ public class OurGraph {
                 this.matrix[i][j] = 0;
             }
         }
+    }
+
+    public OurGraph(String userName) {
+
+        this.vertexsList = new SimpleList();
+        this.numVertexs = 1;
+        this.matrix = new int[1][1];
+        // inicializar la matriz de adyacencia en 0:
+        this.matrix[0][0] = 0;
+
+        Vertex newVertex = new Vertex(userName, 0);
+        this.vertexsList.addAtTheEnd(newVertex);
     }
 
     public OurGraph(SimpleList<String> usersList, SimpleList<String> relationsList) {
@@ -57,6 +68,19 @@ public class OurGraph {
 
     public int[][] getMatrix() {
         return this.matrix;
+    }
+
+    public boolean isGraphEmpty() {
+        return this.numVertexs == 0;
+    }
+
+    public boolean userExists(String userName) {
+        for (int i = 0; i < this.getVertexsListSize(); i++) {
+            if (this.getVertexName(i).equals(userName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getVertexName(int vertexIndex) {
@@ -131,16 +155,20 @@ public class OurGraph {
 
     public void print() {
 
-        System.out.println("Numero de vertices -> " + this.numVertexs);
+        try {
+            System.out.println("Numero de vertices -> " + this.numVertexs);
 
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[i].length; j++) {
+                    System.out.print(matrix[i][j] + " ");
+                }
+                System.out.println();
             }
-            System.out.println();
-        }
 
-        this.vertexsList.printVertexList();
+            this.vertexsList.printVertexList();
+        } catch (Exception e) {
+            System.out.println("print error");
+        }
     }
 
     public String printGraphString() {
@@ -154,7 +182,7 @@ public class OurGraph {
         return chain;
     }
 
-    private void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
+    public void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
 
         for (int i = 0; i < relationships.getSize(); i++) {
             String[] parts;
@@ -185,7 +213,8 @@ public class OurGraph {
         this.matrix = transposedMatrix;
     }
 
-    public void addUser(String userName) {
+    // WOIP, hacer una sola relacion?
+    public void addUser(String userName, int relation) {
 
         int vertexsNum = this.getVertexsListSize();
         Vertex newVertex = new Vertex(userName, vertexsNum);
@@ -203,17 +232,11 @@ public class OurGraph {
             }
         }
 
-        
-//        , SimpleList<String> relations
-//        int newVertexNum = newVertex.getNumVertex();
-//        //Complejidad O3 :((((
-//        //Parsear de nombres de usuario a ints
-//        for (int i = 0; i < relations.getSize(); i++) {
-//            int vertexInt = this.vertexsList.getIndexOfVertexByName(relations.getValueByIndex(i));
-//            newMatrix[newVertexNum][vertexInt] = 1;
-//        }
-        
         this.matrix = newMatrix;
+
+        int newVertexNum = newVertex.getNumVertex();
+        this.addEdge(newVertexNum, relation);
+
     }
 
     /*
@@ -299,5 +322,9 @@ public class OurGraph {
 
     public int getVertexsListSize() {
         return vertexsList.getSize();
+    }
+
+    public SimpleList getVertexsList() {
+        return this.vertexsList;
     }
 }
