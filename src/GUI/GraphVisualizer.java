@@ -63,9 +63,9 @@ public class GraphVisualizer {
                     Edge edge = graph.getEdge(Integer.toString(i) + "-" + Integer.toString(j));
                     if (edge == null) {
                         // La arista no existe, la creamos
-                        edge = graph.addEdge(Integer.toString(i) + "-" + Integer.toString(j), Integer.toString(i), Integer.toString(j));
+                        edge = graph.addEdge(Integer.toString(i) + "-" + Integer.toString(j), Integer.toString(i), Integer.toString(j), true);
                         // Configurar atributos personalizados
-                        edge.setAttribute("ui.style", "fill-color: red; size: 2px; arrow-size: 50px, 50px;");
+                        edge.setAttribute("ui.style", "fill-color: red; size: 2px; arrow-size: 10px, 5px;");
                     }
                 }
             }

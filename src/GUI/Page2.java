@@ -22,14 +22,13 @@ public class Page2 extends javax.swing.JPanel {
     private boolean isConfirmed;
 
     public Page2(SimpleList<Vertex> comboBoxList) {
+        initComponents();
 
         for (int i = 0; i < comboBoxList.getSize(); i++) {
             Vertex v = comboBoxList.getValueByIndex(i);
             String userName = v.getName();
-            this.usersList.add(null, userName);
+            this.usersComboList.addItem(userName);
         }
-
-        initComponents();
         this.setVisible(true);
     }
 
@@ -43,66 +42,41 @@ public class Page2 extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        confirmButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
-        userNameBox = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        usersList = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        usersComboList = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        userNameBox1 = new javax.swing.JTextField();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        confirmButton.setText("Confirmar");
-        confirmButton.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel3.setText("Ingrese el nuevo Usuario:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 340, 20));
+
+        usersComboList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
+        usersComboList.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        usersComboList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirmButtonActionPerformed(evt);
+                usersComboListActionPerformed(evt);
             }
         });
-        jPanel1.add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 120, -1, -1));
+        jPanel1.add(usersComboList, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 250, 30));
 
-        cancelButton.setText("Cancel");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
-        jPanel1.add(cancelButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, -1, -1));
+        jLabel4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel4.setText("Seleccione el destino de relacion");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 380, 30));
 
-        userNameBox.setText("userName");
-        jPanel1.add(userNameBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, -1));
+        userNameBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jPanel1.add(userNameBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 160, 30));
 
-        jLabel1.setText("Nombre de usuario");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 140, 20));
-
-        usersList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        usersList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usersListActionPerformed(evt);
-            }
-        });
-        jPanel1.add(usersList, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 170, 30));
-
-        jLabel2.setText("Relacion");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 150, 30));
-
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 150));
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 250));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        // TODO modificar variables internas
-    }//GEN-LAST:event_confirmButtonActionPerformed
-
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+    private void usersComboListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersComboListActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void usersListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersListActionPerformed
-
-
-    }//GEN-LAST:event_usersListActionPerformed
+    }//GEN-LAST:event_usersComboListActionPerformed
 
     public ComboBoxAPI parsePage2() {
         ComboBoxAPI comboAPI = new ComboBoxAPI(this.userName, this.relationIndex, this.isConfirmed);
@@ -111,12 +85,10 @@ public class Page2 extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelButton;
-    private javax.swing.JButton confirmButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField userNameBox;
-    private javax.swing.JComboBox<String> usersList;
+    private javax.swing.JTextField userNameBox1;
+    private javax.swing.JComboBox<String> usersComboList;
     // End of variables declaration//GEN-END:variables
 }
