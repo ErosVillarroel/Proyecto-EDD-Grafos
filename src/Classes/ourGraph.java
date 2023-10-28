@@ -156,7 +156,8 @@ public class OurGraph {
     public void print() {
 
         try {
-            System.out.println("Numero de vertices -> " + this.numVertexs);
+//            System.out.println("Numero de vertices -> " + this.numVertexs);
+            System.out.println("Vertex ammount -> " + this.numVertexs);
 
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j < matrix[i].length; j++) {
@@ -238,12 +239,14 @@ public class OurGraph {
         this.addEdge(newVertexNum, relation);
 
     }
-
+    
     /*
         - PRUEBA Eliminar un vertice del grafo
      */
+    
     public void deleteVertex(int vertexIndex) {
         if (vertexIndex < 0 || vertexIndex >= this.numVertexs) {
+
             System.out.println("El vertice esta fuera de rango o no existe en: " + vertexIndex);
             return;
         }

@@ -74,7 +74,8 @@ public class SimpleList<T> {
         try {
 
             SimpleNode<Vertex> pAux = (SimpleNode<Vertex>) this.pFirst;
-            System.out.println("Lista De vertices =============");
+//            System.out.println("Lista De vertices =============");
+            System.out.println("Vertexs list =============");
             while (pAux != null) {
                 System.out.println(pAux.getData().vertexToString());
                 pAux = pAux.getpNext();
@@ -245,25 +246,40 @@ public class SimpleList<T> {
             } else {
                 SimpleNode<T> pAux = this.pFirst;
                 int counter = 0;
-
-                while (counter < index - 1) {
+              
+                while (counter < index-1 && pAux != null) {
                     pAux = pAux.getpNext();
-                    counter++;
+                    counter ++;
                 }
 
-                SimpleNode<T> current = pAux.getpNext();
-                pAux.setpNext(current.getpNext());
-                current.setpNext(null);
+                pAux.setpNext(pAux.getpNext().getpNext());
+                
+                this.size --;
             }
         }
     }
+    
+    public void deleteVertexAtIndex(int index) {
 
-    public void fillWith(int size, T data) {
+        if (!isValidIndex(index)) {
+            System.out.println("No existe el indice");
+        } else {
+            if (index == 0) {
+                this.pFirst = this.pFirst.getpNext();
+            } else {
+                SimpleNode<T> pAux = this.pFirst;
+                int counter = 0;
+              
+                while (counter < index-1 && pAux != null) {
+                    pAux = pAux.getpNext();
+                    counter ++;
+                }
 
-        for (int i = 0; this.size < size; i++) {
-            this.addAtTheEnd(data);
+                pAux.setpNext(pAux.getpNext().getpNext());
+                
+                this.size --;
+            }
         }
-
     }
 
     public void sort() {
@@ -287,9 +303,8 @@ public class SimpleList<T> {
         }
 
         sort();
-
     }
-
+    
     private void swapIntegers(SimpleNode<Integer> current, SimpleNode<Integer> next) {
         int aux = current.getData();
         current.setData((Integer) current.getpNext().getData());
