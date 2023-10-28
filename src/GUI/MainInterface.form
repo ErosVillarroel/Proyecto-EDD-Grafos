@@ -58,6 +58,14 @@
             <Property name="text" type="java.lang.String" value="Editor"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="changeVertexNameBtn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cambiar Nombre"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changeVertexNameBtnActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Modificar Relaciones"/>

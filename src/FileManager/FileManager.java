@@ -4,6 +4,7 @@ import Classes.OurGraph;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -249,8 +250,74 @@ public class FileManager {
         return null;
     }
 
-    public void parseGraphToFile(){
-        
+    public void saveGraphToFile(OurGraph graph) {
+
+        if (this.savedPathExists()) {
+            try {
+                String fileName = "graph_data.txt";
+                File outFile = new File(this.SAVED_DIRECTORY, fileName);
+                FileWriter fileWriter = new FileWriter(outFile);
+                BufferedWriter writer = new BufferedWriter(fileWriter);
+
+                // Guardar usuarios
+                writer.write("usuarios\n");
+                SimpleList<Vertex> vertices = graph.getVertexsList();
+                for (int i = 0; i < vertices.getSize(); i++) {
+                    writer.write("@" + vertices.getValueByIndex(i).getName() + "\n");
+                }
+
+                // Guardar relaciones
+                writer.write("relaciones\n");
+                int[][] matrix = graph.getMatrix();
+                for (int i = 0; i < graph.getNumVertexs(); i++) {
+                    for (int j = 0; j < graph.getNumVertexs(); j++) {
+                        if (matrix[i][j] == 1) {
+                            writer.write("@" + graph.getVertexName(i) + ", @" + graph.getVertexName(j) + "\n");
+                        }
+                    }
+                }
+
+                writer.close();
+                JOptionPane.showMessageDialog(null, "El grafo ha sido guardado exitosamente!");
+            } catch (IOException e) {
+                e.printStackTrace(System.out);
+                JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar el grafo.");
+            }
+
+        } else {
+            try {
+                File parentFolder = new File(this.SAVED_DIRECTORY);
+                parentFolder.mkdir();
+                String fileName = "graph_data.txt";
+                File outFile = new File(parentFolder, fileName);
+                FileWriter fileWriter = new FileWriter(outFile);
+                BufferedWriter writer = new BufferedWriter(fileWriter);
+
+                writer.write("usuarios\n");
+                SimpleList<Vertex> vertices = graph.getVertexsList();
+                for (int i = 0; i < vertices.getSize(); i++) {
+                    writer.write("@" + vertices.getValueByIndex(i).getName() + "\n");
+                }
+
+                writer.write("relaciones\n");
+                int[][] matrix = graph.getMatrix();
+                for (int i = 0; i < graph.getNumVertexs(); i++) {
+                    for (int j = 0; j < graph.getNumVertexs(); j++) {
+                        if (matrix[i][j] == 1) {
+                            writer.write("@" + graph.getVertexName(i) + ", @" + graph.getVertexName(j) + "\n");
+                        }
+                    }
+                }
+
+                writer.close();
+                JOptionPane.showMessageDialog(null, "El grafo ha sido guardado exitosamente!\n\nSe ha creado un nuevo directorio en:\n" + outFile.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace(System.out);
+                JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar el grafo.");
+            }
+
+        }
+
     }
-    
+
 }

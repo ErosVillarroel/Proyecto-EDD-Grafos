@@ -27,7 +27,6 @@ public class MainInterface extends javax.swing.JFrame {
 
     // definir las listas globales con los datos necesario de los vertices
     private OurGraph grafo;
-    private GraphVisualizer graphVisualization;
     private GraphVisualizer graphVisualizer;
 
     /**
@@ -49,18 +48,36 @@ public class MainInterface extends javax.swing.JFrame {
         this.setVisible(true);
     }
 
-    private void showVertexIndices() {
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-
-        for (int i = 0; i < grafo.getVertexsListSize(); i++) {
-            textArea.append(i + ": " + grafo.getVertexName(i) + "\n");
+    private int showVertexList() {
+        if (grafo == null || grafo.getVertexsListSize() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay usuarios para modificar.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            return -1;
         }
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(300, 200));
+        StringBuilder message = new StringBuilder("Seleccione el indice del usuario que desea modificar:\n");
 
-        JOptionPane.showMessageDialog(null, scrollPane, "Indices de usuarios", JOptionPane.INFORMATION_MESSAGE);
+        for (int i = 0; i < grafo.getVertexsListSize(); i++) {
+            message.append(i).append(": ").append(grafo.getVertexName(i)).append("\n");
+        }
+
+        try {
+            return Integer.parseInt(JOptionPane.showInputDialog(null, message.toString()));
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un valor numerico valido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return -1;
+        }
+    }
+
+    private boolean isValidVertexIndex(int vertexIndex) {
+        return vertexIndex >= 0 && vertexIndex < this.grafo.getVertexsListSize();
+    }
+
+    private int showExitConfirmationDialog() {
+        
+        String[] options = new String[]{"Sí, salir", "No, quedarse"};
+        int choice = JOptionPane.showOptionDialog(null, "¿Realmente quieres salir del programa?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        return choice;
     }
 
     /**
@@ -97,6 +114,7 @@ public class MainInterface extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitBtn = new javax.swing.JMenuItem();
         menu2 = new javax.swing.JMenu();
+        changeVertexNameBtn = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         deleteVertexBtn = new javax.swing.JMenuItem();
         aboutButn = new javax.swing.JMenu();
@@ -262,6 +280,14 @@ public class MainInterface extends javax.swing.JFrame {
 
         menu2.setText("Editor");
 
+        changeVertexNameBtn.setText("Cambiar Nombre");
+        changeVertexNameBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeVertexNameBtnActionPerformed(evt);
+            }
+        });
+        menu2.add(changeVertexNameBtn);
+
         jMenuItem2.setText("Modificar Relaciones");
         menu2.add(jMenuItem2);
 
@@ -301,6 +327,7 @@ public class MainInterface extends javax.swing.JFrame {
                 //this.displayFromFile(file);
                 // Visualizar el grafo en el panel
 
+                graphVisualizer = new GraphVisualizer();
                 graphVisualizer.visualizeGraph(grafo, this.content);
 
             }
@@ -313,19 +340,32 @@ public class MainInterface extends javax.swing.JFrame {
 
     private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
         if (evt.getSource() == this.exitBtn) {
-            System.exit(0);
+
+            int option = showExitConfirmationDialog();
+
+            if (option == JOptionPane.YES_OPTION) {
+                System.out.println("Exit");
+                JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+                System.exit(0);
+            } else {
+                // El usuario eligio quedarse
+                System.out.println("Stay");
+                JOptionPane.showMessageDialog(null, "Continuando con el programa...");
+                return;
+            }
         }
     }//GEN-LAST:event_exitBtnActionPerformed
 
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         if (evt.getSource() == this.saveBtn) {
-            FileManager fileManager = new FileManager();
-            File file = fileManager.selectFile();
-            fileManager.saveFileToTxt(file);
-            //this.displayFromFile(file);
-
-//          Hacer display directo 
+            if (this.grafo == null) {
+                JOptionPane.showMessageDialog(null, "Error: El grafo no debe estar vacio!", "Mensaje de Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                FileManager filemanager = new FileManager();
+                filemanager.saveGraphToFile(this.grafo);
+            }
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
@@ -336,33 +376,26 @@ public class MainInterface extends javax.swing.JFrame {
     private void newProjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectBtnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.newProjectBtn) {
-//            FileManager fileManager = new FileManager();
-//            File file_prueba = fileManager.selectFile();
-//            //fileManager.parseUsersFromFile(file_prueba, ignore);
-//            users_list = fileManager.parseUsersFromFile(file_prueba);
-//
-//            //Probando que la lista global esté funcionando
-//            JOptionPane.showMessageDialog(null, "* Lista de usuarios actualizada\n" + users_list.printToString());
+
         }
     }//GEN-LAST:event_newProjectBtnActionPerformed
 
     private void vertexButnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexButnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.vertexButn) {
+
             if (this.grafo == null) {
-                JOptionPane.showMessageDialog(null, "Creando nuevo grafo con un solo usuario.");
+                JOptionPane.showMessageDialog(null, "Creando un nuevo grafo", "Atencion!", JOptionPane.INFORMATION_MESSAGE);
+                String userName = JOptionPane.showInputDialog(null, "Por favor ingrese el nombre del usuario: ").toLowerCase();
 
                 try {
-                    String userName = JOptionPane.showInputDialog("Nombre del nuevo usuario por favor: ").toLowerCase();
-
                     OurGraph newGrafo = new OurGraph(userName);
                     this.grafo = newGrafo;
 
                     // Crear instancia de GraphVisualization
-                    GraphVisualizer graphVisual = new GraphVisualizer();
-
+                    graphVisualizer = new GraphVisualizer();
                     // Visualizar el grafo en el panel
-                    graphVisual.visualizeGraph(grafo, this.content);
+                    graphVisualizer.visualizeGraph(grafo, this.content);
 
                     newGrafo.print();
                 } catch (NullPointerException n) {
@@ -374,27 +407,38 @@ public class MainInterface extends javax.swing.JFrame {
             } else {
 
                 SimpleList<Vertex> vertexsList = this.grafo.getVertexsList();
-           
 
                 Page2 comboPage = new Page2(vertexsList);
+                comboPage.setVisible(true);
                 ComboBoxAPI boxAPI = comboPage.parsePage2();
 
-                String userName = boxAPI.getUserName();
-                int relationIndex = boxAPI.getRelationIndex();
-                boolean isConfirmed = boxAPI.getIsConfirmed();
+                // Mostrar un diálogo para ingresar el nombre del usuario y seleccionar el vértice
+                int result = JOptionPane.showConfirmDialog(null, comboPage, "Añadir Usuario", JOptionPane.OK_CANCEL_OPTION);
 
-                if (isConfirmed) {
-                    return;
+                if (result == JOptionPane.OK_OPTION) {
+                    String userName = boxAPI.getUserName();
+                    int relationIndex = boxAPI.getRelationIndex();
+                    boolean isConfirmed = boxAPI.getIsConfirmed();
+
+                    if (isConfirmed) {
+                        return;
+                    }
+
+                    if (grafo.userExists(userName)) {
+                        JOptionPane.showMessageDialog(null, "El usuario '" + userName.toUpperCase() + "' ya existe en la lista!");
+                        return;
+                    }
+
+                    /////Error? ///////
+                    this.grafo.addUser(userName, relationIndex);
+                    grafo.print();
+
+                    // Visualizar el grafo en el panel
+                    graphVisualizer.visualizeGraph(this.grafo, this.content);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cancelando operacion, volviendo...");
                 }
-
-                this.grafo.addUser(userName, relationIndex);
-
             }
-
-            grafo.print();
-
-            // Visualizar el grafo en el panel
-            graphVisualizer.visualizeGraph(grafo, this.content);
 
         }
     }//GEN-LAST:event_vertexButnActionPerformed
@@ -440,6 +484,30 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteVertexBtnActionPerformed
 
+    private void changeVertexNameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeVertexNameBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.changeVertexNameBtn) {
+            int selectedIndex = showVertexList();
+
+            if (isValidVertexIndex(selectedIndex)) {
+                String newNameVertex = JOptionPane.showInputDialog(null, "Ingrese el nuevo nombre para el usuario '" + grafo.getVertexName(selectedIndex) + "': ");
+
+                if (newNameVertex != null && !newNameVertex.isEmpty()) {
+                    
+                    grafo.modifyVertexName(selectedIndex, newNameVertex);
+                    
+                    // mostrar cambios visualizer
+                    graphVisualizer.visualizeGraph(grafo, content);
+                    JOptionPane.showMessageDialog(null, "Nombre modificado exitosamente!");
+                }
+            } else if (selectedIndex != -1) {
+                JOptionPane.showMessageDialog(null, "Indice invalido.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
+    }//GEN-LAST:event_changeVertexNameBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -481,6 +549,7 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel bg2;
     private javax.swing.JButton cargarButton;
+    private javax.swing.JMenuItem changeVertexNameBtn;
     private javax.swing.JButton checkKosaraju;
     private javax.swing.JPanel content;
     private javax.swing.JMenuItem deleteVertexBtn;
