@@ -237,7 +237,6 @@ public class SimpleList<T> {
     }
 
     public void deleteAtIndex(int index) {
-
         if (!isValidIndex(index)) {
             System.out.println("No existe el indice");
         } else {
@@ -246,19 +245,23 @@ public class SimpleList<T> {
             } else {
                 SimpleNode<T> pAux = this.pFirst;
                 int counter = 0;
-              
-                while (counter < index-1 && pAux != null) {
+
+                while (counter < index - 1 && pAux != null) {
                     pAux = pAux.getpNext();
-                    counter ++;
+                    counter++;
                 }
 
-                pAux.setpNext(pAux.getpNext().getpNext());
-                
-                this.size --;
+                if (pAux != null && pAux.getpNext() != null) {
+                    pAux.setpNext(pAux.getpNext().getpNext());
+                } else {
+                    System.out.println("Indice fuera de rango {simplelist}");
+                }
+
+                this.size--;
             }
         }
     }
-    
+
     public void deleteVertexAtIndex(int index) {
 
         if (!isValidIndex(index)) {
@@ -269,15 +272,15 @@ public class SimpleList<T> {
             } else {
                 SimpleNode<T> pAux = this.pFirst;
                 int counter = 0;
-              
-                while (counter < index-1 && pAux != null) {
+
+                while (counter < index - 1 && pAux != null) {
                     pAux = pAux.getpNext();
-                    counter ++;
+                    counter++;
                 }
 
                 pAux.setpNext(pAux.getpNext().getpNext());
-                
-                this.size --;
+
+                this.size--;
             }
         }
     }
@@ -304,7 +307,7 @@ public class SimpleList<T> {
 
         sort();
     }
-    
+
     private void swapIntegers(SimpleNode<Integer> current, SimpleNode<Integer> next) {
         int aux = current.getData();
         current.setData((Integer) current.getpNext().getData());

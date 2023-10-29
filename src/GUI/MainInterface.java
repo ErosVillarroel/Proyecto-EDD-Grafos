@@ -42,8 +42,9 @@ public class MainInterface extends javax.swing.JFrame {
         setTitle("Pantalla Principal");
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        // Inicializar GraphVisualization
+        // Inicializar Grafo
         this.grafo = null;
+        this.graphVisualizer = new GraphVisualizer();
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 //        Inicializar GraphVisualizer
@@ -84,6 +85,19 @@ public class MainInterface extends javax.swing.JFrame {
         return choice;
     }
 
+    public void rebootGraph() {
+        // Reiniciar el grafo a un estado inicial
+        this.grafo = null;
+
+        // Reiniciar el visualizador de grafo
+        if (this.graphVisualizer != null) {
+            this.graphVisualizer.eraseVisualizer();
+        }
+
+        // Mensaje informativo
+//        JOptionPane.showMessageDialog(null, "Proyecto reiniciado con exito!", "Reinicio", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,14 +111,15 @@ public class MainInterface extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         bg = new javax.swing.JPanel();
         content = new javax.swing.JPanel();
+        resetViewBtn = new javax.swing.JButton();
         bg2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        vertexButn = new javax.swing.JButton();
+        vertexDeleteBtn = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         checkKosaraju = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        vertexButn1 = new javax.swing.JButton();
+        vertexAddBtn = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         cargarButton = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
@@ -114,13 +129,15 @@ public class MainInterface extends javax.swing.JFrame {
         menu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
         saveBtn = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         newProjectBtn = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitBtn = new javax.swing.JMenuItem();
         menu2 = new javax.swing.JMenu();
         changeVertexNameBtn = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        deleteVertexBtn = new javax.swing.JMenuItem();
         aboutButn = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -133,15 +150,28 @@ public class MainInterface extends javax.swing.JFrame {
         bg.setForeground(new java.awt.Color(102, 102, 255));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        resetViewBtn.setText("Reinicar Vista");
+        resetViewBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetViewBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 830, Short.MAX_VALUE)
+            .addGroup(contentLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(resetViewBtn)
+                .addContainerGap(706, Short.MAX_VALUE))
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGroup(contentLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(resetViewBtn)
+                .addContainerGap(418, Short.MAX_VALUE))
         );
 
         bg.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 830, 460));
@@ -154,15 +184,15 @@ public class MainInterface extends javax.swing.JFrame {
         jLabel1.setText("Social Network");
         bg2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, -1, -1));
 
-        vertexButn.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
-        vertexButn.setText("Borrar");
-        vertexButn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        vertexButn.addActionListener(new java.awt.event.ActionListener() {
+        vertexDeleteBtn.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
+        vertexDeleteBtn.setText("Borrar");
+        vertexDeleteBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        vertexDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vertexButnActionPerformed(evt);
+                vertexDeleteBtnActionPerformed(evt);
             }
         });
-        bg2.add(vertexButn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 610, 170, 60));
+        bg2.add(vertexDeleteBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 610, 170, 60));
 
         jLabel5.setFont(new java.awt.Font("Roboto Black", 2, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -189,15 +219,15 @@ public class MainInterface extends javax.swing.JFrame {
         jLabel3.setText("Conexos");
         bg2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 530, 210, 40));
 
-        vertexButn1.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
-        vertexButn1.setText("Anyadir");
-        vertexButn1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        vertexButn1.addActionListener(new java.awt.event.ActionListener() {
+        vertexAddBtn.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
+        vertexAddBtn.setText("Añadir");
+        vertexAddBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        vertexAddBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vertexButn1ActionPerformed(evt);
+                vertexAddBtnActionPerformed(evt);
             }
         });
-        bg2.add(vertexButn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 610, 170, 60));
+        bg2.add(vertexAddBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 610, 170, 60));
 
         bg.add(bg2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 830, 750));
 
@@ -273,6 +303,7 @@ public class MainInterface extends javax.swing.JFrame {
             }
         });
         menu1.add(saveBtn);
+        menu1.add(jSeparator2);
 
         newProjectBtn.setText("Nuevo Proyecto");
         newProjectBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -303,16 +334,14 @@ public class MainInterface extends javax.swing.JFrame {
         });
         menu2.add(changeVertexNameBtn);
 
+        jMenuItem3.setText("Añadir Relaciones");
+        menu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Eliminar Relaciones");
+        menu2.add(jMenuItem4);
+
         jMenuItem2.setText("Modificar Relaciones");
         menu2.add(jMenuItem2);
-
-        deleteVertexBtn.setText("Eliminar Usuario");
-        deleteVertexBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteVertexBtnActionPerformed(evt);
-            }
-        });
-        menu2.add(deleteVertexBtn);
 
         menubar.add(menu2);
 
@@ -392,15 +421,91 @@ public class MainInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getSource() == this.newProjectBtn) {
 
+            if (this.grafo != null && this.grafo.getNumVertexs() > 0) {
+                int decision = JOptionPane.showConfirmDialog(null, "¿Seguro que deseas reiniciar el grafo? Se perdera toda la informacion.", "Confirmacion", JOptionPane.YES_NO_OPTION);
+
+                if (decision != JOptionPane.YES_OPTION) {
+                    // El usuario no quiere reiniciar, salir del método
+                    return;
+                } else {
+                    this.rebootGraph();
+                    JOptionPane.showMessageDialog(null, "Grafo reiniciado con éxito", "Reinicio", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El proyecto ya se encuentra sin ningun cambio realizado.", "Atencion!", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
         }
     }//GEN-LAST:event_newProjectBtnActionPerformed
 
-    private void vertexButnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexButnActionPerformed
+    private void vertexDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexDeleteBtnActionPerformed
         // TODO add your handling code here:
-        if (evt.getSource() == this.vertexButn) {
+        if (evt.getSource() == this.vertexDeleteBtn) {
+            if (this.grafo == null || this.grafo.isGraphEmpty()) {
+                JOptionPane.showMessageDialog(null, "El grafo está vacio. No hay vértices para eliminar.", "Grafo Vacío", JOptionPane.WARNING_MESSAGE);
+                return;
 
+            }
+
+            int selectedIndex = this.showVertexList();
+
+            if (this.isValidVertexIndex(selectedIndex) && grafo.vertexExists(selectedIndex)) {
+                // eliminar el vertice seleccionado por su indice
+
+                this.grafo.deleteVertex(selectedIndex);
+
+                graphVisualizer.visualizeGraph(grafo, content);
+
+                JOptionPane.showMessageDialog(null, "Vertice en la posicion '" + selectedIndex + "' " + " fue eliminado!", "Eliminado con exito", JOptionPane.INFORMATION_MESSAGE);
+                this.grafo.print();
+                
+                if (this.grafo.isGraphEmpty()) {
+                    this.rebootGraph();
+                    this.graphVisualizer.eraseVisualizer();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "El vertice no existe!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }//GEN-LAST:event_vertexDeleteBtnActionPerformed
+
+    private void checkKosarajuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkKosarajuActionPerformed
+
+
+    }//GEN-LAST:event_checkKosarajuActionPerformed
+
+    private void changeVertexNameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeVertexNameBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.changeVertexNameBtn) {
+            int selectedIndex = showVertexList();
+
+            if (isValidVertexIndex(selectedIndex)) {
+                String newNameVertex = JOptionPane.showInputDialog(null, "Ingrese el nuevo nombre para el usuario '" + grafo.getVertexName(selectedIndex) + "': ");
+
+                if (newNameVertex != null && !newNameVertex.isEmpty()) {
+
+                    grafo.modifyVertexName(selectedIndex, newNameVertex.toLowerCase());
+
+                    // mostrar cambios visualizer
+                    graphVisualizer.visualizeGraph(grafo, content);
+                    JOptionPane.showMessageDialog(null, "Nombre modificado exitosamente!");
+                }
+            } else if (selectedIndex != -1) {
+                JOptionPane.showMessageDialog(null, "Indice invalido.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
+    }//GEN-LAST:event_changeVertexNameBtnActionPerformed
+
+    private void vertexAddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexAddBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.vertexAddBtn) {
             if (this.grafo == null) {
-                JOptionPane.showMessageDialog(null, "Creando un nuevo grafo", "Atencion!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "* Creando un nuevo grafo...", "Atencion!", JOptionPane.INFORMATION_MESSAGE);
                 String userName = JOptionPane.showInputDialog(null, "Por favor ingrese el nombre del usuario: ").toLowerCase();
 
                 try {
@@ -408,7 +513,6 @@ public class MainInterface extends javax.swing.JFrame {
                     this.grafo = newGrafo;
 
                     // Crear instancia de GraphVisualization
-                    graphVisualizer = new GraphVisualizer();
                     // Visualizar el grafo en el panel
                     graphVisualizer.visualizeGraph(grafo, this.content);
 
@@ -420,11 +524,9 @@ public class MainInterface extends javax.swing.JFrame {
                 }
 
             } else {
-
                 SimpleList<Vertex> vertexsList = this.grafo.getVertexsList();
 
                 Page2 comboPage = new Page2(vertexsList);
-//                comboPage.setVisible(true);
 
                 // Mostrar un diálogo para ingresar el nombre del usuario y seleccionar el vértice
                 int result = JOptionPane.showConfirmDialog(null, comboPage, "Añadir Usuario", JOptionPane.OK_CANCEL_OPTION);
@@ -441,89 +543,17 @@ public class MainInterface extends javax.swing.JFrame {
                         return;
                     }
 
-                    /////Error? ///////
                     this.grafo.addUser(userName, relationIndex);
-                    grafo.print();
 
                     // Visualizar el grafo en el panel
                     graphVisualizer.visualizeGraph(this.grafo, this.content);
+                    grafo.print();
                 } else {
                     JOptionPane.showMessageDialog(null, "Cancelando operacion, volviendo...");
                 }
             }
-
         }
-    }//GEN-LAST:event_vertexButnActionPerformed
-
-    private void checkKosarajuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkKosarajuActionPerformed
-
-
-    }//GEN-LAST:event_checkKosarajuActionPerformed
-
-    private void deleteVertexBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVertexBtnActionPerformed
-        // TODO add your handling code here:
-        if (evt.getSource() == this.deleteVertexBtn) {
-            // Mostrar los índices de los usuarios existentes
-//
-//            if (this.usersList.getSize() != 0) {
-//                showVertexIndices();
-//
-//                String input = JOptionPane.showInputDialog(null, "Ingrese el indice del usuario a eliminar:");
-//
-//                if (input != null && !input.isEmpty()) {
-//                    try {
-//                        int vertexIndex = Integer.parseInt(input);
-//
-//                        // Verificar que el índice sea válido
-//                        if (vertexIndex >= 0 && vertexIndex < grafo.getVertexsListSize()) {
-//                            grafo.deleteVertex(vertexIndex);
-//
-//                            // Visualizar el grafo actualizado
-//                            // ****ARREGLAR VISUALIZACION AL ELIMINAR UN VECTOR
-//                            //graphVisualizer.visualizeGraph(grafo, this.content);
-//                            grafo.print();
-//
-//                        } else {
-//                            JOptionPane.showMessageDialog(null, "Índice no válido. Inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-//                        }
-//                    } catch (NumberFormatException e) {
-//                        JOptionPane.showMessageDialog(null, "Ingrese un valor numerico válido.", "Error", JOptionPane.ERROR_MESSAGE);
-//                    }
-//                }
-//            } else {
-//                JOptionPane.showMessageDialog(null, "No usuarios todavia.");
-//            }
-
-        }
-    }//GEN-LAST:event_deleteVertexBtnActionPerformed
-
-    private void changeVertexNameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeVertexNameBtnActionPerformed
-        // TODO add your handling code here:
-        if (evt.getSource() == this.changeVertexNameBtn) {
-            int selectedIndex = showVertexList();
-
-            if (isValidVertexIndex(selectedIndex)) {
-                String newNameVertex = JOptionPane.showInputDialog(null, "Ingrese el nuevo nombre para el usuario '" + grafo.getVertexName(selectedIndex) + "': ");
-
-                if (newNameVertex != null && !newNameVertex.isEmpty()) {
-
-                    grafo.modifyVertexName(selectedIndex, newNameVertex);
-
-                    // mostrar cambios visualizer
-                    graphVisualizer.visualizeGraph(grafo, content);
-                    JOptionPane.showMessageDialog(null, "Nombre modificado exitosamente!");
-                }
-            } else if (selectedIndex != -1) {
-                JOptionPane.showMessageDialog(null, "Indice invalido.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-
-    }//GEN-LAST:event_changeVertexNameBtnActionPerformed
-
-    private void vertexButn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexButn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_vertexButn1ActionPerformed
+    }//GEN-LAST:event_vertexAddBtnActionPerformed
 
     private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
         try {
@@ -544,11 +574,11 @@ public class MainInterface extends javax.swing.JFrame {
 
             SimpleList<String> usersList = fileManager.parseUsersFromTextArea(textAreaContent);
             SimpleList<String> relationsList = fileManager.parseRelationshipsFromTextArea(textAreaContent);
-            
+
             if (usersList == null) {
                 JOptionPane.showMessageDialog(null, "Error en el formato de los usuarios.");
             }
-            
+
             if (relationsList == null) {
                 JOptionPane.showMessageDialog(null, "Error en el formato de las relaciones.");
             }
@@ -556,16 +586,25 @@ public class MainInterface extends javax.swing.JFrame {
             OurGraph grafo = new OurGraph(usersList, relationsList);
             grafo.print();
             this.grafo = grafo;
-            
-            
+
             graphVisualizer = new GraphVisualizer();
             graphVisualizer.visualizeGraph(grafo, this.content);
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error desconocido.");
         }
 
     }//GEN-LAST:event_cargarButtonActionPerformed
+
+    private void resetViewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetViewBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.resetViewBtn) {
+            if (this.graphVisualizer.getViewer() != null) {
+                this.graphVisualizer.resetView();
+            }
+
+        }
+    }//GEN-LAST:event_resetViewBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -611,7 +650,6 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JMenuItem changeVertexNameBtn;
     private javax.swing.JButton checkKosaraju;
     private javax.swing.JPanel content;
-    private javax.swing.JMenuItem deleteVertexBtn;
     private javax.swing.JMenuItem exitBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -619,18 +657,22 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextArea manualTextArea;
     private javax.swing.JMenu menu1;
     private javax.swing.JMenu menu2;
     private javax.swing.JMenuBar menubar;
     private javax.swing.JMenuItem newProjectBtn;
     private javax.swing.JMenuItem openBtn;
+    private javax.swing.JButton resetViewBtn;
     private javax.swing.JMenuItem saveBtn;
-    private javax.swing.JButton vertexButn;
-    private javax.swing.JButton vertexButn1;
+    private javax.swing.JButton vertexAddBtn;
+    private javax.swing.JButton vertexDeleteBtn;
     // End of variables declaration//GEN-END:variables
 }

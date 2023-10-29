@@ -66,29 +66,38 @@ public class OurGraph {
 
     }
 
-    public int[][] getMatrix() {
-        return this.matrix;
-    }
-
     public boolean isGraphEmpty() {
         return this.numVertexs == 0;
     }
 
+    public int[][] getMatrix() {
+        return this.matrix;
+    }
+
     public boolean userExists(String userName) {
-        for (int i = 0; i < this.getVertexsListSize(); i++) {
-            if (this.getVertexName(i).equals(userName)) {
-                return true;
+        for (int i = 0; i < this.numVertexs; i++) {
+            Vertex vertex = this.getVertex(i);
+
+            // Verificar si el vértice es nulo
+            if (vertex != null) {
+                String vertexName = vertex.getName();
+
+                // Verificar si el nombre del vértice es igual a userName
+                if (vertexName != null && vertexName.equals(userName)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public String getVertexName(int vertexIndex) {
-        if (vertexIndex >= 0 && vertexIndex < vertexsList.getSize()) {
-            return vertexsList.getValueByIndex(vertexIndex).getName();
+    public String getVertexName(int index) {
+        Vertex vertex = this.vertexsList.getValueByIndex(index);
+
+        if (vertex != null) {
+            return vertex.getName();
         } else {
-            System.out.println("Indice de vertice fuera de rango: " + vertexIndex);
-            return "";
+            return null;
         }
     }
 
@@ -110,6 +119,10 @@ public class OurGraph {
         } else {
             System.out.println("No se pueden anadir mas vertices al grafo.");
         }
+    }
+
+    public boolean vertexExists(int vertexIndex) {
+        return vertexIndex >= 0 && vertexIndex < this.getVertexsListSize();
     }
 
     public void addEdge(int srcVertex, int dstVertex) {
@@ -221,56 +234,66 @@ public class OurGraph {
         Vertex newVertex = new Vertex(userName, vertexsNum);
         this.vertexsList.addAtTheEnd(newVertex);
 
-        //Inicializar la nueva matriz con el tamano de la matriz original+1
+        // Inicializar la nueva matriz con el tamaño de la matriz original + 1
         int[][] newMatrix = new int[vertexsNum + 1][vertexsNum + 1];
 
-        //Copiar la matriz anterior
+        // Copiar la matriz anterior correctamente
         for (int i = 0; i < vertexsNum; i++) {
             for (int j = 0; j < vertexsNum; j++) {
-                if (this.checkEdge(i, j)) {
-                    newMatrix[i][j] = 1;
-                }
+                newMatrix[i][j] = this.matrix[i][j];
             }
         }
 
         this.matrix = newMatrix;
+        // actualizar numero de vertices del grafo
+        this.numVertexs = this.getVertexsListSize();
 
-        int newVertexNum = newVertex.getNumVertex();
-        this.addEdge(newVertexNum, relation);
+        this.addEdge(newVertex.getNumVertex(), relation);
 
+//        // Imprimir información de depuración
+//        System.out.println("Matrix after copying:");
+//        for (int i = 0; i < this.matrix.length; i++) {
+//            for (int j = 0; j < this.matrix[i].length; j++) {
+//                System.out.print(this.matrix[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
     }
-    
+
     /*
         - PRUEBA Eliminar un vertice del grafo
      */
-    
     public void deleteVertex(int vertexIndex) {
         if (vertexIndex < 0 || vertexIndex >= this.numVertexs) {
-
             System.out.println("El vertice esta fuera de rango o no existe en: " + vertexIndex);
             return;
         }
-        // Eliminar aristas conectadas al vertice y luego eliminar el vertice de la lista
-        for (int i = 0; i < this.numVertexs; i++) {
-            this.matrix[vertexIndex][i] = 0;
-            this.matrix[i][vertexIndex] = 0;
+
+        for (int i = 0; i < numVertexs; i++) {
+            if (this.matrix[vertexIndex][i] == 1) {
+                deleteEdge(vertexIndex, i);
+            }
         }
 
         this.vertexsList.deleteAtIndex(vertexIndex);
         this.numVertexs--;
+
+        if (vertexIndex == 0 && this.isGraphEmpty()) {
+            this.matrix = new int[0][0];
+        }
 
         // Crear la nueva matriz actualizada
         int[][] newMatrix = new int[this.numVertexs][this.numVertexs];
 
         int newI = 0;
 
-        for (int i = 0; i < this.numVertexs+1; i++) {
+        for (int i = 0; i < this.numVertexs + 1; i++) {
             if (i == vertexIndex) {
                 continue; // Saltar la fila correspondiente al vértice eliminado
             }
 
             int newJ = 0;
-            for (int j = 0; j < this.numVertexs+1; j++) {
+            for (int j = 0; j < this.numVertexs + 1; j++) {
                 if (j != vertexIndex) {
                     newMatrix[newI][newJ] = this.matrix[i][j];
                     newJ++;
@@ -330,4 +353,21 @@ public class OurGraph {
     public SimpleList getVertexsList() {
         return this.vertexsList;
     }
+
+    // posibles metodos para el funcionamiento del visual
+//    public boolean isVertexIsland(int vertexIndex) {
+//        if (isValidVertexIndex(vertexIndex)) {
+//            Vertex vertex = getVertex(vertexIndex);
+//            return !hasOutgoingEdges(vertex) && !hasIncomingEdges(vertex);
+//        }
+//        return false;
+//    }
+//
+//    private boolean hasOutgoingEdges(Vertex vertex) {
+//        return vertex.getOutgoingEdges().size() > 0;
+//    }
+//
+//    private boolean hasIncomingEdges(Vertex vertex) {
+//        return vertex.getIncomingEdges().size() > 0;
+//    }
 }

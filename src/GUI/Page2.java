@@ -24,19 +24,21 @@ public class Page2 extends javax.swing.JPanel {
 
     public Page2() {
         initComponents();
-        this.setVisible(true);
+        this.userName = null;
+        this.relationIndex = -1;
+        this.isConfirmed = false;
+        //this.setVisible(true);
     }
 
-    
-    
     public Page2(SimpleList<Vertex> comboBoxList) {
-                
         initComponents();
 
         for (int i = 0; i < comboBoxList.getSize(); i++) {
             Vertex v = comboBoxList.getValueByIndex(i);
-            String userName = v.getName();
-            this.usersComboList.addItem(userName);
+            if (v != null) {
+                String userName = v.getName();
+                this.usersComboList.addItem(userName);
+            }
         }
 
         this.setVisible(true);
@@ -56,6 +58,7 @@ public class Page2 extends javax.swing.JPanel {
         usersComboList = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         userNameBox1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -63,7 +66,7 @@ public class Page2 extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabel3.setText("Ingrese el nuevo Usuario:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 340, 20));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 340, 20));
 
         usersComboList.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usersComboList.addActionListener(new java.awt.event.ActionListener() {
@@ -71,11 +74,11 @@ public class Page2 extends javax.swing.JPanel {
                 usersComboListActionPerformed(evt);
             }
         });
-        jPanel1.add(usersComboList, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 250, 30));
+        jPanel1.add(usersComboList, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 250, 30));
 
         jLabel4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabel4.setText("Seleccione el destino de relacion (obligatorio)");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 380, 30));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 380, 30));
 
         userNameBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         userNameBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -83,7 +86,12 @@ public class Page2 extends javax.swing.JPanel {
                 userNameBox1ActionPerformed(evt);
             }
         });
-        jPanel1.add(userNameBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 250, 30));
+        jPanel1.add(userNameBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 250, 30));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Opciones de usuario");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 310, 30));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 250));
     }// </editor-fold>//GEN-END:initComponents
@@ -97,18 +105,17 @@ public class Page2 extends javax.swing.JPanel {
     }//GEN-LAST:event_userNameBox1ActionPerformed
 
     public ComboBoxAPI parsePage2() {
-        
+
         this.userName = this.userNameBox1.getText();
         this.relationIndex = this.usersComboList.getSelectedIndex();
-        
+
         ComboBoxAPI comboAPI = new ComboBoxAPI(this.userName, this.relationIndex);
         return comboAPI;
     }
 
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;

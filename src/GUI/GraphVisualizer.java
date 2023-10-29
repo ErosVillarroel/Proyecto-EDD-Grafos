@@ -5,7 +5,9 @@
 package GUI;
 
 import Classes.OurGraph;
+
 import java.awt.BorderLayout;
+
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
@@ -14,6 +16,7 @@ import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swing_viewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerPipe;
 
 /**
  *
@@ -30,7 +33,31 @@ public class GraphVisualizer {
         this.viewer = null;
     }
 
-     public void visualizeGraph(OurGraph grafo, JPanel graphPanel) {
+    public Viewer getViewer() {
+        return viewer;
+    }
+
+    public void eraseVisualizer() {
+        if (viewer != null) {
+            viewer.close();
+            viewer = null;
+        }
+
+        graph = new SingleGraph("Grafo");
+        viewer = graph.display(true);
+        viewer.enableAutoLayout();
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.CLOSE_VIEWER);
+        graph.clear();
+    }
+
+    public void resetView() {
+        if (viewer != null) {
+            viewer.getDefaultView().getCamera().resetView();
+        }
+    }
+
+    public void visualizeGraph(OurGraph grafo, JPanel graphPanel) {
         // Antes de cargar un nuevo grafo
         if (viewer != null) {
             viewer.close();
@@ -50,17 +77,48 @@ public class GraphVisualizer {
 
         // Actualizar o agregar nodos y aristas según sea necesario
         for (int i = 0; i < grafo.getVertexsListSize(); i++) {
-            Node node = graph.addNode(Integer.toString(i));
-            node.setAttribute("ui.label", grafo.getVertexName(i));
-            node.setAttribute("ui.style", "fill-color: blue; size: 15px; text-size: 20px;");
-            // Establecer posicion específica para cada nodo
-            double x = 50 + i * 100;  // Ajustar valores
-            double y = 50;
-            double z = 0;
+            Node node = graph.getNode(Integer.toString(i));
+            if (node == null) {
+                // El nodo no existe, lo creamos
+                node = graph.addNode(Integer.toString(i));
+                node.setAttribute("ui.label", grafo.getVertexName(i));
+                node.setAttribute("ui.style", "fill-color: blue; size: 15px; text-size: 20px;");
 
-            node.setAttribute("xyz", x, y, z);
+            } else {
+                node = graph.addNode(Integer.toString(i));
+                node.setAttribute("ui.label", grafo.getVertexName(i));
+                node.setAttribute("ui.style", "fill-color: blue; size: 15px; text-size: 20px;");
+                // Establecer posicion específica para cada nodo
+//                double x = 50 + i * 100;  // Ajustar valores
+//                double y = 50;
+//                double z = 0;
+//
+//                node.setAttribute("xyz", x, y, z);
+
+//            /*
+//                NODOS ISLA [CONFIGURACION DE ESTILOS? OURGRAPH METHODS]
+//            */ 
+//            if (grafo.isVertexIsland(i)) {
+//                // Si el nodo es una isla (sin aristas), cambiar su estilo
+//                node.setAttribute("ui.style", "fill-color: gray; size: 20px; text-size: 20px;");
+//            } else {
+//                // Si el nodo tiene aristas, cambiar su estilo aquí
+//                node.setAttribute("ui.style", "fill-color: orange; size: 20px; text-size: 20px;");
+//            }
+            }
+        }
+        // Limpiar nodos no utilizados
+        for (int i = 0; i < grafo.getVertexsListSize(); i++) {
+            Node node = graph.getNode(Integer.toString(i));
+
+            int nodeIndex = Integer.parseInt(node.getId());
+            if (!grafo.vertexExists(nodeIndex)) {
+                // El nodo no está presente en el grafo, eliminarlo de la visualización
+                graph.removeNode(node);
+            }
         }
 
+        // Añadir aristas
         for (int i = 0; i < grafo.getNumVertexs(); i++) {
             for (int j = 0; j < grafo.getNumVertexs(); j++) {
                 if (grafo.checkEdge(i, j)) {
@@ -72,6 +130,21 @@ public class GraphVisualizer {
                         edge.setAttribute("ui.style", "fill-color: red; size: 2px; arrow-size: 10px, 5px;");
                     }
                 }
+            }
+        }
+
+
+        // Identificar y manejar nodos aislados
+        for (int i = 0; i < grafo.getVertexsListSize(); i++) {
+            Node node = graph.getNode(Integer.toString(i));
+            int nodeIndex = Integer.parseInt(node.getId());
+
+            if (!grafo.vertexExists(nodeIndex)) {
+                // El nodo no está presente en el grafo, eliminarlo de la visualización
+                graph.removeNode(node);
+            } else if (node.getDegree() == 0) {
+                // El nodo no tiene aristas conectadas, establecer un estilo especial
+                node.setAttribute("ui.style", "fill-color: gray; size: 20px; text-size: 20px;");
             }
         }
 
@@ -99,11 +172,30 @@ public class GraphVisualizer {
     }
 
     public void zoomIn(Viewer viewer) {
-        viewer.getDefaultView().getCamera().setViewPercent(viewer.getDefaultView().getCamera().getViewPercent() * 0.9);
+        if (viewer != null && viewer.getDefaultView() != null) {
+            viewer.getDefaultView().getCamera().setViewPercent(viewer.getDefaultView().getCamera().getViewPercent() * 0.9);
+        }
     }
 
     public void zoomOut(Viewer viewer) {
-        viewer.getDefaultView().getCamera().setViewPercent(viewer.getDefaultView().getCamera().getViewPercent() * 1.1);
+        if (viewer != null && viewer.getDefaultView() != null) {
+            viewer.getDefaultView().getCamera().setViewPercent(viewer.getDefaultView().getCamera().getViewPercent() * 1.1);
+        }
     }
 
+//    public boolean isVertexIsland(int vertexIndex) {
+//        if (isValidVertexIndex(vertexIndex)) {
+//            Vertex vertex = getVertex(vertexIndex);
+//            return !hasOutgoingEdges(vertex) && !hasIncomingEdges(vertex);
+//        }
+//        return false;
+//    }
+//
+//    private boolean hasOutgoingEdges(Vertex vertex) {
+//        return vertex.getOutgoingEdges().size() > 0;
+//    }
+//
+//    private boolean hasIncomingEdges(Vertex vertex) {
+//        return vertex.getIncomingEdges().size() > 0;
+//    }
 }
