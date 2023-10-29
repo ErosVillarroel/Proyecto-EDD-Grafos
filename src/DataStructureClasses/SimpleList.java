@@ -136,6 +136,19 @@ public class SimpleList<T> {
 
         return false;
     }
+    
+    public boolean contains(int value) {
+        SimpleNode<T> pAux = this.pFirst;
+
+        while (pAux != null) {
+            if (pAux.getData().equals(value)) {
+                return true;
+            }
+            pAux = pAux.getpNext();
+        }
+
+        return false;
+    }
 
     public SimpleNode<T> searchByValue(T value) {
         SimpleNode<T> pAux = this.pFirst;
@@ -255,16 +268,35 @@ public class SimpleList<T> {
                     counter++;
                 }
 
-<<<<<<< HEAD
                 if (pAux != null && pAux.getpNext() != null) {
                     pAux.setpNext(pAux.getpNext().getpNext());
                 } else {
                     System.out.println("Indice fuera de rango {simplelist}");
                 }
-=======
                 pAux.setpNext(pAux.getpNext().getpNext());
->>>>>>> 4f3b96a56d40b2a9845816dbff533256d9acd855
 
+                this.size--;
+            }
+        }
+    }
+
+    public void deleteByIndex(int index) {
+        if (!this.isEmpty()) {
+            if (index == 0) {
+                SimpleNode<T> head = this.pFirst;
+                this.pFirst = this.pFirst.getpNext();
+                head.setpNext(null);
+                this.size--;
+            } else if (index < this.getSize()) {
+                SimpleNode<T> pAux = this.pFirst;
+                int count = 0;
+                while (count < (index - 1)) {
+                    pAux = pAux.getpNext();
+                    count++;
+                }
+                SimpleNode<T> temporal = pAux.getpNext();
+                pAux.setpNext(temporal.getpNext());
+                temporal.setpNext(null);
                 this.size--;
             }
         }

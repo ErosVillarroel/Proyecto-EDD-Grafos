@@ -275,7 +275,7 @@ public class OurGraph {
             }
         }
 
-        this.vertexsList.deleteAtIndex(vertexIndex);
+        this.vertexsList.deleteByIndex(vertexIndex);
         this.numVertexs--;
 
         if (vertexIndex == 0 && this.isGraphEmpty()) {
@@ -331,6 +331,26 @@ public class OurGraph {
             System.out.println("No se encontro el vertice de la posicion: " + vertexIndex);
         }
     }
+
+    public String getVertexRelations(int vertexIndex) {
+        
+        if (isValidVertexIndex(vertexIndex)) {
+            StringBuilder relations = new StringBuilder();
+            
+            for (int i = 0; i < numVertexs; i++) {
+                if (checkEdge(vertexIndex, i)) {
+                    relations.append(i).append(", ");
+                }
+            }
+            // Eliminar la coma y el espacio del final
+            if (relations.length() > 0) {
+                relations.delete(relations.length() - 2, relations.length());
+            }
+            return relations.toString();
+        }
+        return "";
+    }
+    
 
     // Verificar si el vertice de la lista es valido
     private boolean isValidVertexIndex(int vertexIndex) {

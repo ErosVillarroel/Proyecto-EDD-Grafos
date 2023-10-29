@@ -4,7 +4,9 @@
  */
 package GUI;
 
+import Classes.Kosaraju;
 import Classes.OurGraph;
+import DataStructureClasses.SimpleList;
 
 import java.awt.BorderLayout;
 
@@ -133,7 +135,6 @@ public class GraphVisualizer {
             }
         }
 
-
         // Identificar y manejar nodos aislados
         for (int i = 0; i < grafo.getVertexsListSize(); i++) {
             Node node = graph.getNode(Integer.toString(i));
@@ -146,6 +147,11 @@ public class GraphVisualizer {
                 // El nodo no tiene aristas conectadas, establecer un estilo especial
                 node.setAttribute("ui.style", "fill-color: gray; size: 20px; text-size: 20px;");
             }
+//            else if (isNodeStronglyConnected(nodeIndex, grafo)) {
+//                // Establecer un color distintivo para los nodos fuertemente conexos
+//                node.setAttribute("ui.style", "fill-color: purple; size: 20px; text-size: 20px;");
+//
+//            }
         }
 
         // Obtener el panel de vista y agregarlo al panel proporcionado
@@ -181,6 +187,21 @@ public class GraphVisualizer {
         if (viewer != null && viewer.getDefaultView() != null) {
             viewer.getDefaultView().getCamera().setViewPercent(viewer.getDefaultView().getCamera().getViewPercent() * 1.1);
         }
+    }
+
+    private boolean isNodeStronglyConnected(int nodeIndex, OurGraph grafo) {
+
+        Kosaraju kosaraju = new Kosaraju(grafo);
+        SimpleList<SimpleList> stronglyConnectedComponents = kosaraju.getComponents();
+
+        for (int i = 0; i < stronglyConnectedComponents.getSize(); i++) {
+            SimpleList<Integer> component = stronglyConnectedComponents.getValueByIndex(i);
+            if (component.contains(nodeIndex)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 //    public boolean isVertexIsland(int vertexIndex) {
