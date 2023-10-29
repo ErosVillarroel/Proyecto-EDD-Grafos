@@ -60,13 +60,17 @@ public class SimpleList<T> {
 
     //recorrer hasta nulo
     public void printList() {
-        SimpleNode<T> pAux = this.pFirst;
-        System.out.println("Lista==============================");
-        while (pAux != null) {
-            System.out.println(pAux.getData());
-            pAux = pAux.getpNext();
+        try {
+            SimpleNode<T> pAux = this.pFirst;
+            System.out.println("Lista==============================");
+            while (pAux != null) {
+                System.out.println(pAux.getData());
+                pAux = pAux.getpNext();
+            }
+            System.out.println("===================================");
+        } catch (Exception e) {
+            System.out.println("error al printear.");
         }
-        System.out.println("===================================");
     }
 
     //Print para lista especifica de vertices
@@ -251,11 +255,15 @@ public class SimpleList<T> {
                     counter++;
                 }
 
+<<<<<<< HEAD
                 if (pAux != null && pAux.getpNext() != null) {
                     pAux.setpNext(pAux.getpNext().getpNext());
                 } else {
                     System.out.println("Indice fuera de rango {simplelist}");
                 }
+=======
+                pAux.setpNext(pAux.getpNext().getpNext());
+>>>>>>> 4f3b96a56d40b2a9845816dbff533256d9acd855
 
                 this.size--;
             }

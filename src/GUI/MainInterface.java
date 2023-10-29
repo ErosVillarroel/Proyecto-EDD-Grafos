@@ -553,7 +553,89 @@ public class MainInterface extends javax.swing.JFrame {
                 }
             }
         }
+<<<<<<< HEAD
     }//GEN-LAST:event_vertexAddBtnActionPerformed
+=======
+    }//GEN-LAST:event_vertexButnActionPerformed
+
+    private void checkKosarajuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkKosarajuActionPerformed
+
+        if (this.grafo == null){
+            JOptionPane.showMessageDialog(null, "No hay grafo aun.");
+        } else {
+            
+            Kosaraju kosaraju = new Kosaraju(this.grafo);
+            
+        }
+        
+        
+    }//GEN-LAST:event_checkKosarajuActionPerformed
+
+    private void deleteVertexBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVertexBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.deleteVertexBtn) {
+            // Mostrar los índices de los usuarios existentes
+//
+//            if (this.usersList.getSize() != 0) {
+//                showVertexIndices();
+//
+//                String input = JOptionPane.showInputDialog(null, "Ingrese el indice del usuario a eliminar:");
+//
+//                if (input != null && !input.isEmpty()) {
+//                    try {
+//                        int vertexIndex = Integer.parseInt(input);
+//
+//                        // Verificar que el índice sea válido
+//                        if (vertexIndex >= 0 && vertexIndex < grafo.getVertexsListSize()) {
+//                            grafo.deleteVertex(vertexIndex);
+//
+//                            // Visualizar el grafo actualizado
+//                            // ****ARREGLAR VISUALIZACION AL ELIMINAR UN VECTOR
+//                            //graphVisualizer.visualizeGraph(grafo, this.content);
+//                            grafo.print();
+//
+//                        } else {
+//                            JOptionPane.showMessageDialog(null, "Índice no válido. Inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+//                        }
+//                    } catch (NumberFormatException e) {
+//                        JOptionPane.showMessageDialog(null, "Ingrese un valor numerico válido.", "Error", JOptionPane.ERROR_MESSAGE);
+//                    }
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(null, "No usuarios todavia.");
+//            }
+
+        }
+    }//GEN-LAST:event_deleteVertexBtnActionPerformed
+
+    private void changeVertexNameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeVertexNameBtnActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == this.changeVertexNameBtn) {
+            int selectedIndex = showVertexList();
+
+            if (isValidVertexIndex(selectedIndex)) {
+                String newNameVertex = JOptionPane.showInputDialog(null, "Ingrese el nuevo nombre para el usuario '" + grafo.getVertexName(selectedIndex) + "': ");
+
+                if (newNameVertex != null && !newNameVertex.isEmpty()) {
+
+                    grafo.modifyVertexName(selectedIndex, newNameVertex);
+
+                    // mostrar cambios visualizer
+                    graphVisualizer.visualizeGraph(grafo, content);
+                    JOptionPane.showMessageDialog(null, "Nombre modificado exitosamente!");
+                }
+            } else if (selectedIndex != -1) {
+                JOptionPane.showMessageDialog(null, "Indice invalido.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
+    }//GEN-LAST:event_changeVertexNameBtnActionPerformed
+
+    private void vertexButn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexButn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vertexButn1ActionPerformed
+>>>>>>> 4f3b96a56d40b2a9845816dbff533256d9acd855
 
     private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
         try {
