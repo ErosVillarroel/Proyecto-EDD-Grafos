@@ -60,13 +60,17 @@ public class SimpleList<T> {
 
     //recorrer hasta nulo
     public void printList() {
-        SimpleNode<T> pAux = this.pFirst;
-        System.out.println("Lista==============================");
-        while (pAux != null) {
-            System.out.println(pAux.getData());
-            pAux = pAux.getpNext();
+        try {
+            SimpleNode<T> pAux = this.pFirst;
+            System.out.println("Lista==============================");
+            while (pAux != null) {
+                System.out.println(pAux.getData());
+                pAux = pAux.getpNext();
+            }
+            System.out.println("===================================");
+        } catch (Exception e) {
+            System.out.println("error al printear.");
         }
-        System.out.println("===================================");
     }
 
     //Print para lista especifica de vertices
@@ -246,19 +250,19 @@ public class SimpleList<T> {
             } else {
                 SimpleNode<T> pAux = this.pFirst;
                 int counter = 0;
-              
-                while (counter < index-1 && pAux != null) {
+
+                while (counter < index - 1 && pAux != null) {
                     pAux = pAux.getpNext();
-                    counter ++;
+                    counter++;
                 }
 
                 pAux.setpNext(pAux.getpNext().getpNext());
-                
-                this.size --;
+
+                this.size--;
             }
         }
     }
-    
+
     public void deleteVertexAtIndex(int index) {
 
         if (!isValidIndex(index)) {
@@ -269,15 +273,15 @@ public class SimpleList<T> {
             } else {
                 SimpleNode<T> pAux = this.pFirst;
                 int counter = 0;
-              
-                while (counter < index-1 && pAux != null) {
+
+                while (counter < index - 1 && pAux != null) {
                     pAux = pAux.getpNext();
-                    counter ++;
+                    counter++;
                 }
 
                 pAux.setpNext(pAux.getpNext().getpNext());
-                
-                this.size --;
+
+                this.size--;
             }
         }
     }
@@ -304,7 +308,7 @@ public class SimpleList<T> {
 
         sort();
     }
-    
+
     private void swapIntegers(SimpleNode<Integer> current, SimpleNode<Integer> next) {
         int aux = current.getData();
         current.setData((Integer) current.getpNext().getData());

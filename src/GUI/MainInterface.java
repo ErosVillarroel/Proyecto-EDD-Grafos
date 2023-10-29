@@ -457,7 +457,15 @@ public class MainInterface extends javax.swing.JFrame {
 
     private void checkKosarajuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkKosarajuActionPerformed
 
-
+        if (this.grafo == null){
+            JOptionPane.showMessageDialog(null, "No hay grafo aun.");
+        } else {
+            
+            Kosaraju kosaraju = new Kosaraju(this.grafo);
+            
+        }
+        
+        
     }//GEN-LAST:event_checkKosarajuActionPerformed
 
     private void deleteVertexBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVertexBtnActionPerformed
