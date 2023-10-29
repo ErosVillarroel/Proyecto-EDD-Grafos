@@ -218,6 +218,34 @@ public class FileManager {
         return null;
     }
 
+    public SimpleList parseUsersFromTextArea(String textAreaContent) {
+        try {
+            SimpleList<String> usersList = new SimpleList();
+            String[] splittedText = textAreaContent.split("\n");
+            String line;
+
+            for (int i = 0; i < splittedText.length; i++) {
+                line = splittedText[i];
+
+                 if (line.contains("relaciones")) {
+                    return usersList;
+                }
+                
+                if (line.contains("usuarios")) {
+                    continue;
+                }
+
+                String newUser = splittedText[i].replace("@", "");
+                usersList.addAtTheEnd(newUser);
+
+            }
+
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public SimpleList parseRelationshipsFromFile(File inFile) {
         SimpleList relationsList = new SimpleList();
         String line;
@@ -248,6 +276,32 @@ public class FileManager {
         }
 
         return null;
+    }
+
+    public SimpleList parseRelationshipsFromTextArea(String textAreaContent) {
+try{
+        SimpleList<String> relationsList = new SimpleList();
+        String[] splittedText = textAreaContent.split("relaciones")[1].split("\n");
+        String line;
+
+        for (int i = 0; i < splittedText.length; i++) {
+            line = splittedText[i];
+
+            if (!(line.contains(","))) {
+                continue;
+            }
+
+            String newRelation = splittedText[i].replace("@", "");
+            relationsList.addAtTheEnd(newRelation);
+
+        }
+
+        return relationsList;
+
+        } catch (Exception e) {
+            System.out.println("Cache un error en ell codigo parse relationships");
+            return null;
+        }
     }
 
     public void saveGraphToFile(OurGraph graph) {

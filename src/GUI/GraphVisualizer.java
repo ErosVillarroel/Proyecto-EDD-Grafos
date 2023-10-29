@@ -30,7 +30,7 @@ public class GraphVisualizer {
         this.viewer = null;
     }
 
-    public void visualizeGraph(OurGraph grafo, JPanel graphPanel) {
+     public void visualizeGraph(OurGraph grafo, JPanel graphPanel) {
         // Antes de cargar un nuevo grafo
         if (viewer != null) {
             viewer.close();
@@ -38,8 +38,12 @@ public class GraphVisualizer {
 
         // Crear un nuevo grafo y visor
         this.graph = new SingleGraph("Grafo");
-        this.viewer = graph.display(false);
+        this.viewer = graph.display();
         viewer.enableAutoLayout();
+
+        // Aplicar la configuración para ocultar la ventana emergente de GraphStream        
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.CLOSE_VIEWER);
 
         // limpiar el grafo existente
         graph.clear();
@@ -70,15 +74,6 @@ public class GraphVisualizer {
                 }
             }
         }
-        //graphPanel.revalidate();
-        //graphPanel.repaint();
-
-        // Crear un visor de grafo
-        //viewer = graph.display(false);
-        //viewer.enableAutoLayout();
-
-        // Aplicar la configuración para ocultar la ventana emergente de GraphStream
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.CLOSE_VIEWER);
 
         // Obtener el panel de vista y agregarlo al panel proporcionado
         ViewPanel view = (ViewPanel) viewer.getDefaultView();

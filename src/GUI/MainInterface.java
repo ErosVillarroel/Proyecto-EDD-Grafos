@@ -13,7 +13,11 @@ import FileManager.FileManager;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import java.awt.Dimension;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -74,7 +78,7 @@ public class MainInterface extends javax.swing.JFrame {
     }
 
     private int showExitConfirmationDialog() {
-        
+
         String[] options = new String[]{"Sí, salir", "No, quedarse"};
         int choice = JOptionPane.showOptionDialog(null, "¿Realmente quieres salir del programa?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
         return choice;
@@ -100,12 +104,12 @@ public class MainInterface extends javax.swing.JFrame {
         checkKosaraju = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        graphTextarea = new javax.swing.JTextArea();
+        vertexButn1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         cargarButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        manualTextArea = new javax.swing.JTextArea();
         menubar = new javax.swing.JMenuBar();
         menu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
@@ -150,19 +154,19 @@ public class MainInterface extends javax.swing.JFrame {
         jLabel1.setText("Social Network");
         bg2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, -1, -1));
 
-        vertexButn.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        vertexButn.setText("Vertices");
+        vertexButn.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
+        vertexButn.setText("Borrar");
         vertexButn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         vertexButn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 vertexButnActionPerformed(evt);
             }
         });
-        bg2.add(vertexButn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 610, 170, 60));
+        bg2.add(vertexButn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 610, 170, 60));
 
         jLabel5.setFont(new java.awt.Font("Roboto Black", 2, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Añadir usuarios");
+        jLabel5.setText("Usuarios:");
         bg2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 570, 180, -1));
 
         checkKosaraju.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
@@ -185,32 +189,17 @@ public class MainInterface extends javax.swing.JFrame {
         jLabel3.setText("Conexos");
         bg2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 530, 210, 40));
 
+        vertexButn1.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
+        vertexButn1.setText("Anyadir");
+        vertexButn1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        vertexButn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vertexButn1ActionPerformed(evt);
+            }
+        });
+        bg2.add(vertexButn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 610, 170, 60));
+
         bg.add(bg2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 830, 750));
-
-        jPanel8.setBackground(new java.awt.Color(255, 153, 51));
-
-        graphTextarea.setColumns(20);
-        graphTextarea.setRows(5);
-        jScrollPane1.setViewportView(graphTextarea);
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(125, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-
-        bg.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, -1, 380));
 
         jPanel7.setBackground(new java.awt.Color(255, 102, 0));
 
@@ -228,11 +217,37 @@ public class MainInterface extends javax.swing.JFrame {
         bg.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 450, 180));
 
         cargarButton.setText("Cargar");
+        cargarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarButtonActionPerformed(evt);
+            }
+        });
         bg.add(cargarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setText("En esta misma ventana quizas mostrar la matriz de adyacencia y lista de usuarios");
-        bg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 430, 90));
+        jPanel8.setBackground(new java.awt.Color(255, 153, 51));
+
+        manualTextArea.setColumns(20);
+        manualTextArea.setRows(5);
+        jScrollPane1.setViewportView(manualTextArea);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(122, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        bg.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, -1, 380));
 
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 750));
 
@@ -409,20 +424,17 @@ public class MainInterface extends javax.swing.JFrame {
                 SimpleList<Vertex> vertexsList = this.grafo.getVertexsList();
 
                 Page2 comboPage = new Page2(vertexsList);
-                comboPage.setVisible(true);
-                ComboBoxAPI boxAPI = comboPage.parsePage2();
+//                comboPage.setVisible(true);
 
                 // Mostrar un diálogo para ingresar el nombre del usuario y seleccionar el vértice
                 int result = JOptionPane.showConfirmDialog(null, comboPage, "Añadir Usuario", JOptionPane.OK_CANCEL_OPTION);
 
+                ComboBoxAPI boxAPI = comboPage.parsePage2();
                 if (result == JOptionPane.OK_OPTION) {
                     String userName = boxAPI.getUserName();
                     int relationIndex = boxAPI.getRelationIndex();
-                    boolean isConfirmed = boxAPI.getIsConfirmed();
 
-                    if (isConfirmed) {
-                        return;
-                    }
+                    boxAPI.printBoxApi();
 
                     if (grafo.userExists(userName)) {
                         JOptionPane.showMessageDialog(null, "El usuario '" + userName.toUpperCase() + "' ya existe en la lista!");
@@ -444,7 +456,8 @@ public class MainInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_vertexButnActionPerformed
 
     private void checkKosarajuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkKosarajuActionPerformed
-        // TODO add your handling code here:
+
+
     }//GEN-LAST:event_checkKosarajuActionPerformed
 
     private void deleteVertexBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVertexBtnActionPerformed
@@ -493,9 +506,9 @@ public class MainInterface extends javax.swing.JFrame {
                 String newNameVertex = JOptionPane.showInputDialog(null, "Ingrese el nuevo nombre para el usuario '" + grafo.getVertexName(selectedIndex) + "': ");
 
                 if (newNameVertex != null && !newNameVertex.isEmpty()) {
-                    
+
                     grafo.modifyVertexName(selectedIndex, newNameVertex);
-                    
+
                     // mostrar cambios visualizer
                     graphVisualizer.visualizeGraph(grafo, content);
                     JOptionPane.showMessageDialog(null, "Nombre modificado exitosamente!");
@@ -507,6 +520,52 @@ public class MainInterface extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_changeVertexNameBtnActionPerformed
+
+    private void vertexButn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexButn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vertexButn1ActionPerformed
+
+    private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
+        try {
+            String textAreaContent = this.manualTextArea.getText();
+            FileManager fileManager = new FileManager();
+
+            String[] validationSplit = textAreaContent.split("\n");
+
+            if (!(textAreaContent.contains("usuarios"))) {
+                JOptionPane.showMessageDialog(null, "Formato incorrecto: hace falta el campo usuarios.");
+                return;
+            }
+
+            if (!(textAreaContent.contains("relaciones"))) {
+                JOptionPane.showMessageDialog(null, "Formato incorrecto: hace falta el campo relaciones.");
+                return;
+            }
+
+            SimpleList<String> usersList = fileManager.parseUsersFromTextArea(textAreaContent);
+            SimpleList<String> relationsList = fileManager.parseRelationshipsFromTextArea(textAreaContent);
+            
+            if (usersList == null) {
+                JOptionPane.showMessageDialog(null, "Error en el formato de los usuarios.");
+            }
+            
+            if (relationsList == null) {
+                JOptionPane.showMessageDialog(null, "Error en el formato de las relaciones.");
+            }
+
+            OurGraph grafo = new OurGraph(usersList, relationsList);
+            grafo.print();
+            this.grafo = grafo;
+            
+            
+            graphVisualizer = new GraphVisualizer();
+            graphVisualizer.visualizeGraph(grafo, this.content);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error desconocido.");
+        }
+
+    }//GEN-LAST:event_cargarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -554,11 +613,9 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JPanel content;
     private javax.swing.JMenuItem deleteVertexBtn;
     private javax.swing.JMenuItem exitBtn;
-    private javax.swing.JTextArea graphTextarea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -566,6 +623,7 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTextArea manualTextArea;
     private javax.swing.JMenu menu1;
     private javax.swing.JMenu menu2;
     private javax.swing.JMenuBar menubar;
@@ -573,5 +631,6 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JMenuItem openBtn;
     private javax.swing.JMenuItem saveBtn;
     private javax.swing.JButton vertexButn;
+    private javax.swing.JButton vertexButn1;
     // End of variables declaration//GEN-END:variables
 }

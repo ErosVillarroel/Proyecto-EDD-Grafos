@@ -12,12 +12,17 @@ public class ComboBoxAPI {
 
     private String userName;
     private int relationIndex;
-    private boolean isConfirmed;
 
-    public ComboBoxAPI(String userName, int relationIndex, boolean isConfirmed) {
+    public ComboBoxAPI(String userName, int relationIndex) {
         this.userName = userName;
         this.relationIndex = relationIndex;
-        this.isConfirmed = isConfirmed;
+    }
+
+    public void printBoxApi() {
+
+        System.out.println("Nombre registrado: " + this.userName);
+        System.out.println("Indice de relacion: " + this.relationIndex);
+
     }
 
     public String getUserName() {
@@ -26,10 +31,6 @@ public class ComboBoxAPI {
 
     public int getRelationIndex() {
         return relationIndex;
-    }
-
-    public boolean getIsConfirmed() {
-        return isConfirmed;
     }
 
 }

@@ -7,6 +7,7 @@ package GUI;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import FileManager.ComboBoxAPI;
+import java.awt.LayoutManager;
 
 /**
  *
@@ -21,7 +22,15 @@ public class Page2 extends javax.swing.JPanel {
     private int relationIndex;
     private boolean isConfirmed;
 
+    public Page2() {
+        initComponents();
+        this.setVisible(true);
+    }
+
+    
+    
     public Page2(SimpleList<Vertex> comboBoxList) {
+                
         initComponents();
 
         for (int i = 0; i < comboBoxList.getSize(); i++) {
@@ -29,6 +38,7 @@ public class Page2 extends javax.swing.JPanel {
             String userName = v.getName();
             this.usersComboList.addItem(userName);
         }
+
         this.setVisible(true);
     }
 
@@ -55,7 +65,6 @@ public class Page2 extends javax.swing.JPanel {
         jLabel3.setText("Ingrese el nuevo Usuario:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 340, 20));
 
-        usersComboList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
         usersComboList.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usersComboList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,11 +74,16 @@ public class Page2 extends javax.swing.JPanel {
         jPanel1.add(usersComboList, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 250, 30));
 
         jLabel4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        jLabel4.setText("Seleccione el destino de relacion");
+        jLabel4.setText("Seleccione el destino de relacion (obligatorio)");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 380, 30));
 
         userNameBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jPanel1.add(userNameBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 160, 30));
+        userNameBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userNameBox1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(userNameBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 250, 30));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 250));
     }// </editor-fold>//GEN-END:initComponents
@@ -78,11 +92,21 @@ public class Page2 extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_usersComboListActionPerformed
 
+    private void userNameBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userNameBox1ActionPerformed
+
     public ComboBoxAPI parsePage2() {
-        ComboBoxAPI comboAPI = new ComboBoxAPI(this.userName, this.relationIndex, this.isConfirmed);
+        
+        this.userName = this.userNameBox1.getText();
+        this.relationIndex = this.usersComboList.getSelectedIndex();
+        
+        ComboBoxAPI comboAPI = new ComboBoxAPI(this.userName, this.relationIndex);
         return comboAPI;
     }
 
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;

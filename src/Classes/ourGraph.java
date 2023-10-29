@@ -264,13 +264,13 @@ public class OurGraph {
 
         int newI = 0;
 
-        for (int i = 0; i < this.numVertexs; i++) {
+        for (int i = 0; i < this.numVertexs+1; i++) {
             if (i == vertexIndex) {
                 continue; // Saltar la fila correspondiente al vértice eliminado
             }
 
             int newJ = 0;
-            for (int j = 0; j < this.numVertexs; j++) {
+            for (int j = 0; j < this.numVertexs+1; j++) {
                 if (j != vertexIndex) {
                     newMatrix[newI][newJ] = this.matrix[i][j];
                     newJ++;
