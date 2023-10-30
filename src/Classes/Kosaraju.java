@@ -3,25 +3,25 @@ package Classes;
 import DataStructureClasses.SimpleList;
 import DataStructureClasses.TypeStack;
 
-/**
- *
- * @author B-St
- */
+//Implementa el algoritmo de kosaraju para encontrar elementos fuertemente relacionados
 public class Kosaraju {
 
     private static boolean[] visited;
     private final OurGraph graph;
     private SimpleList<SimpleList> components;
 
+    //Crea un un nuevo objeto kosaraju que almacena la informacion. Toma como argumento un objeto OurGraph
     public Kosaraju(OurGraph graph) {
 
-        System.out.println("KOSARAJU TESTTTTTT-------------------------------");
+        System.out.println("KOSARAJU TEST-------------------------------");
 
         this.graph = graph;
         this.components = new SimpleList();
         this.findStronglyConnectedComponents(graph);
     }
 
+    
+    //Encuentra los componentes fuertemente relacionados de el grafo
     private void findStronglyConnectedComponents(OurGraph graph) {
 
         int numberOfVertexs = graph.getNumVertexs();
@@ -58,6 +58,13 @@ public class Kosaraju {
         //Devolver la matriz al original
         graph.transpose();
 
+        System.out.println("Cada print (Lista) es un componente fuertemente relacionado.");
+        for (int i = 0; i < this.components.getSize(); i++) {
+
+            this.components.getValueByIndex(i).printList();
+
+        }
+
     }
 
     private void findOrder(int vertexNum, TypeStack<Integer> stack) {
@@ -79,14 +86,14 @@ public class Kosaraju {
 
         for (int i = 0; i < this.graph.getNumVertexs(); i++) {
             if (graph.checkEdge(vertex, i) && !this.visited[i]) {
-                dfs(i,component);
+                dfs(i, component);
             }
         }
     }
 
+    //devuelve una lista de listas en la que cada indice tiene una lista con los indices que forman parte de un elemento fuertemente conectado
     public SimpleList<SimpleList> getComponents() {
         return components;
     }
-    
-    
+
 }

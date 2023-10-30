@@ -20,40 +20,31 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author andre
+ *
+ * Clase que se encarga del manejo de los archivos del proyecto
  */
 public class FileManager {
 
     private final String SAVED_DIRECTORY = ".saved";
 
+    //crea el objeto 
     public FileManager() {
-//        System.out.println("Me hice filemanager :)");
     }
 
+    //revisa si existe una carpeta .saved en el directorio
     public boolean savedPathExists() {
         Path path = Paths.get(this.SAVED_DIRECTORY);
         return Files.exists(path);
     }
 
+    //cuenta la cantidad de archivos en la carpeta .saved
     public int fileCounter() {
         File directory = new File(this.SAVED_DIRECTORY);
         int fileCount = directory.list().length;
         return fileCount;
     }
 
-    public void createTXT() {
-        File directory = new File(".");
-        File file = new File(directory, "archivos.txt");
-
-        try {
-            if (file.createNewFile()) {
-                JOptionPane.showMessageDialog(null, "Archivo creado con exito!");
-            }
-        } catch (IOException excepcion) {
-            excepcion.printStackTrace(System.out);
-        }
-        // cerrar archivo?
-    }
-
+    //guarda la informacion de un archivo a txt
     public void saveFileToTxt(File inFile) {
 
         if (this.savedPathExists()) {
@@ -122,6 +113,7 @@ public class FileManager {
         }
     }
 
+    //guarda una string a txt
     public void saveStringToTxt(String string) {
 
         try {
@@ -137,7 +129,7 @@ public class FileManager {
 
     }
 
-    //WOIP importacion del lector de archivos
+    //abre una ventana en la que se selecciona un archivo
     public File selectFile() {
         try {
             JFileChooser filechooser = new JFileChooser();
@@ -146,7 +138,6 @@ public class FileManager {
             filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             filechooser.setAcceptAllFileFilterUsed(false);
             // Añadir filtros
-//            filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de JSON (*.json)", "json"));
             filechooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
             // Mostrar ventana de seleccion de archivos
             filechooser.showOpenDialog(filechooser);
@@ -164,12 +155,7 @@ public class FileManager {
         }
     }
 
-    /*
-        | Prueba preliminar adquirir los usuarios del txt
-            retorna los usuarios adquiridos del txt como
-            una lista de objetos de la clase vertices (nodos para le grafo)  
-     */
-//  YA SIRVE
+    //sirve para obtener los usuarios de un archivo siguiendo el formato del txt de ejemplo
     @SuppressWarnings("empty-statement")
     public SimpleList parseUsersFromFile(File fileSelected) {
         SimpleList usersList = new SimpleList();
@@ -218,6 +204,7 @@ public class FileManager {
         return null;
     }
 
+    //sirve para obtener los usuarios de un textarea siguiendo el formato del txt de ejemplo
     public SimpleList parseUsersFromTextArea(String textAreaContent) {
         try {
             SimpleList<String> usersList = new SimpleList();
@@ -227,10 +214,10 @@ public class FileManager {
             for (int i = 0; i < splittedText.length; i++) {
                 line = splittedText[i];
 
-                 if (line.contains("relaciones")) {
+                if (line.contains("relaciones")) {
                     return usersList;
                 }
-                
+
                 if (line.contains("usuarios")) {
                     continue;
                 }
@@ -246,6 +233,7 @@ public class FileManager {
         }
     }
 
+    //sirve para obtener las relaiciones de un archivo siguiendo el formato del txt de ejemplo
     public SimpleList parseRelationshipsFromFile(File inFile) {
         SimpleList relationsList = new SimpleList();
         String line;
@@ -278,25 +266,26 @@ public class FileManager {
         return null;
     }
 
+    //sirve para obtener las relaciones de un textarea siguiendo el formato del txt de ejemplo
     public SimpleList parseRelationshipsFromTextArea(String textAreaContent) {
-try{
-        SimpleList<String> relationsList = new SimpleList();
-        String[] splittedText = textAreaContent.split("relaciones")[1].split("\n");
-        String line;
+        try {
+            SimpleList<String> relationsList = new SimpleList();
+            String[] splittedText = textAreaContent.split("relaciones")[1].split("\n");
+            String line;
 
-        for (int i = 0; i < splittedText.length; i++) {
-            line = splittedText[i];
+            for (int i = 0; i < splittedText.length; i++) {
+                line = splittedText[i];
 
-            if (!(line.contains(","))) {
-                continue;
+                if (!(line.contains(","))) {
+                    continue;
+                }
+
+                String newRelation = splittedText[i].replace("@", "");
+                relationsList.addAtTheEnd(newRelation);
+
             }
 
-            String newRelation = splittedText[i].replace("@", "");
-            relationsList.addAtTheEnd(newRelation);
-
-        }
-
-        return relationsList;
+            return relationsList;
 
         } catch (Exception e) {
             System.out.println("Cache un error en ell codigo parse relationships");
@@ -304,6 +293,7 @@ try{
         }
     }
 
+    //guarda un grafo a un archivo txt siguiendo el formato de los txt de ejemplo
     public void saveGraphToFile(OurGraph graph) {
 
         if (this.savedPathExists()) {

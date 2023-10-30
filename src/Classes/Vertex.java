@@ -13,6 +13,7 @@ public class Vertex {
         this.vertexNum = -1;
     }
 
+    //crea un vertice con nombre y numero
     public Vertex(String name, int vertexNum) {
         this.name = name;
         this.vertexNum = vertexNum;

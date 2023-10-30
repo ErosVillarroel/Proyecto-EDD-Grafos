@@ -7,30 +7,28 @@ package GUI;
 import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import FileManager.ComboBoxAPI;
-import java.awt.LayoutManager;
 
 /**
  *
  * @author bcsoporte
  */
-public class Page2 extends javax.swing.JPanel {
+
+//clase que sirve para la obtencion de datos de un nuevo usuario
+public class NewUserPage extends javax.swing.JPanel {
 
     /**
      * Creates new form Page2
      */
     private String userName;
     private int relationIndex;
-    private boolean isConfirmed;
 
-    public Page2() {
+    public NewUserPage() {
         initComponents();
         this.userName = null;
         this.relationIndex = -1;
-        this.isConfirmed = false;
-        //this.setVisible(true);
     }
 
-    public Page2(SimpleList<Vertex> comboBoxList) {
+    public NewUserPage(SimpleList<Vertex> comboBoxList) {
         initComponents();
 
         for (int i = 0; i < comboBoxList.getSize(); i++) {

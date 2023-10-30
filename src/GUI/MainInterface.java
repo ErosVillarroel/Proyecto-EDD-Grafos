@@ -10,23 +10,14 @@ import Classes.Vertex;
 import DataStructureClasses.SimpleList;
 import FileManager.ComboBoxAPI;
 import FileManager.FileManager;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import java.awt.Dimension;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Locale;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 /**
  *
  * @author bcsoporte
+ * 
+ * clase que sirve de interfaz grafica para el proyecto
  */
 public class MainInterface extends javax.swing.JFrame {
 
@@ -54,13 +45,15 @@ public class MainInterface extends javax.swing.JFrame {
         this.setVisible(true);
     }
 
+    //genera el dialogo mostrado en la pestana de acerca
     private void showAboutDialog() {
         String aboutMessage = "[ESTRUCTURAS DE DATOS]\n* Proyecto de Grafo *\n\n"
-                + "Autores:\n"
-                + "- [Nombre del Autor 1]\n"
-                + "- [Nombre del Autor 2]\n\n"
-                + "Descripción:\n"
-                + "[Breve explicación del proyecto y su propósito]";
+                + "Autores: \n"
+                + "- Andres Marquez\n"
+                + "- Eros Villarroel\n\n"
+                + "Botones: \n\n-Leer informacion: Lee informacion ingresada en el textarea. Solo reconoce formatos como el del txt de ejemplo.\n\n-Ayadir: Anyade un vertice con su relacion.\n\n-Borrar: Elimina un vertice y sus relaciones.\n\n-Verificar conexiones: usa el algoritmo de kosaraju para verificar los componentes fuertemente conectados del grafo.\n\n"
+                + "Errores conocidos: \n\n-El kosaraju funciona a nivel de logica y codigo, pero la representacion grafica se rompe por alguna razon.\n\n-No pudimos cerrar la ventana emergente que se abre a la hora de graficar el grafo.\n\n-Las librerias no se suben al repositorio de github.\n\n"
+                + "Librerias usadas: \n\n-AbsoluteLayout.\n\n-GraphStream.\n\n";
 
         JOptionPane.showMessageDialog(
                 null,
@@ -70,6 +63,7 @@ public class MainInterface extends javax.swing.JFrame {
         );
     }
 
+    //muestra una lista de vertices
     private int showVertexList() {
         if (grafo == null || grafo.getVertexsListSize() == 0) {
             JOptionPane.showMessageDialog(null, "No hay usuarios para modificar.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -91,10 +85,12 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }
 
+    //revisa si un indice es valido para el grafo almacenado
     private boolean isValidVertexIndex(int vertexIndex) {
         return vertexIndex >= 0 && vertexIndex <= this.grafo.getVertexsListSize();
     }
 
+    //avisa al usuario al seleccionar la opcion de salir y confirma su decision
     private int showExitConfirmationDialog() {
 
         String[] options = new String[]{"Sí, salir", "No, quedarse"};
@@ -102,6 +98,7 @@ public class MainInterface extends javax.swing.JFrame {
         return choice;
     }
 
+    //reinicia el grafo y su visualizacion
     public void rebootGraph() {
         // Reiniciar el grafo a un estado inicial
         this.grafo = null;
@@ -110,11 +107,9 @@ public class MainInterface extends javax.swing.JFrame {
         if (this.graphVisualizer != null) {
             this.graphVisualizer.eraseVisualizer();
         }
-
-        // Mensaje informativo
-//        JOptionPane.showMessageDialog(null, "Proyecto reiniciado con exito!", "Reinicio", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    //muestra el dialogo para anadir relaciones
     private void showAddRelationsDialog(int selectedVertexIndex) {
         if (selectedVertexIndex < 0 || selectedVertexIndex >= grafo.getNumVertexs()) {
             JOptionPane.showMessageDialog(null, "Seleccione un vertice valido para agregar relaciones.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -144,6 +139,7 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }
 
+    //muestra el dialogo para eliminar relaciones
     private void showDeleteRelationsDialog(int selectedVertexIndex) {
         if (selectedVertexIndex < 0 || selectedVertexIndex >= grafo.getNumVertexs()) {
             JOptionPane.showMessageDialog(null, "Seleccione un vertice valido para eliminar relaciones.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -175,6 +171,7 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }
 
+   //sirve para actualizar la informacion mostrada en los textarea de la izquierda 
     private void updateJTextArea() {
         StringBuilder usersText = new StringBuilder("Usuarios:\n");
         StringBuilder relationsText = new StringBuilder("Relaciones:\n");
@@ -191,8 +188,21 @@ public class MainInterface extends javax.swing.JFrame {
 
         // Actualizar el contenido del JTextArea
         this.userListTextArea.setText(usersText.toString() + "\n" + relationsText.toString());
+
+        StringBuilder matrixString = new StringBuilder();
+        int[][] matrix = this.grafo.getMatrix();
+        for (int i = 0; i < this.grafo.getNumVertexs(); i++) {
+            for (int j = 0; j < this.grafo.getNumVertexs(); j++) {
+                matrixString.append(matrix[i][j]).append("\t");
+            }
+            matrixString.append("\n");
+        }
+
+        this.MatrixTextArea.setText(matrixString.toString());
+
     }
 
+    //se encarga de manejar el kosaraju en la representacion grafica
     private boolean isStronglyConnected(int nodeIndex, OurGraph grafo) {
         // Verificar si el nodo pertenece a algún componente fuertemente conexo
         Kosaraju kosaraju = new Kosaraju(grafo);
@@ -233,6 +243,7 @@ public class MainInterface extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         MatrixTextArea = new javax.swing.JTextArea();
+        jLabel9 = new javax.swing.JLabel();
         cargarButton = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -366,7 +377,11 @@ public class MainInterface extends javax.swing.JFrame {
         MatrixTextArea.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         MatrixTextArea.setRows(5);
         MatrixTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        MatrixTextArea.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jScrollPane3.setViewportView(MatrixTextArea);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel9.setText("Matriz de adyacencia:");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -374,15 +389,19 @@ public class MainInterface extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(13, 13, 13)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         bg.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 450, 210));
@@ -567,6 +586,8 @@ public class MainInterface extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    //se encarga de abrir un archivo txt con el formato de los archivos de ejemplo
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
 //      crear objeto de tipo filechooser que contendra el archivo txt
 
@@ -582,8 +603,7 @@ public class MainInterface extends javax.swing.JFrame {
                 OurGraph grafo = new OurGraph(usersList, relationsList);
                 this.grafo = grafo;
                 grafo.print();
-                //this.displayFromFile(file);
-                // Visualizar el grafo en el panel
+                Kosaraju kosaraju = new Kosaraju(grafo);
 
                 graphVisualizer = new GraphVisualizer();
                 graphVisualizer.visualizeGraph(grafo, this.content);
@@ -601,6 +621,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_openBtnActionPerformed
 
+    //cierra el programa
     private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
         if (evt.getSource() == this.exitBtn) {
 
@@ -619,7 +640,7 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exitBtnActionPerformed
 
-
+    //guarda el grafo actual al txt
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         if (evt.getSource() == this.saveBtn) {
             if (this.grafo == null) {
@@ -632,10 +653,13 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
+    //?????
     private void menu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menu1ActionPerformed
 
+    
+    //Elimina toda la informacion actual 
     private void newProjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectBtnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.newProjectBtn) {
@@ -648,6 +672,7 @@ public class MainInterface extends javax.swing.JFrame {
                     return;
                 } else {
                     this.rebootGraph();
+                    this.emptyTextAreas();
                     // actualizar lista de usuarios en la GUI
                     this.updateJTextArea();
                     JOptionPane.showMessageDialog(null, "Grafo reiniciado con éxito", "Reinicio", JOptionPane.INFORMATION_MESSAGE);
@@ -660,6 +685,8 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_newProjectBtnActionPerformed
 
+    
+    //logica para eliminar un vertice y sus relaciones del grafo y el visualizador 
     private void vertexDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexDeleteBtnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.vertexDeleteBtn) {
@@ -701,9 +728,8 @@ public class MainInterface extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "El grafo esta vacio. No se puede realizar ninguna accion.", "Grafo Vacio", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
-            //StringBuilder resultMessage = new StringBuilder("Resultados de la verificacion de nodos fuertemente conectados:\n");
 
+            //StringBuilder resultMessage = new StringBuilder("Resultados de la verificacion de nodos fuertemente conectados:\n");
             for (int i = 0; i < this.grafo.getNumVertexs(); i++) {
                 boolean isStronglyConnected = this.isStronglyConnected(i, this.grafo);
                 //resultMessage.append("Nodo en la posicion ").append(i).append(": ");
@@ -721,6 +747,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_checkKosarajuActionPerformed
 
+    //logica para modificar le nombre de un vertice
     private void changeVertexNameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeVertexNameBtnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.changeVertexNameBtn) {
@@ -748,6 +775,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_changeVertexNameBtnActionPerformed
 
+    //logica para anadir un vertice
     private void vertexAddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexAddBtnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.vertexAddBtn) {
@@ -776,7 +804,7 @@ public class MainInterface extends javax.swing.JFrame {
             } else {
                 SimpleList<Vertex> vertexsList = this.grafo.getVertexsList();
 
-                Page2 comboPage = new Page2(vertexsList);
+                NewUserPage comboPage = new NewUserPage(vertexsList);
 
                 // Mostrar un diálogo para ingresar el nombre del usuario y seleccionar el vértice
                 int result = JOptionPane.showConfirmDialog(null, comboPage, "Añadir Usuario", JOptionPane.OK_CANCEL_OPTION);
@@ -805,6 +833,7 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_vertexAddBtnActionPerformed
 
+    //opcion para cargar un grafo desde el textarea usando el formato de los txt de prueba 
     private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
         try {
             String textAreaContent = this.manualTextArea.getText();
@@ -849,6 +878,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cargarButtonActionPerformed
 
+    //???
     private void resetViewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetViewBtnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.resetViewBtn) {
@@ -859,6 +889,7 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_resetViewBtnActionPerformed
 
+    //logica para anadir relaciones
     private void addRelationMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRelationMenuActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.addRelationMenu) {
@@ -882,6 +913,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_addRelationMenuActionPerformed
 
+    //logica para eliminar relaciones
     private void removeRelationMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRelationMenuActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.removeRelationMenu) {
@@ -903,6 +935,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_removeRelationMenuActionPerformed
 
+    //logica para modificar relaciones
     private void modifyRelationMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyRelationMenuActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.modifyRelationMenu) {
@@ -949,6 +982,7 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_modifyRelationMenuActionPerformed
 
+    //logica para mostrar la ventana de acerca.
     private void aboutMsgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMsgBtnActionPerformed
         // TODO add your handling code here:
         if (evt.getSource() == this.aboutMsgBtn) {
@@ -991,6 +1025,12 @@ public class MainInterface extends javax.swing.JFrame {
             }
         });
     }
+    
+    //limpia lo que este puesto en los textarea
+    public void emptyTextAreas(){
+        this.MatrixTextArea.setText("");
+        this.userListTextArea.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea MatrixTextArea;
@@ -1012,6 +1052,7 @@ public class MainInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;

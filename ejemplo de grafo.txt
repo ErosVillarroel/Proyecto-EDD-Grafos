@@ -1,0 +1,6 @@
+usuarios
+@usuario1
+@usuario2
+relaciones
+@usuario1,@usuario2
+@usuario2,@usuario1

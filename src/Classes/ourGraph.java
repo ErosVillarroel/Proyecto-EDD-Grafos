@@ -7,12 +7,15 @@ import DataStructureClasses.SimpleList;
  *
  * @author B-St
  */
+
+//Clase que se encarga de toda la logica detras de los grafos
 public class OurGraph {
 
     private SimpleList<Vertex> vertexsList;
     private int[][] matrix;
     private int numVertexs;
 
+//    crea un grafo vacio con el tamano que se le introduzca 
     public OurGraph(int size) {
 
         this.vertexsList = new SimpleList();
@@ -25,7 +28,8 @@ public class OurGraph {
             }
         }
     }
-
+    
+    //crea u  grafo con un solo vertice con el nombre introducido
     public OurGraph(String userName) {
 
         this.vertexsList = new SimpleList();
@@ -38,6 +42,7 @@ public class OurGraph {
         this.vertexsList.addAtTheEnd(newVertex);
     }
 
+//    crea un grafo a partir de una lista de usuarios y una de relaciones parseadas de un archivo con el formato premitido
     public OurGraph(SimpleList<String> usersList, SimpleList<String> relationsList) {
 
         int size = usersList.getSize();
@@ -66,14 +71,17 @@ public class OurGraph {
 
     }
 
+    //revisa si el grafo esta vacio
     public boolean isGraphEmpty() {
         return this.numVertexs == 0;
     }
 
+    //devuelve la matriz que representa las relaciones del grafo
     public int[][] getMatrix() {
         return this.matrix;
     }
 
+    //revisa si un usuario existe en el grafo
     public boolean userExists(String userName) {
         for (int i = 0; i < this.numVertexs; i++) {
             Vertex vertex = this.getVertex(i);
@@ -90,7 +98,8 @@ public class OurGraph {
         }
         return false;
     }
-
+    
+//  devuelve el nombre de un vertice usando su indice como entrada
     public String getVertexName(int index) {
         Vertex vertex = this.vertexsList.getValueByIndex(index);
 
@@ -101,30 +110,33 @@ public class OurGraph {
         }
     }
 
+    //devuelve un vertice a partir de su indice
     public Vertex getVertex(int vertexIndex) {
         if (vertexIndex >= 0 && vertexIndex < vertexsList.getSize()) {
             return vertexsList.getValueByIndex(vertexIndex);
         } else {
             System.out.println("Indice de vertice fuera de rango: " + vertexIndex);
-            return null; // o puedes lanzar una excepción aquí
+            return null; 
         }
     }
 
+    //anade un vertice al grafo, actualizando su matriz
     public void addVertex(Vertex vertex) {
         if (this.vertexsList.getSize() < this.numVertexs) {
             vertexsList.addAtTheEnd(vertex);
             vertex.setNumVertex(vertexsList.getSize() - 1);
-//            System.out.println("Vertice re100 aniadido");
-//            vertex.printVertex();
+
         } else {
             System.out.println("No se pueden anadir mas vertices al grafo.");
         }
     }
 
+    //Revisa si un vertice existe a traves de su indice
     public boolean vertexExists(int vertexIndex) {
         return vertexIndex >= 0 && vertexIndex < this.getVertexsListSize();
     }
-
+    
+    //anade una relacion al vertice
     public void addEdge(int srcVertex, int dstVertex) {
 
         this.verifyVertex(srcVertex, dstVertex);
@@ -132,7 +144,8 @@ public class OurGraph {
 
         this.matrix[srcVertex][dstVertex] = 1;
     }
-
+    
+    //elimina una relacion del grafo
     public void deleteEdge(int srcVertex, int dstVertex) {
 
         this.verifyVertex(srcVertex, dstVertex);
@@ -141,15 +154,14 @@ public class OurGraph {
         this.matrix[srcVertex][dstVertex] = 0;
     }
 
+    //revisa si una relacion existe
     public boolean checkEdge(int srcVertex, int dstVertex) {
         this.verifyVertex(srcVertex, dstVertex);
 //        this.differentVertex(srcVertex, dstVertex);
         return matrix[srcVertex][dstVertex] == 1;
     }
 
-    /*
-        - Cambiar las excepciones para que se vean en la GUI
-     */
+       
     private void verifyVertex(int srcVertex, int dstVertex) {
         if (srcVertex < 0 || srcVertex >= this.numVertexs) {
             throw new IllegalArgumentException("Error: Vertice inexistente o fuera de rango => " + srcVertex);
@@ -160,12 +172,14 @@ public class OurGraph {
 
     }
 
+    //revisa que un vertice sea diferente de si mismo
     private void differentVertex(int srcVertex, int dstVertex) {
         if (srcVertex == dstVertex) {
             throw new IllegalArgumentException("Error: no se permiten bucles: (" + srcVertex + ", " + dstVertex + ")");
         }
     }
 
+    //imprime el grafo
     public void print() {
 
         try {
@@ -185,6 +199,7 @@ public class OurGraph {
         }
     }
 
+    //devuelve una string que representa el grafo
     public String printGraphString() {
         String chain = "";
         for (int i = 0; i < this.numVertexs; i++) {
@@ -196,6 +211,7 @@ public class OurGraph {
         return chain;
     }
 
+    //genera relaciones en el grafo a traves de una lista de relaciones y una de usuarios
     public void generateRelationsFromList(SimpleList<String> relationships, SimpleList<String> userNameList) {
 
         for (int i = 0; i < relationships.getSize(); i++) {
@@ -211,6 +227,7 @@ public class OurGraph {
 
     }
 
+    //transpone la matriz del grafo
     public void transpose() {
 
         int num = this.numVertexs;
@@ -227,7 +244,7 @@ public class OurGraph {
         this.matrix = transposedMatrix;
     }
 
-    // WOIP, hacer una sola relacion?
+    // Anade un usuario con una relacion al grafo
     public void addUser(String userName, int relation) {
 
         int vertexsNum = this.getVertexsListSize();
@@ -250,19 +267,9 @@ public class OurGraph {
 
         this.addEdge(newVertex.getNumVertex(), relation);
 
-//        // Imprimir información de depuración
-//        System.out.println("Matrix after copying:");
-//        for (int i = 0; i < this.matrix.length; i++) {
-//            for (int j = 0; j < this.matrix[i].length; j++) {
-//                System.out.print(this.matrix[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
     }
 
-    /*
-        - PRUEBA Eliminar un vertice del grafo
-     */
+    //elimina un vertice y sus relaciones utilizando su indice
     public void deleteVertex(int vertexIndex) {
         if (vertexIndex < 0 || vertexIndex >= this.numVertexs) {
             System.out.println("El vertice esta fuera de rango o no existe en: " + vertexIndex);
@@ -318,6 +325,7 @@ public class OurGraph {
         }
     }
 
+    //modifica el nombre de un vertice usando su indice
     public void modifyVertexName(int vertexIndex, String newName) {
         if (!isValidVertexIndex(vertexIndex)) {
             System.out.println("Error indice no valido");
@@ -332,6 +340,7 @@ public class OurGraph {
         }
     }
 
+    //devuelve las relaciones de un vertice
     public String getVertexRelations(int vertexIndex) {
         
         if (isValidVertexIndex(vertexIndex)) {
@@ -362,32 +371,19 @@ public class OurGraph {
         return vertexsList.getValueByIndex(vertexIndex);
     }
 
+    //devuelve el numero de vertices 
     public int getNumVertexs() {
         return numVertexs;
     }
 
+    //devuelve el numero de vertices en la lista de vertices
     public int getVertexsListSize() {
         return vertexsList.getSize();
     }
-
+    
+    //devuelve la lista de vertices
     public SimpleList getVertexsList() {
         return this.vertexsList;
     }
 
-    // posibles metodos para el funcionamiento del visual
-//    public boolean isVertexIsland(int vertexIndex) {
-//        if (isValidVertexIndex(vertexIndex)) {
-//            Vertex vertex = getVertex(vertexIndex);
-//            return !hasOutgoingEdges(vertex) && !hasIncomingEdges(vertex);
-//        }
-//        return false;
-//    }
-//
-//    private boolean hasOutgoingEdges(Vertex vertex) {
-//        return vertex.getOutgoingEdges().size() > 0;
-//    }
-//
-//    private boolean hasIncomingEdges(Vertex vertex) {
-//        return vertex.getIncomingEdges().size() > 0;
-//    }
 }
