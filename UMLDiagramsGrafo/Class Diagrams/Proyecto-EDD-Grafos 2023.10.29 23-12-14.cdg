@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Proyecto-EDD-Grafos">
+  <ClassDiagramComponents>
+    <Class name="Kosaraju" package="Classes" visibility="public" xPosition="1000.0" yPosition="391.0">
+      <Fields>
+        <Field name="visited" type="boolean[]" visibility="private" isStatic="true"/>
+        <Field name="graph" type="OurGraph" visibility="private" isFinal="true"/>
+        <Field name="components" type="SimpleList&lt;SimpleList&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="OurGraph" name="graph"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="findStronglyConnectedComponents" returnType="void" visibility="private">
+          <Argument type="OurGraph" name="graph"/>
+        </Method>
+        <Method name="findOrder" returnType="void" visibility="private">
+          <Argument type="int" name="vertexNum"/>
+          <Argument type="TypeStack&lt;Integer&gt;" name="stack"/>
+        </Method>
+        <Method name="dfs" returnType="void" visibility="private">
+          <Argument type="int" name="vertex"/>
+          <Argument type="SimpleList" name="component"/>
+        </Method>
+        <Method name="getComponents" returnType="SimpleList&lt;SimpleList&gt;" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="OurGraph" package="Classes" visibility="public" xPosition="65.0" yPosition="847.0">
+      <Fields>
+        <Field name="vertexsList" type="SimpleList&lt;Vertex&gt;" visibility="private"/>
+        <Field name="matrix" type="int[][]" visibility="private"/>
+        <Field name="numVertexs" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="size"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="userName"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="SimpleList&lt;String&gt;" name="usersList"/>
+          <Argument type="SimpleList&lt;String&gt;" name="relationsList"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="isGraphEmpty" returnType="boolean" visibility="public"/>
+        <Method name="getMatrix" returnType="int[][]" visibility="public"/>
+        <Method name="userExists" returnType="boolean" visibility="public">
+          <Argument type="String" name="userName"/>
+        </Method>
+        <Method name="getVertexName" returnType="String" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="getVertex" returnType="Vertex" visibility="public">
+          <Argument type="int" name="vertexIndex"/>
+        </Method>
+        <Method name="addVertex" returnType="void" visibility="public">
+          <Argument type="Vertex" name="vertex"/>
+        </Method>
+        <Method name="vertexExists" returnType="boolean" visibility="public">
+          <Argument type="int" name="vertexIndex"/>
+        </Method>
+        <Method name="addEdge" returnType="void" visibility="public">
+          <Argument type="int" name="srcVertex"/>
+          <Argument type="int" name="dstVertex"/>
+        </Method>
+        <Method name="deleteEdge" returnType="void" visibility="public">
+          <Argument type="int" name="srcVertex"/>
+          <Argument type="int" name="dstVertex"/>
+        </Method>
+        <Method name="checkEdge" returnType="boolean" visibility="public">
+          <Argument type="int" name="srcVertex"/>
+          <Argument type="int" name="dstVertex"/>
+        </Method>
+        <Method name="verifyVertex" returnType="void" visibility="private">
+          <Argument type="int" name="srcVertex"/>
+          <Argument type="int" name="dstVertex"/>
+        </Method>
+        <Method name="differentVertex" returnType="void" visibility="private">
+          <Argument type="int" name="srcVertex"/>
+          <Argument type="int" name="dstVertex"/>
+        </Method>
+        <Method name="print" returnType="void" visibility="public"/>
+        <Method name="printGraphString" returnType="String" visibility="public"/>
+        <Method name="generateRelationsFromList" returnType="void" visibility="public">
+          <Argument type="SimpleList&lt;String&gt;" name="relationships"/>
+          <Argument type="SimpleList&lt;String&gt;" name="userNameList"/>
+        </Method>
+        <Method name="transpose" returnType="void" visibility="public"/>
+        <Method name="addUser" returnType="void" visibility="public">
+          <Argument type="String" name="userName"/>
+          <Argument type="int" name="relation"/>
+        </Method>
+        <Method name="deleteVertex" returnType="void" visibility="public">
+          <Argument type="int" name="vertexIndex"/>
+        </Method>
+        <Method name="updateVertexIndices" returnType="void" visibility="private"/>
+        <Method name="modifyVertexName" returnType="void" visibility="public">
+          <Argument type="int" name="vertexIndex"/>
+          <Argument type="String" name="newName"/>
+        </Method>
+        <Method name="getVertexRelations" returnType="String" visibility="public">
+          <Argument type="int" name="vertexIndex"/>
+        </Method>
+        <Method name="isValidVertexIndex" returnType="boolean" visibility="private">
+          <Argument type="int" name="vertexIndex"/>
+        </Method>
+        <Method name="getVertexByIndex" returnType="Vertex" visibility="private">
+          <Argument type="int" name="vertexIndex"/>
+        </Method>
+        <Method name="getNumVertexs" returnType="int" visibility="public"/>
+        <Method name="getVertexsListSize" returnType="int" visibility="public"/>
+        <Method name="getVertexsList" returnType="SimpleList" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Vertex" package="Classes" visibility="public" xPosition="216.0" yPosition="1618.0">
+      <Fields>
+        <Field name="name" type="String" visibility="private"/>
+        <Field name="vertexNum" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="int" name="vertexNum"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="isEqualTo" returnType="boolean" visibility="public">
+          <Argument type="Vertex" name="vertice"/>
+        </Method>
+        <Method name="assignVertexNum" returnType="void" visibility="public">
+          <Argument type="int" name="num"/>
+        </Method>
+        <Method name="vertexToString" returnType="String" visibility="public"/>
+        <Method name="printVertex" returnType="void" visibility="public"/>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getNumVertex" returnType="int" visibility="public"/>
+        <Method name="setNumVertex" returnType="void" visibility="public">
+          <Argument type="int" name="numVertex"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SimpleList" package="DataStructureClasses" visibility="public" xPosition="433.0" yPosition="42.0">
+      <Fields>
+        <Field name="pFirst" type="SimpleNode&lt;T&gt;" visibility="private"/>
+        <Field name="pLast" type="SimpleNode&lt;T&gt;" visibility="private"/>
+        <Field name="size" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="addStart" returnType="void" visibility="public">
+          <Argument type="T" name="data"/>
+        </Method>
+        <Method name="addAtTheEnd" returnType="void" visibility="public">
+          <Argument type="T" name="data"/>
+        </Method>
+        <Method name="printList" returnType="void" visibility="public"/>
+        <Method name="printVertexList" returnType="void" visibility="public"/>
+        <Method name="printToString" returnType="String" visibility="public"/>
+        <Method name="getValueByIndex" returnType="T" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="contains" returnType="boolean" visibility="public">
+          <Argument type="String" name="value"/>
+        </Method>
+        <Method name="contains" returnType="boolean" visibility="public">
+          <Argument type="int" name="value"/>
+        </Method>
+        <Method name="searchByValue" returnType="SimpleNode&lt;T&gt;" visibility="public">
+          <Argument type="T" name="value"/>
+        </Method>
+        <Method name="indexOf" returnType="int" visibility="public">
+          <Argument type="T" name="valorBuscado"/>
+        </Method>
+        <Method name="getIndexOfVertexByName" returnType="int" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="deleteFirst" returnType="void" visibility="public"/>
+        <Method name="deleteLast" returnType="void" visibility="public"/>
+        <Method name="isValidIndex" returnType="boolean" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="insertAtIndex" returnType="void" visibility="public">
+          <Argument type="int" name="index"/>
+          <Argument type="T" name="data"/>
+        </Method>
+        <Method name="deleteAtIndex" returnType="void" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="deleteByIndex" returnType="void" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="deleteVertexAtIndex" returnType="void" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="sort" returnType="void" visibility="public"/>
+        <Method name="swapIntegers" returnType="void" visibility="private">
+          <Argument type="SimpleNode&lt;Integer&gt;" name="current"/>
+          <Argument type="SimpleNode&lt;Integer&gt;" name="next"/>
+        </Method>
+        <Method name="getpFirst" returnType="SimpleNode&lt;T&gt;" visibility="public"/>
+        <Method name="setpFirst" returnType="void" visibility="public">
+          <Argument type="SimpleNode&lt;T&gt;" name="pFirst"/>
+        </Method>
+        <Method name="getpLast" returnType="SimpleNode&lt;T&gt;" visibility="public"/>
+        <Method name="setpLast" returnType="void" visibility="public">
+          <Argument type="SimpleNode&lt;T&gt;" name="pLast"/>
+        </Method>
+        <Method name="getSize" returnType="int" visibility="public"/>
+        <Method name="setSize" returnType="void" visibility="public">
+          <Argument type="int" name="size"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SimpleNode" package="DataStructureClasses" visibility="public" xPosition="65.0" yPosition="191.0">
+      <Fields>
+        <Field name="data" type="T" visibility="private"/>
+        <Field name="pNext" type="SimpleNode" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="T" name="data"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="T" name="data"/>
+          <Argument type="SimpleNode&lt;T&gt;" name="pNext"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getData" returnType="T" visibility="public"/>
+        <Method name="setData" returnType="void" visibility="public">
+          <Argument type="T" name="data"/>
+        </Method>
+        <Method name="getpNext" returnType="SimpleNode" visibility="public"/>
+        <Method name="setpNext" returnType="void" visibility="public">
+          <Argument type="SimpleNode&lt;T&gt;" name="pNext"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="TypeStack" package="DataStructureClasses" visibility="public" xPosition="65.0" yPosition="512.0">
+      <Fields>
+        <Field name="pTop" type="SimpleNode&lt;T&gt;" visibility="private"/>
+        <Field name="size" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="push" returnType="void" visibility="public">
+          <Argument type="T" name="data"/>
+        </Method>
+        <Method name="pop" returnType="SimpleNode&lt;T&gt;" visibility="public"/>
+        <Method name="print" returnType="void" visibility="public"/>
+        <Method name="getpTop" returnType="SimpleNode&lt;T&gt;" visibility="public"/>
+        <Method name="setpTop" returnType="void" visibility="public">
+          <Argument type="SimpleNode&lt;T&gt;" name="pTop"/>
+        </Method>
+        <Method name="getSize" returnType="int" visibility="public"/>
+        <Method name="setSize" returnType="void" visibility="public">
+          <Argument type="int" name="size"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ComboBoxAPI" package="FileManager" visibility="public" xPosition="2311.0" yPosition="477.0">
+      <Fields>
+        <Field name="userName" type="String" visibility="private"/>
+        <Field name="relationIndex" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="userName"/>
+          <Argument type="int" name="relationIndex"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="printBoxApi" returnType="void" visibility="public"/>
+        <Method name="getUserName" returnType="String" visibility="public"/>
+        <Method name="getRelationIndex" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="FileManager" package="FileManager" visibility="public" xPosition="972.0" yPosition="1227.0">
+      <Fields>
+        <Field name="SAVED_DIRECTORY" type="String" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="savedPathExists" returnType="boolean" visibility="public"/>
+        <Method name="fileCounter" returnType="int" visibility="public"/>
+        <Method name="saveFileToTxt" returnType="void" visibility="public">
+          <Argument type="File" name="inFile"/>
+        </Method>
+        <Method name="saveStringToTxt" returnType="void" visibility="public">
+          <Argument type="String" name="string"/>
+        </Method>
+        <Method name="selectFile" returnType="File" visibility="public"/>
+        <Method name="parseUsersFromFile" returnType="SimpleList" visibility="public">
+          <Argument type="File" name="fileSelected"/>
+        </Method>
+        <Method name="parseUsersFromTextArea" returnType="SimpleList" visibility="public">
+          <Argument type="String" name="textAreaContent"/>
+        </Method>
+        <Method name="parseRelationshipsFromFile" returnType="SimpleList" visibility="public">
+          <Argument type="File" name="inFile"/>
+        </Method>
+        <Method name="parseRelationshipsFromTextArea" returnType="SimpleList" visibility="public">
+          <Argument type="String" name="textAreaContent"/>
+        </Method>
+        <Method name="saveGraphToFile" returnType="void" visibility="public">
+          <Argument type="OurGraph" name="graph"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="GraphVisualizer" package="GUI" visibility="public" xPosition="1000.0" yPosition="42.0">
+      <Fields>
+        <Field name="graph" type="Graph" visibility="private"/>
+        <Field name="viewer" type="Viewer" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getViewer" returnType="Viewer" visibility="public"/>
+        <Method name="eraseVisualizer" returnType="void" visibility="public"/>
+        <Method name="resetView" returnType="void" visibility="public"/>
+        <Method name="visualizeGraph" returnType="void" visibility="public">
+          <Argument type="OurGraph" name="grafo"/>
+          <Argument type="JPanel" name="graphPanel"/>
+        </Method>
+        <Method name="zoomIn" returnType="void" visibility="public">
+          <Argument type="Viewer" name="viewer"/>
+        </Method>
+        <Method name="zoomOut" returnType="void" visibility="public">
+          <Argument type="Viewer" name="viewer"/>
+        </Method>
+        <Method name="isNodeStronglyConnected" returnType="boolean" visibility="private">
+          <Argument type="int" name="nodeIndex"/>
+          <Argument type="OurGraph" name="grafo"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MainInterface" package="GUI" visibility="public" xPosition="1452.0" yPosition="42.0">
+      <Fields>
+        <Field name="grafo" type="OurGraph" visibility="private"/>
+        <Field name="graphVisualizer" type="GraphVisualizer" visibility="private"/>
+        <Field name="MatrixTextArea" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="aboutBtn" type="javax.swing.JMenu" visibility="private"/>
+        <Field name="aboutMsgBtn" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="addRelationMenu" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="bg" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="bg2" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="cargarButton" type="javax.swing.JButton" visibility="private"/>
+        <Field name="changeVertexNameBtn" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="checkKosaraju" type="javax.swing.JButton" visibility="private"/>
+        <Field name="content" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="exitBtn" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="jLabel1" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel2" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel3" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel4" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel5" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel6" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel7" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel8" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel9" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jMenuItem1" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="jPanel7" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jPanel8" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jScrollPane1" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane3" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane4" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jSeparator1" type="javax.swing.JPopupMenu.Separator" visibility="private"/>
+        <Field name="jSeparator2" type="javax.swing.JPopupMenu.Separator" visibility="private"/>
+        <Field name="manualTextArea" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="menu1" type="javax.swing.JMenu" visibility="private"/>
+        <Field name="menu2" type="javax.swing.JMenu" visibility="private"/>
+        <Field name="menubar" type="javax.swing.JMenuBar" visibility="private"/>
+        <Field name="modifyRelationMenu" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="newProjectBtn" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="openBtn" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="removeRelationMenu" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="resetViewBtn" type="javax.swing.JButton" visibility="private"/>
+        <Field name="saveBtn" type="javax.swing.JMenuItem" visibility="private"/>
+        <Field name="userListTextArea" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="vertexAddBtn" type="javax.swing.JButton" visibility="private"/>
+        <Field name="vertexDeleteBtn" type="javax.swing.JButton" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="showAboutDialog" returnType="void" visibility="private"/>
+        <Method name="showVertexList" returnType="int" visibility="private"/>
+        <Method name="isValidVertexIndex" returnType="boolean" visibility="private">
+          <Argument type="int" name="vertexIndex"/>
+        </Method>
+        <Method name="showExitConfirmationDialog" returnType="int" visibility="private"/>
+        <Method name="rebootGraph" returnType="void" visibility="public"/>
+        <Method name="showAddRelationsDialog" returnType="void" visibility="private">
+          <Argument type="int" name="selectedVertexIndex"/>
+        </Method>
+        <Method name="showDeleteRelationsDialog" returnType="void" visibility="private">
+          <Argument type="int" name="selectedVertexIndex"/>
+        </Method>
+        <Method name="updateJTextArea" returnType="void" visibility="private"/>
+        <Method name="isStronglyConnected" returnType="boolean" visibility="private">
+          <Argument type="int" name="nodeIndex"/>
+          <Argument type="OurGraph" name="grafo"/>
+        </Method>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents void" visibility="private"/>
+        <Method name="openBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="exitBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="saveBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="menu1ActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="newProjectBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="vertexDeleteBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="checkKosarajuActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="changeVertexNameBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="vertexAddBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="cargarButtonActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="resetViewBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="addRelationMenuActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="removeRelationMenuActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="modifyRelationMenuActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="aboutMsgBtnActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="runMainGUI" returnType="void" visibility="public"/>
+        <Method name="emptyTextAreas" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="NewUserPage" package="GUI" visibility="public" xPosition="2138.0" yPosition="42.0">
+      <Fields>
+        <Field name="userName" type="String" visibility="private"/>
+        <Field name="relationIndex" type="int" visibility="private"/>
+        <Field name="jLabel1" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel3" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel4" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jPanel1" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="userNameBox1" type="javax.swing.JTextField" visibility="private"/>
+        <Field name="usersComboList" type="javax.swing.JComboBox&lt;String&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="SimpleList&lt;Vertex&gt;" name="comboBoxList"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents void" visibility="private"/>
+        <Method name="usersComboListActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="userNameBox1ActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="parsePage2" returnType="ComboBoxAPI" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Main" package="main" visibility="public" xPosition="65.0" yPosition="42.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="Classes.Kosaraju" target="DataStructureClasses.TypeStack" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="graphVisualizer" source="GUI.MainInterface" target="GUI.GraphVisualizer" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="pNext" source="DataStructureClasses.SimpleNode" target="DataStructureClasses.SimpleNode" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="vertexsList" source="Classes.OurGraph" target="Classes.Vertex" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="SimpleList&lt;Vertex&gt;"/>
+    <UseRelation source="FileManager.FileManager" target="DataStructureClasses.SimpleList" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="grafo" source="GUI.MainInterface" target="Classes.OurGraph" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="FileManager.FileManager" target="Classes.OurGraph" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Classes.Vertex" target="Classes.Vertex" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Classes.OurGraph" target="DataStructureClasses.SimpleList" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="GUI.MainInterface" target="Classes.OurGraph" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="components" source="Classes.Kosaraju" target="DataStructureClasses.SimpleList" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="SimpleList&lt;SimpleList&gt;"/>
+    <UseRelation source="Classes.Kosaraju" target="Classes.OurGraph" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Classes.Kosaraju" target="DataStructureClasses.SimpleList" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="GUI.GraphVisualizer" target="Classes.OurGraph" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="DataStructureClasses.SimpleList" target="DataStructureClasses.SimpleNode" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="GUI.NewUserPage" target="FileManager.ComboBoxAPI" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="graph" source="Classes.Kosaraju" target="Classes.OurGraph" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="DataStructureClasses.TypeStack" target="DataStructureClasses.SimpleNode" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Classes.OurGraph" target="Classes.Vertex" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="DataStructureClasses.SimpleNode" target="DataStructureClasses.SimpleNode" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

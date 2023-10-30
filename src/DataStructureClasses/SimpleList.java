@@ -91,6 +91,7 @@ public class SimpleList<T> {
         }
     }
 
+    // devuelve una string que representa la lista
     public String printToString() {
         if (this.isEmpty()) {
             return "//";
@@ -253,33 +254,7 @@ public class SimpleList<T> {
         }
     }
 
-    public void deleteAtIndex(int index) {
-        if (!isValidIndex(index)) {
-            System.out.println("No existe el indice");
-        } else {
-            if (index == 0) {
-                this.pFirst = this.pFirst.getpNext();
-            } else {
-                SimpleNode<T> pAux = this.pFirst;
-                int counter = 0;
-
-                while (counter < index - 1 && pAux != null) {
-                    pAux = pAux.getpNext();
-                    counter++;
-                }
-
-                if (pAux != null && pAux.getpNext() != null) {
-                    pAux.setpNext(pAux.getpNext().getpNext());
-                } else {
-                    System.out.println("Indice fuera de rango {simplelist}");
-                }
-                pAux.setpNext(pAux.getpNext().getpNext());
-
-                this.size--;
-            }
-        }
-    }
-
+    // elimina un elemento segun su indice en la lista (posicion)
     public void deleteByIndex(int index) {
         if (!this.isEmpty()) {
             if (index == 0) {
@@ -324,7 +299,9 @@ public class SimpleList<T> {
             }
         }
     }
-
+    
+    
+    // ordena la lista 
     public void sort() {
         SimpleNode<Integer> pAux = (SimpleNode<Integer>) this.pFirst;
 
@@ -354,6 +331,10 @@ public class SimpleList<T> {
         next.setData(aux);
 
     }
+    
+    /*
+        Getters y Setter
+    */
 
     public SimpleNode<T> getpFirst() {
         return pFirst;
